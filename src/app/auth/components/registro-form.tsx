@@ -23,7 +23,7 @@ export function RegistroForm() {
   const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {
-    const resp = await fetch("/api/usuario", {
+    const resp = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
