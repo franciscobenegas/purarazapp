@@ -1,3 +1,4 @@
+import prisma from "@/libs/prisma";
 import { NextResponse, NextRequest } from "next/server";
 //import bcrypt from "bcrypt";
 //import prisma from "../../../../libs/prisma";
@@ -6,7 +7,10 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
     console.log("data: ", data);
-    return NextResponse.json(data);
+
+    const emailData = await prisma.usuario.findMany();
+
+    return NextResponse.json(emailData);
     // const emailFount = await prisma.usuario.findUnique({
     //   where: {
     //     email: data.email,
