@@ -25,17 +25,15 @@ export function RegistroForm() {
   const onSubmit = handleSubmit(async (data) => {
     const resp = await fetch("/api/auth/register", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username: data.username,
         email: data.email,
         password: data.password,
         establesimiento: data.establesimiento,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
-    console.log(resp);
+    console.log("resp", resp);
 
     const respJSON = await resp.json();
     console.log("respJSON", respJSON);
