@@ -6,9 +6,6 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    //console.log("data: ", data);
-
-    //const emailData = await prisma.usuario.findMany();
 
     const emailFount = await prisma.usuario.findUnique({
       where: {
@@ -16,31 +13,27 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log(emailFount);
+    if (emailFount) {
+      return NextResponse.json(
+        {
+          message: "el Email ya existe",
+        },
+        { status: 400 }
+      );
+    }
 
-    return NextResponse.json(emailFount);
+    const userFount = await prisma.usuario.findUnique({
+      where: {
+        username: data.username,
+      },
+    });
 
-    // if (emailFount) {
-    //   return NextResponse.json(
-    //     {
-    //       message: "el Email ya existe",
-    //     },
-    //     { status: 400 }
-    //   );
-    // }
-
-    // const userFount = await prisma.usuario.findUnique({
-    //   where: {
-    //     username: data.username,
-    //   },
-    // });
-
-    // if (userFount) {
-    //   return NextResponse.json(
-    //     { message: "el Usuario ya existe" },
-    //     { status: 400 }
-    //   );
-    // }
+    if (userFount) {
+      return NextResponse.json(
+        { message: "el Usuario ya existe" },
+        { status: 400 }
+      );
+    }
 
     // const hashPassw = await bcrypt.hashSync(data.password, 10);
 
@@ -55,7 +48,7 @@ export async function POST(request: NextRequest) {
 
     // const { password, ...user } = newUser;
 
-    // return NextResponse.json(user);
+    return NextResponse.json(userFount);
     // console.log(password);
   } catch (error) {
     return NextResponse.json(
