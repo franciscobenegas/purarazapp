@@ -1,6 +1,6 @@
 import prisma from "@/libs/prisma";
 import { NextResponse, NextRequest } from "next/server";
-import bcrypt from "bcrypt";
+//import bcrypt from "bcrypt";
 //import prisma from "../../../../libs/prisma";
 
 export async function POST(request: NextRequest) {
@@ -35,21 +35,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const hashPassw = await bcrypt.hashSync(data.password, 10);
+    //const hashPassw = bcrypt.hashSync(data.password, 10);
 
-    // const newUser = await prisma.usuario.create({
-    //   data: {
-    //     username: data.username,
-    //     email: data.email,
-    //     password: hashPassw,
-    //     establesimiento: data.establesimiento,
-    //   },
-    // });
+    const newUser = await prisma.usuario.create({
+      data: {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        establesimiento: data.establesimiento,
+      },
+    });
 
-    // const { password, ...user } = newUser;
+    const { password, ...user } = newUser;
 
-    return NextResponse.json(hashPassw);
-    // console.log(password);
+    return NextResponse.json(user);
+    console.log(password);
   } catch (error) {
     return NextResponse.json(
       {
