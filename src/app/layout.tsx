@@ -11,7 +11,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import ThemeDataProvider from "../context/theme-data-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
-// import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/next";
 
 const noto = Noto_Sans_Display({ subsets: ["latin"] });
 
@@ -60,7 +60,7 @@ export default async function RootLayout({
                   <Navbar />
                   <div className="p-3 bg-[#fafbfc] dark:bg-secondary">
                     {children}
-                    {/* <Analytics /> */}
+                    <Analytics />
                     <Toaster />
                   </div>
                 </div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 type FormValues = {
   username: string;
@@ -22,6 +23,17 @@ export function RegistroForm() {
   } = useForm<FormValues>();
   const router = useRouter();
 
+  const slugify = (text: string) =>
+    text
+      .toString()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // quita acentos
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "") // elimina caracteres especiales
+      .replace(/\s+/g, "_") // reemplaza espacios por guiones
+      .replace(/-+/g, "-"); // evita múltiples guiones
+
   const onSubmit = handleSubmit(async (data) => {
     const resp = await fetch("/api/auth/registro", {
       method: "POST",
@@ -30,7 +42,7 @@ export function RegistroForm() {
         username: data.username,
         email: data.email,
         password: data.password,
-        establesimiento: data.establesimiento,
+        establesimiento: slugify(data.establesimiento),
       }),
     });
     console.log("resp", resp);
@@ -40,14 +52,26 @@ export function RegistroForm() {
 
     if (resp.ok) {
       router.push("/auth/login");
+    } else {
+      toast.error(respJSON.message, {
+        position: "top-right",
+        autoClose: 7000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   });
 
   return (
     <div className=" ">
       <form onSubmit={onSubmit} className="flex flex-col min-h-screen sm:pt-20">
-        <h1 className="text-2xl font-bold mb-5">Nueva cuenta | PuraRazapp2</h1>
-
+        <h1 className="text-2xl font-bold mb-5">Nueva cuenta | PuraRazapp</h1>
+        <ToastContainer />
         <div className="flex flex-col">
           <label htmlFor="username">Nombre Usuario</label>
           <input

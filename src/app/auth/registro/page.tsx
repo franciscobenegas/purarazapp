@@ -24,7 +24,7 @@ export default function NewRegisterPage() {
           </div>
         </div>
       </div>
-      <div className="relative hidden bg-muted lg:block">
+      <div className="relative hidden bg-muted lg:block dark:invert">
         <Image
           src={logo}
           alt="logo_pura_Raza"

@@ -1,6 +1,5 @@
 import prisma from "@/libs/prisma";
 import { NextResponse, NextRequest } from "next/server";
-//import bcrypt from "bcrypt";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
@@ -16,7 +15,7 @@ export async function POST(request: NextRequest) {
     if (emailFount) {
       return NextResponse.json(
         {
-          message: "el Email ya existe",
+          message: "El Email ya existe",
         },
         { status: 400 }
       );
@@ -30,12 +29,24 @@ export async function POST(request: NextRequest) {
 
     if (userFount) {
       return NextResponse.json(
-        { message: "el Usuario ya existe" },
+        { message: "El Usuario ya existe" },
         { status: 400 }
       );
     }
 
-    // const hashPassw = bcrypt.hashSync(data.password, 10);
+    const establesimientoFount = await prisma.usuario.findUnique({
+      where: {
+        establesimiento: data.establesimiento,
+      },
+    });
+
+    if (establesimientoFount) {
+      return NextResponse.json(
+        { message: "El Establesimiento ya existe" },
+        { status: 400 }
+      );
+    }
+
     const salt = bcrypt.genSaltSync(10);
     const hashPassw = bcrypt.hashSync(data.password, salt);
 

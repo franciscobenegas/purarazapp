@@ -27,7 +27,7 @@ model Usuario{
   email String @unique
   username String @unique
   password String
-  establesimiento String
+  establesimiento String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   rol Rol @default(ADMIN)
