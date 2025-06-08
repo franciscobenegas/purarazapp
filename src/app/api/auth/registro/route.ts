@@ -1,54 +1,59 @@
 import prisma from "@/libs/prisma";
 import { NextResponse, NextRequest } from "next/server";
-import bcrypt from "bcrypt";
+//import bcrypt from "bcrypt";
+//import prisma from "../../../../libs/prisma";
 
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
+    console.log("data: ", data);
 
-    const emailFount = await prisma.usuario.findUnique({
-      where: {
-        email: data.email,
-      },
-    });
+    const emailData = await prisma.usuario.findMany();
 
-    if (emailFount) {
-      return NextResponse.json(
-        {
-          message: "el Email ya existe",
-        },
-        { status: 400 }
-      );
-    }
+    return NextResponse.json(emailData);
+    // const emailFount = await prisma.usuario.findUnique({
+    //   where: {
+    //     email: data.email,
+    //   },
+    // });
 
-    const userFount = await prisma.usuario.findUnique({
-      where: {
-        username: data.username,
-      },
-    });
+    // if (emailFount) {
+    //   return NextResponse.json(
+    //     {
+    //       message: "el Email ya existe",
+    //     },
+    //     { status: 400 }
+    //   );
+    // }
 
-    if (userFount) {
-      return NextResponse.json(
-        { message: "el Usuario ya existe" },
-        { status: 400 }
-      );
-    }
+    // const userFount = await prisma.usuario.findUnique({
+    //   where: {
+    //     username: data.username,
+    //   },
+    // });
 
-    const hashPassw = await bcrypt.hashSync(data.password, 10);
+    // if (userFount) {
+    //   return NextResponse.json(
+    //     { message: "el Usuario ya existe" },
+    //     { status: 400 }
+    //   );
+    // }
 
-    const newUser = await prisma.usuario.create({
-      data: {
-        username: data.username,
-        email: data.email,
-        password: hashPassw,
-        establesimiento: data.establesimiento,
-      },
-    });
+    // const hashPassw = await bcrypt.hashSync(data.password, 10);
 
-    const { password, ...user } = newUser;
+    // const newUser = await prisma.usuario.create({
+    //   data: {
+    //     username: data.username,
+    //     email: data.email,
+    //     password: hashPassw,
+    //     establesimiento: data.establesimiento,
+    //   },
+    // });
 
-    return NextResponse.json(user);
-    console.log(password);
+    // const { password, ...user } = newUser;
+
+    // return NextResponse.json(user);
+    // console.log(password);
   } catch (error) {
     return NextResponse.json(
       {
