@@ -6,16 +6,19 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    console.log("data: ", data);
+    //console.log("data: ", data);
 
-    const emailData = await prisma.usuario.findMany();
+    //const emailData = await prisma.usuario.findMany();
 
-    return NextResponse.json(emailData);
-    // const emailFount = await prisma.usuario.findUnique({
-    //   where: {
-    //     email: data.email,
-    //   },
-    // });
+    const emailFount = await prisma.usuario.findUnique({
+      where: {
+        email: data.email,
+      },
+    });
+
+    console.log(emailFount);
+
+    return NextResponse.json(emailFount);
 
     // if (emailFount) {
     //   return NextResponse.json(
