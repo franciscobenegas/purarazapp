@@ -6,6 +6,19 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
 
+    const userFount = await prisma.usuario.findUnique({
+      where: {
+        username: data.username,
+      },
+    });
+
+    if (userFount) {
+      return NextResponse.json(
+        { message: "El Usuario ya existe" },
+        { status: 400 }
+      );
+    }
+
     const emailFount = await prisma.usuario.findUnique({
       where: {
         email: data.email,
@@ -17,19 +30,6 @@ export async function POST(request: NextRequest) {
         {
           message: "El Email ya existe",
         },
-        { status: 400 }
-      );
-    }
-
-    const userFount = await prisma.usuario.findUnique({
-      where: {
-        username: data.username,
-      },
-    });
-
-    if (userFount) {
-      return NextResponse.json(
-        { message: "El Usuario ya existe" },
         { status: 400 }
       );
     }

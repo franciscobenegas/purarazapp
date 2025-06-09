@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 export function LoginForm({
   className,
@@ -16,37 +17,53 @@ export function LoginForm({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const handleCahnge = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.value, e.target.name);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredenciales({
       ...credenciales,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(credenciales);
+    setLoading(true); // ← Desactiva el botón
 
-    const resp = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credenciales),
-    });
+    try {
+      const resp = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credenciales),
+      });
 
-    console.log(resp);
+      if (!resp.ok) {
+        //const data = await resp.json();
+        //alert(data.message || "Error al iniciar sesión");
 
-    if (!resp?.ok) {
-      alert(resp);
-    } else {
-      router.push("/");
-      //router.refresh(); // ver si funciona sin el refresh
+        toast.error("Usuario o Contraseña invalida!!!", {
+          position: "top-right",
+          autoClose: 7000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      } else {
+        router.push("/");
+      }
+    } catch (error) {
+      // alert("Error de red o del servidor!!!!");
+      console.log(error);
+    } finally {
+      setLoading(false); // ← Vuelve a activar el botón
     }
-
-    console.log(resp);
   };
 
   return (
@@ -71,7 +88,7 @@ export function LoginForm({
             type="email"
             placeholder="usuario@correo.com"
             required
-            onChange={handleCahnge}
+            onChange={handleChange}
           />
         </div>
         <div className="grid gap-2">
@@ -81,7 +98,7 @@ export function LoginForm({
               href="#"
               className="ml-auto text-sm underline-offset-4 hover:underline"
             >
-              Olvidaste tu contraseña?
+              ¿Olvidaste tu contraseña?
             </a>
           </div>
           <Input
@@ -90,15 +107,16 @@ export function LoginForm({
             type="password"
             placeholder="*********"
             required
-            onChange={handleCahnge}
+            onChange={handleChange}
           />
         </div>
-        <Button type="submit" className="w-full">
-          Login
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Procesando..." : "Login"}
         </Button>
+        <ToastContainer />
       </div>
       <div className="text-center text-sm">
-        No tengo una cuenta?{" "}
+        ¿No tienes una cuenta?{" "}
         <Link href="/auth/registro" className="underline underline-offset-4">
           Suscribirse
         </Link>
