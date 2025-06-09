@@ -30,17 +30,15 @@ export default function Navbar() {
     }
   }, [loading, user, router]);
 
-  if (loading) return <div>Cargando...</div>;
-
-  // if (status === "loading") {
-  //   return <LoadingPage />;
-  // }
-
-  // if (user.usuario === "") {
-  //   router.push("/auth/login");
-  // }
-
-  //console.log("NavBar Page", user);
+  const logout = async () => {
+    try {
+      const res = await fetch("/api/auth/logout");
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+    router.push("/login");
+  };
 
   return (
     <nav className={user.email !== "" ? "block" : "hidden"}>
@@ -86,12 +84,15 @@ export default function Navbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56" forceMount>
                 <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
+                  <div className="flex flex-col space-y-3">
                     <p className="text-sm font-medium leading-none">
                       {user.usuario}
                     </p>
                     <p className="text-xs leading-none text-muted-foreground">
                       {user.email}
+                    </p>
+                    <p className="text-sm font-medium leading-none">
+                      {user.rol}
                     </p>
                   </div>
                 </DropdownMenuLabel>
@@ -118,7 +119,7 @@ export default function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <div
-                    // onClick={() => signOut()}
+                    onClick={() => logout()}
                     className="flex justify-between cursor-pointer"
                   >
                     <p>Salir</p>

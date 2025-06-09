@@ -1,3 +1,4 @@
+"use client";
 import { BookOpenCheck, UserRound, Waypoints, Calendar } from "lucide-react";
 import { CardSummary } from "../components/CardSummary";
 import { UltimosClientes } from "../components/UltimosClientes";

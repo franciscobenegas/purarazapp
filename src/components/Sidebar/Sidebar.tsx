@@ -6,8 +6,8 @@ import { useSession } from "@/hooks/useSession";
 import { cn } from "@/lib/utils";
 
 export function Sidebar() {
-  const { user, loading } = useSession();
-  if (loading) return <div>Cargando...</div>;
+  const { user } = useSession();
+  //if (loading) return <div>Cargando...</div>;
 
   return (
     <div

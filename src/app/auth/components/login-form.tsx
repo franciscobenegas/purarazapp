@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+//import { useRouter } from "next/navigation";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 
 export function LoginForm({
@@ -18,7 +18,7 @@ export function LoginForm({
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  //const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredenciales({
@@ -56,7 +56,8 @@ export function LoginForm({
           transition: Bounce,
         });
       } else {
-        router.push("/");
+        //router.push("/");
+        window.location.href = "/";
       }
     } catch (error) {
       // alert("Error de red o del servidor!!!!");
