@@ -32,12 +32,11 @@ export default function Navbar() {
 
   const logout = async () => {
     try {
-      const res = await fetch("/api/auth/logout");
-      console.log(res);
+      await fetch("/api/auth/logout");
     } catch (error) {
       console.error(error);
     }
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   return (

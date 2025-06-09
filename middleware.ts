@@ -5,11 +5,11 @@ export async function middleware(request: NextRequest) {
   const jwt = request.cookies.get("tokenPuraRaza")?.value;
   console.log("middleware", jwt);
 
-  if (!jwt) return NextResponse.redirect(new URL("/login", request.url));
+  if (!jwt) return NextResponse.redirect(new URL("/auth/login", request.url));
 
   // this condition avoid to show the login page if the user is logged in
   if (jwt) {
-    if (request.nextUrl.pathname.includes("/login")) {
+    if (request.nextUrl.pathname.includes("/auth/login")) {
       try {
         await jwtVerify(jwt, new TextEncoder().encode("secreto"));
         return NextResponse.redirect(new URL("/dashboard", request.url));
@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
 
     return NextResponse.next();
   } catch (error) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/auth/login", request.url));
     console.log(error);
   }
 }
