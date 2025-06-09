@@ -1,7 +1,10 @@
-import { redirect } from "next/navigation";
+"use client";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  redirect("/dashboard");
+  const router = useRouter();
+  //redirect("/dashboard");
+  router.push("/dashboard");
 
   return (
     <div>

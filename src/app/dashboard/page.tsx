@@ -1,7 +1,5 @@
 import { BookOpenCheck, UserRound, Waypoints, Calendar } from "lucide-react";
 import { CardSummary } from "../components/CardSummary";
-
-// import { redirect } from "next/navigation";
 import { UltimosClientes } from "../components/UltimosClientes";
 import { SalesDistributors } from "../components/SalesDistributors";
 import { TotalSuscripciones } from "../components/TotalSuscripciones";
@@ -43,7 +41,7 @@ const obtenerFecha = () => {
   return fecha.toLocaleDateString("es-ES", opciones);
 };
 
-const DashboardPage = async () => {
+const DashboardPage = () => {
   return (
     <div>
       <div>

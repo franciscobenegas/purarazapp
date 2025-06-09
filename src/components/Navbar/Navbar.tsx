@@ -13,34 +13,38 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { useSession } from "next-auth/react";
-// import { getServerSession } from "next-auth/next";
-// import { authOptions } from "@/app/authOptions";
-// import { signIn, signOut } from "next-auth/react";
-// import { LoadingPage } from "../../app/components/LoadingPage";
 import { SidebarRoutes } from "../SidebarRoutes";
 import { ToggleTheme } from "../ToggleTheme";
 import { ThemeColorToggle } from "@/app/components/theme-color-toggle";
+import { useSession } from "@/hooks/useSession";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Navbar() {
-  // const { data: session, status } = useSession();
-  // const session = await getServerSession(authOptions);
-  // const urlImage = session?.user?.image;
+  const router = useRouter();
+  const { user, loading } = useSession();
 
-  const session = {
-    user: {
-      name: "", //"Francisco",
-      email: "", //"franciscobenegas@gmail.com",
-    },
-  };
+  useEffect(() => {
+    if (!loading && user.usuario === "") {
+      router.push("/auth/login");
+    }
+  }, [loading, user, router]);
+
+  if (loading) return <div>Cargando...</div>;
 
   // if (status === "loading") {
   //   return <LoadingPage />;
   // }
 
+  // if (user.usuario === "") {
+  //   router.push("/auth/login");
+  // }
+
+  //console.log("NavBar Page", user);
+
   return (
-    <nav className={session?.user?.name ? "block" : "hidden"}>
-      <div className="flex items-center px-2 gap-x-4 md:px-6 justify-between w-full bg-background border-b h-20 ">
+    <nav className={user.email !== "" ? "block" : "hidden"}>
+      <div className="flex items-center px-2 gap-x-4 md:px-6 justify-between w-full bg-background border-b h-20  ">
         <div className="block xl:hidden">
           <Sheet>
             <SheetTrigger className="flex items-center">
@@ -76,9 +80,7 @@ export default function Navbar() {
                       src={"https://github.com/shadcn.png"}
                       alt="User Image"
                     />
-                    <AvatarFallback>
-                      {session?.user?.name?.toUpperCase()[0]}
-                    </AvatarFallback>
+                    <AvatarFallback>{user.usuario}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
@@ -86,17 +88,16 @@ export default function Navbar() {
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">
-                      {/* {session?.user?.name} */}
-                      Francisco Benegas
+                      {user.usuario}
                     </p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      {session?.user?.email}
+                      {user.email}
                     </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <div className={session?.user?.name ? "hidden" : "block"}>
+                  <div className={user.email ? "hidden" : "block"}>
                     <DropdownMenuItem>
                       {/* <div onClick={() => signIn()}>Iniciar</div> */}
                       <div>Iniciar</div>

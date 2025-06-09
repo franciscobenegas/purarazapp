@@ -1,6 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
-import { serialize } from "cookie";
 import { cookies } from "next/headers";
 import prisma from "@/libs/prisma";
 import { comparePassword } from "@/utils/hash";
@@ -44,30 +43,16 @@ export async function POST(request: NextRequest) {
     },
     "secreto"
   );
-  console.log("myToken", myToken);
-
-  const serializado = serialize("tokenPuraRaza", myToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 1000 * 60 * 60 * 24 * 30,
-    path: "/",
-  });
-  console.log("serializado", serializado);
-
-  //request.cookies.set("Set-Cookies", serializado);
-  //request.headers.append("Set-Cookies", serializado);
 
   const cookieStore = await cookies();
 
-  console.log("cookieStore", cookieStore);
-
-  cookieStore.set("set-Cookies", serializado);
+  // cookieStore.set("set-Cookies", serializado);
+  cookieStore.set("tokenPuraRaza", myToken);
 
   return NextResponse.json("Login Correcto");
   //}
 
-  return new NextResponse("Ops algo salio mal, vuelva a intentarlos", {
-    status: 401,
-  });
+  // return new NextResponse("Ops algo salio mal, vuelva a intentarlos", {
+  //   status: 401,
+  // });
 }

@@ -45,10 +45,8 @@ export function RegistroForm() {
         establesimiento: slugify(data.establesimiento),
       }),
     });
-    console.log("resp", resp);
 
     const respJSON = await resp.json();
-    console.log("respJSON", respJSON);
 
     if (resp.ok) {
       router.push("/auth/login");

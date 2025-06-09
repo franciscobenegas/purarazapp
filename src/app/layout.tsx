@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Display } from "next/font/google";
 import "./globals.css";
-// import SessionProvider from "../app/components/SessionProvider";
 import Navbar from "@/components/Navbar/Navbar";
 import { Sidebar } from "@/components/Sidebar";
-// import { getServerSession } from "next-auth/next";
-// import { authOptions } from "./authOptions";
-import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import ThemeDataProvider from "../context/theme-data-provider";
@@ -26,14 +22,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const session = await getServerSession(authOptions);
-  const session = {
-    user: {
-      name: "", //"Francisco",
-      email: "", //"franciscobenegas@gmail.com",
-    },
-  };
-
   return (
     <html lang="es">
       <body className={noto.className}>
@@ -42,20 +30,10 @@ export default async function RootLayout({
           <ThemeDataProvider>
             <SidebarProvider>
               <div className="flex w-full h-full">
-                {/* hidden xl:block w-80 h-full xl:fixed bg-red-500 */}
+                <Sidebar />
                 <div
-                  className={cn(
-                    "h-full  hidden",
-                    session?.user?.name && "xl:block w-72 xl:fixed"
-                  )}
-                >
-                  <Sidebar />
-                </div>
-
-                {/* w-full xl:ml-80 bg-orange-300 */}
-
-                <div
-                  className={cn("w-full", session?.user?.name && "xl:ml-72")}
+                  //className={cn("w-full", session?.user?.name && "xl:ml-72")}
+                  className="w-full xl:ml-72"
                 >
                   <Navbar />
                   <div className="p-3 bg-[#fafbfc] dark:bg-secondary">
