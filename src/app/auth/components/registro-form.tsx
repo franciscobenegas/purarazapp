@@ -67,7 +67,7 @@ export function RegistroForm() {
 
   return (
     <div className=" ">
-      <form onSubmit={onSubmit} className="flex flex-col min-h-screen sm:pt-20">
+      <form onSubmit={onSubmit} className="flex flex-col min-h-screen sm:pt-5">
         <h1 className="text-2xl font-bold mb-5">Nueva cuenta | PuraRazapp</h1>
         <ToastContainer />
         <div className="flex flex-col">
@@ -117,7 +117,7 @@ export function RegistroForm() {
             {...register("establesimiento", {
               required: {
                 value: true,
-                message: "Campo requerido...",
+                message: "Nombre establesimiento requerido...",
               },
             })}
             placeholder="estblesimiento_ganadero"
@@ -178,7 +178,7 @@ export function RegistroForm() {
             Crear cuenta
           </Button>
 
-          {/* divisor l ine */}
+          {/* divisor line */}
           <div className="flex items-center my-5">
             <div className="flex-1 border-t border-gray-500"></div>
             <div className="px-2 text-gray-800">O</div>

@@ -18,17 +18,17 @@ export default function NewRegisterPage() {
             Pura Raza S.A.
           </Link>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
             <RegistroForm />
           </div>
         </div>
       </div>
-      <div className="relative hidden bg-muted lg:block dark:invert">
+      <div className="relative hidden bg-muted lg:block">
         <Image
           src={logo}
           alt="logo_pura_Raza"
-          className=""
+          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
           width={1500}
           height={1500}
         />
