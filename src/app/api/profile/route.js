@@ -12,7 +12,7 @@ export async function GET() {
 
   const { email, usuario, establesimiento, rol } = jwt.verify(
     token.value,
-    "secreto"
+    process.env.JWT_SECRET
   );
 
   return NextResponse.json({

@@ -30,9 +30,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  //if (email === "admin@gmail.com" && password === "admin") {
   // el usuario y el password son validos
   // se genera el token
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET no está definido en las variables de entorno.");
+  }
+
   const myToken = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
@@ -41,7 +44,7 @@ export async function POST(request: NextRequest) {
       establesimiento: user.establesimiento,
       rol: user.rol,
     },
-    "secreto"
+    process.env.JWT_SECRET
   );
 
   const cookieStore = await cookies();
