@@ -31,6 +31,10 @@ export default function LoginPage() {
           width={2000}
           height={2000}
         />
+        {/* Texto de versión */}
+        <div className="absolute bottom-4 right-4 text-sm text-muted-foreground">
+          V 1.0.2506
+        </div>
       </div>
     </div>
   );

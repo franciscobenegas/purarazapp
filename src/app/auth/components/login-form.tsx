@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useState } from "react";
 import { Bounce, ToastContainer, toast } from "react-toastify"; // Librería para notificaciones
-import { Eye, EyeOff } from "lucide-react"; // Iconos para mostrar/ocultar contraseña
+import { Eye, EyeOff, LoaderCircle } from "lucide-react"; // Iconos para mostrar/ocultar contraseña
 
 export function LoginForm({
   className,
@@ -138,8 +138,19 @@ export function LoginForm({
         </div>
 
         {/* Botón de envío */}
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? "Procesando..." : "Login"}
+        <Button
+          type="submit"
+          className="w-full flex items-center justify-center gap-2"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              Procesando
+              <LoaderCircle className="animate-spin w-4 h-4" />
+            </>
+          ) : (
+            "Login"
+          )}
         </Button>
 
         {/* Contenedor de notificaciones */}
