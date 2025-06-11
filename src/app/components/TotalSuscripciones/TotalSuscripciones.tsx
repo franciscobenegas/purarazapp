@@ -6,19 +6,30 @@ import { CustomIcon } from "@/components/CustomIcon";
 
 const data = [
   {
-    name: "WebSite",
+    name: "VACA",
     value: 200,
     fill: "#8884d8",
   },
+
   {
-    name: "Instagram",
-    value: 500,
-    fill: "#00c49f",
-  },
-  {
-    name: "Facebook",
+    name: "TORO",
     value: 350,
     fill: "#ffbb28",
+  },
+  {
+    name: "NOVILLO",
+    value: 350,
+    fill: "#FF1493",
+  },
+  {
+    name: "DESMAMANTE",
+    value: 350,
+    fill: "#FF00FF",
+  },
+  {
+    name: "TERNERO",
+    value: 350,
+    fill: "#7B68EE",
   },
 ];
 
@@ -31,7 +42,7 @@ export function TotalSuscripciones() {
         <div className="shadow font-bold">
           <CustomIcon icon={Percent} />
         </div>
-        <p className="text-xl text-primary">Total Suscriptos</p>
+        <p className="text-xl text-primary">Clasificacion</p>
       </div>
       <div className="w-full h-[200px] p-5">
         <ResponsiveContainer aspect={1} maxHeight={200}>

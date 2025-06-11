@@ -31,32 +31,32 @@ import { Progress } from "@/components/ui/progress";
 type TableIntegrationProps = {
   app: string;
   icon: string;
-  type: "Finance" | "CRM" | "MarketPlace";
+  type: "Francisco" | "Luis" | "Ariel";
   rate: number;
   profit: number;
 };
 
 const data: TableIntegrationProps[] = [
   {
-    app: "Stripe",
-    icon: "data:image/png;base64,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",
-    type: "Finance",
+    app: "Vaca",
+    icon: "https://w7.pngwing.com/pngs/609/494/png-transparent-cattle-agriculture-live-animal-feed-computer-icons-cow-miscellaneous-food-animals.png",
+    type: "Francisco",
     rate: 60,
-    profit: 450,
+    profit: 45000000,
   },
   {
-    app: "Slack",
-    icon: "https://a.slack-edge.com/fd21de4/marketing/img/nav/logo.svg",
-    type: "CRM",
+    app: "Ternero",
+    icon: "https://w7.pngwing.com/pngs/609/494/png-transparent-cattle-agriculture-live-animal-feed-computer-icons-cow-miscellaneous-food-animals.png",
+    type: "Luis",
     rate: 20,
-    profit: 120.5,
+    profit: 30000000,
   },
   {
-    app: "Shopify",
-    icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6zpvhC0euHbpxlVe45p1ZaKZgX2GEyOe-WyrmsdyMe9MNvgDJdqsFnZ3LDeQ_9W8aD48&usqp=CAU",
-    type: "MarketPlace",
+    app: "Vaca",
+    icon: "https://w7.pngwing.com/pngs/609/494/png-transparent-cattle-agriculture-live-animal-feed-computer-icons-cow-miscellaneous-food-animals.png",
+    type: "Ariel",
     rate: 80,
-    profit: 963,
+    profit: 15000000,
   },
 ];
 
@@ -66,23 +66,23 @@ export const columns: ColumnDef<TableIntegrationProps>[] = [
     header: "LOGO",
     cell: ({ row }) => (
       <div className="capitalize">
-        <Image src={row.getValue("icon")} alt="LOGO" width={20} height={20} />
+        <Image src={row.getValue("icon")} alt="LOGO" width={30} height={30} />
       </div>
     ),
   },
   {
     accessorKey: "app",
-    header: "Aplicaciones",
+    header: "Clasificaicon",
     cell: ({ row }) => <div className="capitalize">{row.getValue("app")}</div>,
   },
   {
     accessorKey: "type",
-    header: () => <div>TYPE</div>,
+    header: () => <div>Propietario</div>,
     cell: ({ row }) => <div className="capitalize">{row.getValue("type")}</div>,
   },
   {
     accessorKey: "rate",
-    header: () => <div className="text-right">RATE</div>,
+    header: () => <div className="text-right">Ventas</div>,
     cell: ({ row }) => (
       <div className="text-right font-medium flex gap-1 items-center">
         <Progress value={row.getValue("rate")} className="h-2" />
@@ -97,7 +97,7 @@ export const columns: ColumnDef<TableIntegrationProps>[] = [
         className="float-end px-0"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        PROFIT
+        GS.
         <ChevronUp className="ml-2 h-4 w-4" />
       </Button>
     ),

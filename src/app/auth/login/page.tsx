@@ -1,11 +1,16 @@
 import { TractorIcon } from "lucide-react";
-
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../../public/Logo_PURARAZA.png";
 import { LoginForm } from "../components/login-form";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default function LoginPage() {
+  const token = cookies().get("tokenPuraRaza")?.value;
+  if (token) {
+    redirect("/dashboard");
+  }
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

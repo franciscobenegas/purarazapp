@@ -18,17 +18,17 @@ import { ToggleTheme } from "../ToggleTheme";
 import { ThemeColorToggle } from "@/app/components/theme-color-toggle";
 import { useSession } from "@/hooks/useSession";
 import { useRouter } from "next/navigation";
-//import { useEffect } from "react";
+import { useEffect } from "react";
 
 export default function Navbar() {
   const router = useRouter();
-  const { user } = useSession();
+  const { user, loading } = useSession();
 
-  // useEffect(() => {
-  //   if (!loading && user.usuario === "") {
-  //     router.push("/auth/login");
-  //   }
-  // }, [loading, user, router]);
+  useEffect(() => {
+    if (!loading && user.usuario === "") {
+      router.push("/auth/login");
+    }
+  }, [loading, user, router]);
 
   const logout = async () => {
     try {

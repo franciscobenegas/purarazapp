@@ -1,12 +1,16 @@
-"use client";
-
 import Link from "next/link";
 import { RegistroForm } from "@/app/auth/components/registro-form";
 import Image from "next/image";
 import { TractorIcon } from "lucide-react";
 import logo from "../../../public/Logo_PURARAZA.png";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default function NewRegisterPage() {
+  const token = cookies().get("tokenPuraRaza")?.value;
+  if (token) {
+    redirect("/dashboard");
+  }
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="">

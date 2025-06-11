@@ -67,7 +67,7 @@ export function Grafico() {
           8.5 %
           <TrendingUp strokeWidth={1} className="h-6 w-6" />
         </div>
-        <p className="text-slate-500">+4.000 ingresados</p>
+        <p className="text-slate-500">+4.000 Ganancias</p>
       </div>
       <div className="h-[350px]">
         <ResponsiveContainer width="100%" height="100%">

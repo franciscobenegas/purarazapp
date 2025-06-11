@@ -10,7 +10,7 @@ export function SalesDistributors() {
         <div className="shadow-md">
           <CustomIcon icon={BarChart} />
         </div>
-        <p className="text-xl text-primary">Total Ventas</p>
+        <p className="text-xl text-primary">Estadisticas por Clasificación</p>
       </div>
       <Grafico />
     </div>

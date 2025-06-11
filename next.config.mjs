@@ -19,6 +19,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "logowik.com",
       },
+      {
+        protocol: "https",
+        hostname: "w7.pngwing.com",
+      },
     ],
   },
 };

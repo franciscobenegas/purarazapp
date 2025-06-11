@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+console.log("Middelware ", secret);
 
 export async function middleware(request: NextRequest) {
   const jwt = request.cookies.get("tokenPuraRaza")?.value;
@@ -29,5 +30,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/auth/login"],
+  matcher: ["/dashboard/:path*"],
 };

@@ -1,4 +1,5 @@
 "use client";
+
 import { ThemeColors, ThemeColorStateParams } from "../types/theme-types";
 import setGlobalColorTheme from "../utils/theme-colors";
 import { useTheme } from "next-themes";
@@ -10,30 +11,29 @@ const ThemeContext = createContext<ThemeColorStateParams>(
 );
 
 export default function ThemeDataProvider({ children }: ThemeProviderProps) {
-  const getSavedThemeColor = () => {
-    try {
-      return (localStorage.getItem("themeColor") as ThemeColors) || "Negro";
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const [themeColor, setThemeColor] = useState<ThemeColors>(
-    getSavedThemeColor() as ThemeColors
-  );
-
+  const [themeColor, setThemeColor] = useState<ThemeColors>("Negro"); // valor por defecto seguro
   const [isMounted, setIsMounted] = useState(false);
   const { theme } = useTheme();
 
+  // Se ejecuta solo en el cliente
   useEffect(() => {
+    // Obtener el valor guardado del localStorage después del montaje
+    const savedThemeColor =
+      (localStorage.getItem("themeColor") as ThemeColors) || "Negro";
+
+    setThemeColor(savedThemeColor);
+    setIsMounted(true);
+  }, []);
+
+  // Actualizar el theme global cuando cambian los valores
+  useEffect(() => {
+    if (!isMounted) return;
+
     localStorage.setItem("themeColor", themeColor);
     setGlobalColorTheme(theme as "light" | "dark", themeColor);
-
-    if (!isMounted) {
-      setIsMounted(true);
-    }
   }, [isMounted, theme, themeColor]);
 
+  // Esperar a que el componente se monte para evitar errores y flickers
   if (!isMounted) {
     return null;
   }

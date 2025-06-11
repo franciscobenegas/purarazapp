@@ -10,23 +10,23 @@ import { Separator } from "@/components/ui/separator";
 const dataCardSummary = [
   {
     icon: UserRound,
-    total: "12.450",
+    total: "150",
     average: 15,
-    title: "Compañias creadas",
+    title: "Mortandad Ternero 2025",
     tooltipText: "ver mas datos de compañias creadas",
   },
   {
     icon: Waypoints,
-    total: "86.5%",
-    average: 80,
-    title: "Total de Visitas",
+    total: "5.5%",
+    average: 30,
+    title: "Mortandad Adultos 2025",
     tooltipText: "ver mas datos de total de visitas",
   },
   {
     icon: BookOpenCheck,
-    total: "365.000",
+    total: "250",
     average: 30,
-    title: "Total de Ventas",
+    title: "Mortandad General 2025",
     tooltipText: "ver mas datos de Total de Ventas",
   },
 ];

@@ -9,7 +9,7 @@ export function ListaIntegrados() {
         <div className="shadow">
           <CustomIcon icon={List} />
         </div>
-        <p className="text-xl text-primary">Listado Integrados</p>
+        <p className="text-xl text-primary">Ventas 2025</p>
       </div>
       <TablaIntegracion />
     </div>
