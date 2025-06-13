@@ -1,0 +1,1752 @@
+[
+  {
+    "Codigo_concatenado": "0000",
+    "Codigo_de_Departamento": "00",
+    "Descripcion_de_Departamento": "ASUNCIÓN",
+    "Codigo_de_Distrito": "00",
+    "Descripcion_de_Distrito": "ASUNCIÓN"
+  },
+  {
+    "Codigo_concatenado": "0101",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "CONCEPCIÓN"
+  },
+  {
+    "Codigo_concatenado": "0102",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "BELÉN"
+  },
+  {
+    "Codigo_concatenado": "0103",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "HORQUETA"
+  },
+  {
+    "Codigo_concatenado": "0104",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "LORETO"
+  },
+  {
+    "Codigo_concatenado": "0105",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "SAN CARLOS DEL APA"
+  },
+  {
+    "Codigo_concatenado": "0106",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "SAN LÁZARO"
+  },
+  {
+    "Codigo_concatenado": "0107",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "YBY YAÚ"
+  },
+  {
+    "Codigo_concatenado": "0108",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "AZOTE'Y"
+  },
+  {
+    "Codigo_concatenado": "0109",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "SARGENTO JOSÉ FÉLIX LÓPEZ"
+  },
+  {
+    "Codigo_concatenado": "0110",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "SAN ALFREDO"
+  },
+  {
+    "Codigo_concatenado": "0111",
+    "Codigo_de_Departamento": "01",
+    "Descripcion_de_Departamento": "CONCEPCIÓN",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "PASO BARRETO"
+  },
+  {
+    "Codigo_concatenado": "0201",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "SAN PEDRO DEL YCUAMANDYYÚ"
+  },
+  {
+    "Codigo_concatenado": "0202",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "ANTEQUERA"
+  },
+  {
+    "Codigo_concatenado": "0203",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "CHORÉ"
+  },
+  {
+    "Codigo_concatenado": "0204",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "GENERAL ELIZARDO AQUINO"
+  },
+  {
+    "Codigo_concatenado": "0205",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "ITACURUBÍ DEL ROSARIO"
+  },
+  {
+    "Codigo_concatenado": "0206",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "LIMA"
+  },
+  {
+    "Codigo_concatenado": "0207",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "NUEVA GERMANIA"
+  },
+  {
+    "Codigo_concatenado": "0208",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "SAN ESTANISLAO"
+  },
+  {
+    "Codigo_concatenado": "0209",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "SAN PABLO"
+  },
+  {
+    "Codigo_concatenado": "0210",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "TACUATÍ"
+  },
+  {
+    "Codigo_concatenado": "0211",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "UNIÓN"
+  },
+  {
+    "Codigo_concatenado": "0212",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "25 DE DICIEMBRE"
+  },
+  {
+    "Codigo_concatenado": "0213",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "VILLA DEL ROSARIO"
+  },
+  {
+    "Codigo_concatenado": "0214",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 14,
+    "Descripcion_de_Distrito": "GENERAL FRANCISCO ISIDORO RESQUÍN"
+  },
+  {
+    "Codigo_concatenado": "0215",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 15,
+    "Descripcion_de_Distrito": "YATAITY DEL NORTE"
+  },
+  {
+    "Codigo_concatenado": "0216",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 16,
+    "Descripcion_de_Distrito": "GUAJAYVI"
+  },
+  {
+    "Codigo_concatenado": "0217",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 17,
+    "Descripcion_de_Distrito": "CAPIIBARY"
+  },
+  {
+    "Codigo_concatenado": "0218",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 18,
+    "Descripcion_de_Distrito": "SANTA ROSA DEL AGUARAY"
+  },
+  {
+    "Codigo_concatenado": "0219",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 19,
+    "Descripcion_de_Distrito": "YRYBUCUA"
+  },
+  {
+    "Codigo_concatenado": "0220",
+    "Codigo_de_Departamento": "02",
+    "Descripcion_de_Departamento": "SAN PEDRO",
+    "Codigo_de_Distrito": 20,
+    "Descripcion_de_Distrito": "LIBERACIÓN"
+  },
+  {
+    "Codigo_concatenado": "0301",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "CAACUPÉ"
+  },
+  {
+    "Codigo_concatenado": "0302",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "ALTOS"
+  },
+  {
+    "Codigo_concatenado": "0303",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "ARROYOS Y ESTEROS"
+  },
+  {
+    "Codigo_concatenado": "0304",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "ATYRÁ"
+  },
+  {
+    "Codigo_concatenado": "0305",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "CARAGUATAY"
+  },
+  {
+    "Codigo_concatenado": "0306",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "EMBOSCADA"
+  },
+  {
+    "Codigo_concatenado": "0307",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "EUSEBIO AYALA"
+  },
+  {
+    "Codigo_concatenado": "0308",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "ISLA PUCÚ"
+  },
+  {
+    "Codigo_concatenado": "0309",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "ITACURUBÍ DE LA CORDILLERA"
+  },
+  {
+    "Codigo_concatenado": "0310",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "JUAN DE MENA"
+  },
+  {
+    "Codigo_concatenado": "0311",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "LOMA GRANDE"
+  },
+  {
+    "Codigo_concatenado": "0312",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "MBOCAYATY DEL YHAGUY"
+  },
+  {
+    "Codigo_concatenado": "0313",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "NUEVA COLOMBIA"
+  },
+  {
+    "Codigo_concatenado": "0314",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 14,
+    "Descripcion_de_Distrito": "PIRIBEBUY"
+  },
+  {
+    "Codigo_concatenado": "0315",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 15,
+    "Descripcion_de_Distrito": "PRIMERO DE MARZO"
+  },
+  {
+    "Codigo_concatenado": "0316",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 16,
+    "Descripcion_de_Distrito": "SAN BERNARDINO"
+  },
+  {
+    "Codigo_concatenado": "0317",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 17,
+    "Descripcion_de_Distrito": "SANTA ELENA"
+  },
+  {
+    "Codigo_concatenado": "0318",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 18,
+    "Descripcion_de_Distrito": "TOBATÍ"
+  },
+  {
+    "Codigo_concatenado": "0319",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 19,
+    "Descripcion_de_Distrito": "VALENZUELA"
+  },
+  {
+    "Codigo_concatenado": "0320",
+    "Codigo_de_Departamento": "03",
+    "Descripcion_de_Departamento": "CORDILLERA",
+    "Codigo_de_Distrito": 20,
+    "Descripcion_de_Distrito": "SAN JOSE OBRERO"
+  },
+  {
+    "Codigo_concatenado": "0401",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "VILLARRICA"
+  },
+  {
+    "Codigo_concatenado": "0402",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "BORJA"
+  },
+  {
+    "Codigo_concatenado": "0403",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "CAPITÁN MAURICIO JOSÉ TROCHE"
+  },
+  {
+    "Codigo_concatenado": "0404",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "CORONEL MARTÍNEZ"
+  },
+  {
+    "Codigo_concatenado": "0405",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "FÉLIX PÉREZ CARDOZO"
+  },
+  {
+    "Codigo_concatenado": "0406",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "GRAL. EUGENIO A. GARAY"
+  },
+  {
+    "Codigo_concatenado": "0407",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "INDEPENDENCIA"
+  },
+  {
+    "Codigo_concatenado": "0408",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "ITAPÉ"
+  },
+  {
+    "Codigo_concatenado": "0409",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "ITURBE"
+  },
+  {
+    "Codigo_concatenado": "0410",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "JOSÉ FASSARDI"
+  },
+  {
+    "Codigo_concatenado": "0411",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "MBOCAYATY"
+  },
+  {
+    "Codigo_concatenado": "0412",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "NATALICIO TALAVERA"
+  },
+  {
+    "Codigo_concatenado": "0413",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "ÑUMÍ"
+  },
+  {
+    "Codigo_concatenado": "0414",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": 14,
+    "Descripcion_de_Distrito": "SAN SALVADOR"
+  },
+  {
+    "Codigo_concatenado": "0415",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": 15,
+    "Descripcion_de_Distrito": "YATAITY"
+  },
+  {
+    "Codigo_concatenado": "0416",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": 16,
+    "Descripcion_de_Distrito": "DOCTOR BOTTRELL"
+  },
+  {
+    "Codigo_concatenado": "0417",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": 17,
+    "Descripcion_de_Distrito": "PASO YOBAI"
+  },
+  {
+    "Codigo_concatenado": "0418",
+    "Codigo_de_Departamento": "04",
+    "Descripcion_de_Departamento": "GUAIRÁ",
+    "Codigo_de_Distrito": 18,
+    "Descripcion_de_Distrito": "TEBICUARY"
+  },
+  {
+    "Codigo_concatenado": "0501",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "CORONEL OVIEDO"
+  },
+  {
+    "Codigo_concatenado": "0502",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "CAAGUAZÚ"
+  },
+  {
+    "Codigo_concatenado": "0503",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "CARAYAÓ"
+  },
+  {
+    "Codigo_concatenado": "0504",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "DR. CECILIO BÁEZ"
+  },
+  {
+    "Codigo_concatenado": "0505",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "SANTA ROSA DEL MBUTUY"
+  },
+  {
+    "Codigo_concatenado": "0506",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "DR. JUAN MANUEL FRUTOS"
+  },
+  {
+    "Codigo_concatenado": "0507",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "REPATRIACIÓN"
+  },
+  {
+    "Codigo_concatenado": "0508",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "NUEVA LONDRES"
+  },
+  {
+    "Codigo_concatenado": "0509",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "SAN JOAQUÍN"
+  },
+  {
+    "Codigo_concatenado": "0510",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "SAN JOSÉ DE LOS ARROYOS"
+  },
+  {
+    "Codigo_concatenado": "0511",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "YHÚ"
+  },
+  {
+    "Codigo_concatenado": "0512",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "DR. J. EULOGIO ESTIGARRIBIA"
+  },
+  {
+    "Codigo_concatenado": "0513",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "R.I. 3 CORRALES"
+  },
+  {
+    "Codigo_concatenado": "0514",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 14,
+    "Descripcion_de_Distrito": "RAÚL ARSENIO OVIEDO"
+  },
+  {
+    "Codigo_concatenado": "0515",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 15,
+    "Descripcion_de_Distrito": "JOSÉ DOMINGO OCAMPOS"
+  },
+  {
+    "Codigo_concatenado": "0516",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 16,
+    "Descripcion_de_Distrito": "MARISCAL FRANCISCO SOLANO LÓPEZ"
+  },
+  {
+    "Codigo_concatenado": "0517",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 17,
+    "Descripcion_de_Distrito": "LA PASTORA"
+  },
+  {
+    "Codigo_concatenado": "0518",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 18,
+    "Descripcion_de_Distrito": "3 DE FEBRERO"
+  },
+  {
+    "Codigo_concatenado": "0519",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 19,
+    "Descripcion_de_Distrito": "SIMÓN BOLIVAR"
+  },
+  {
+    "Codigo_concatenado": "0520",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 20,
+    "Descripcion_de_Distrito": "VAQUERÍA"
+  },
+  {
+    "Codigo_concatenado": "0521",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 21,
+    "Descripcion_de_Distrito": "TEMBIAPORÁ"
+  },
+  {
+    "Codigo_concatenado": "0522",
+    "Codigo_de_Departamento": "05",
+    "Descripcion_de_Departamento": "CAAGUAZÚ",
+    "Codigo_de_Distrito": 22,
+    "Descripcion_de_Distrito": "NUEVA TOLEDO"
+  },
+  {
+    "Codigo_concatenado": "0601",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "CAAZAPÁ"
+  },
+  {
+    "Codigo_concatenado": "0602",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "ABAÍ"
+  },
+  {
+    "Codigo_concatenado": "0603",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "BUENA VISTA"
+  },
+  {
+    "Codigo_concatenado": "0604",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "DR. MOISÉS S. BERTONI"
+  },
+  {
+    "Codigo_concatenado": "0605",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "GRAL. HIGINIO MORINIGO"
+  },
+  {
+    "Codigo_concatenado": "0606",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "MACIEL"
+  },
+  {
+    "Codigo_concatenado": "0607",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "SAN JUAN NEPOMUCENO"
+  },
+  {
+    "Codigo_concatenado": "0608",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "TAVAÍ"
+  },
+  {
+    "Codigo_concatenado": "0609",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "YEGROS"
+  },
+  {
+    "Codigo_concatenado": "0610",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "YUTY"
+  },
+  {
+    "Codigo_concatenado": "0611",
+    "Codigo_de_Departamento": "06",
+    "Descripcion_de_Departamento": "CAAZAPÁ",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "3 DE MAYO"
+  },
+  {
+    "Codigo_concatenado": "0701",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "ENCARNACIÓN"
+  },
+  {
+    "Codigo_concatenado": "0702",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "BELLA VISTA"
+  },
+  {
+    "Codigo_concatenado": "0703",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "CAMBYRETÁ"
+  },
+  {
+    "Codigo_concatenado": "0704",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "CAPITÁN MEZA"
+  },
+  {
+    "Codigo_concatenado": "0705",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "CAPITÁN MIRANDA"
+  },
+  {
+    "Codigo_concatenado": "0706",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "NUEVA ALBORADA"
+  },
+  {
+    "Codigo_concatenado": "0707",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "CARMEN DEL PARANÁ"
+  },
+  {
+    "Codigo_concatenado": "0708",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "CORONEL BOGADO"
+  },
+  {
+    "Codigo_concatenado": "0709",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "CARLOS ANTONIO LÓPEZ"
+  },
+  {
+    "Codigo_concatenado": "0710",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "NATALIO"
+  },
+  {
+    "Codigo_concatenado": "0711",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "FRAM"
+  },
+  {
+    "Codigo_concatenado": "0712",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "GENERAL ARTIGAS"
+  },
+  {
+    "Codigo_concatenado": "0713",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "GENERAL DELGADO"
+  },
+  {
+    "Codigo_concatenado": "0714",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 14,
+    "Descripcion_de_Distrito": "HOHENAU"
+  },
+  {
+    "Codigo_concatenado": "0715",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 15,
+    "Descripcion_de_Distrito": "JESÚS"
+  },
+  {
+    "Codigo_concatenado": "0716",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 16,
+    "Descripcion_de_Distrito": "JOSÉ LEANDRO OVIEDO"
+  },
+  {
+    "Codigo_concatenado": "0717",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 17,
+    "Descripcion_de_Distrito": "OBLIGADO"
+  },
+  {
+    "Codigo_concatenado": "0718",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 18,
+    "Descripcion_de_Distrito": "MAYOR JULIO DIONISIO OTAÑO"
+  },
+  {
+    "Codigo_concatenado": "0719",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 19,
+    "Descripcion_de_Distrito": "SAN COSME Y DAMIAN"
+  },
+  {
+    "Codigo_concatenado": "0720",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 20,
+    "Descripcion_de_Distrito": "SAN PEDRO DEL PARANÁ"
+  },
+  {
+    "Codigo_concatenado": "0721",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 21,
+    "Descripcion_de_Distrito": "SAN RAFAEL DEL PARANÁ"
+  },
+  {
+    "Codigo_concatenado": "0722",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 22,
+    "Descripcion_de_Distrito": "TRINIDAD"
+  },
+  {
+    "Codigo_concatenado": "0723",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 23,
+    "Descripcion_de_Distrito": "EDELIRA"
+  },
+  {
+    "Codigo_concatenado": "0724",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 24,
+    "Descripcion_de_Distrito": "TOMÁS ROMERO PEREIRA"
+  },
+  {
+    "Codigo_concatenado": "0725",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 25,
+    "Descripcion_de_Distrito": "ALTO VERÁ"
+  },
+  {
+    "Codigo_concatenado": "0726",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 26,
+    "Descripcion_de_Distrito": "LA PAZ"
+  },
+  {
+    "Codigo_concatenado": "0727",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 27,
+    "Descripcion_de_Distrito": "YATYTAY"
+  },
+  {
+    "Codigo_concatenado": "0728",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 28,
+    "Descripcion_de_Distrito": "SAN JUAN DEL PARANÁ"
+  },
+  {
+    "Codigo_concatenado": "0729",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 29,
+    "Descripcion_de_Distrito": "PIRAPÓ"
+  },
+  {
+    "Codigo_concatenado": "0730",
+    "Codigo_de_Departamento": "07",
+    "Descripcion_de_Departamento": "ITAPÚA",
+    "Codigo_de_Distrito": 30,
+    "Descripcion_de_Distrito": "ITAPÚA POTY"
+  },
+  {
+    "Codigo_concatenado": "0801",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "SAN JUAN BAUTISTA DE LAS MISIONES"
+  },
+  {
+    "Codigo_concatenado": "0802",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "AYOLAS"
+  },
+  {
+    "Codigo_concatenado": "0803",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "SAN IGNACIO"
+  },
+  {
+    "Codigo_concatenado": "0804",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "SAN MIGUEL"
+  },
+  {
+    "Codigo_concatenado": "0805",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "SAN PATRICIO"
+  },
+  {
+    "Codigo_concatenado": "0806",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "SANTA MARÍA"
+  },
+  {
+    "Codigo_concatenado": "0807",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "SANTA ROSA"
+  },
+  {
+    "Codigo_concatenado": "0808",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "SANTIAGO"
+  },
+  {
+    "Codigo_concatenado": "0809",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "VILLA FLORIDA"
+  },
+  {
+    "Codigo_concatenado": "0810",
+    "Codigo_de_Departamento": "08",
+    "Descripcion_de_Departamento": "MISIONES",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "YABEBYRY"
+  },
+  {
+    "Codigo_concatenado": "0901",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "PARAGUARÍ"
+  },
+  {
+    "Codigo_concatenado": "0902",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "ACAHAY"
+  },
+  {
+    "Codigo_concatenado": "0903",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "CAAPUCÚ"
+  },
+  {
+    "Codigo_concatenado": "0904",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "CABALLERO"
+  },
+  {
+    "Codigo_concatenado": "0905",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "CARAPEGUÁ"
+  },
+  {
+    "Codigo_concatenado": "0906",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "ESCOBAR"
+  },
+  {
+    "Codigo_concatenado": "0907",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "LA COLMENA"
+  },
+  {
+    "Codigo_concatenado": "0908",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "MBUYAPEY"
+  },
+  {
+    "Codigo_concatenado": "0909",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "PIRAYÚ"
+  },
+  {
+    "Codigo_concatenado": "0910",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "QUIINDY"
+  },
+  {
+    "Codigo_concatenado": "0911",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "QUYQUYHÓ"
+  },
+  {
+    "Codigo_concatenado": "0912",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "ROQUE GONZALEZ DE SANTACRUZ"
+  },
+  {
+    "Codigo_concatenado": "0913",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "SAPUCÁI"
+  },
+  {
+    "Codigo_concatenado": "0914",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": 14,
+    "Descripcion_de_Distrito": "TEBICUARY-MÍ"
+  },
+  {
+    "Codigo_concatenado": "0915",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": 15,
+    "Descripcion_de_Distrito": "YAGUARÓN"
+  },
+  {
+    "Codigo_concatenado": "0916",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": 16,
+    "Descripcion_de_Distrito": "YBYCUÍ"
+  },
+  {
+    "Codigo_concatenado": "0917",
+    "Codigo_de_Departamento": "09",
+    "Descripcion_de_Departamento": "PARAGUARÍ",
+    "Codigo_de_Distrito": 17,
+    "Descripcion_de_Distrito": "YBYTYMÍ"
+  },
+  {
+    "Codigo_concatenado": 1001,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "CIUDAD DEL ESTE"
+  },
+  {
+    "Codigo_concatenado": 1002,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "PRESIDENTE FRANCO"
+  },
+  {
+    "Codigo_concatenado": 1003,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "DOMINGO MARTÍNEZ DE IRALA"
+  },
+  {
+    "Codigo_concatenado": 1004,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "DR. JUAN LEÓN MALLORQUÍN"
+  },
+  {
+    "Codigo_concatenado": 1005,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "HERNANDARIAS"
+  },
+  {
+    "Codigo_concatenado": 1006,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "ITAKYRY"
+  },
+  {
+    "Codigo_concatenado": 1007,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "JUAN E. O'LEARY"
+  },
+  {
+    "Codigo_concatenado": 1008,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "ÑACUNDAY"
+  },
+  {
+    "Codigo_concatenado": 1009,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "YGUAZÚ"
+  },
+  {
+    "Codigo_concatenado": 1010,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "LOS CEDRALES"
+  },
+  {
+    "Codigo_concatenado": 1011,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "MINGA GUAZÚ"
+  },
+  {
+    "Codigo_concatenado": 1012,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "SAN CRISTOBAL"
+  },
+  {
+    "Codigo_concatenado": 1013,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "SANTA RITA"
+  },
+  {
+    "Codigo_concatenado": 1014,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 14,
+    "Descripcion_de_Distrito": "NARANJAL"
+  },
+  {
+    "Codigo_concatenado": 1015,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 15,
+    "Descripcion_de_Distrito": "SANTA ROSA DEL MONDAY"
+  },
+  {
+    "Codigo_concatenado": 1016,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 16,
+    "Descripcion_de_Distrito": "MINGA PORÁ"
+  },
+  {
+    "Codigo_concatenado": 1017,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 17,
+    "Descripcion_de_Distrito": "MBARACAYÚ"
+  },
+  {
+    "Codigo_concatenado": 1018,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 18,
+    "Descripcion_de_Distrito": "SAN ALBERTO"
+  },
+  {
+    "Codigo_concatenado": 1019,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 19,
+    "Descripcion_de_Distrito": "IRUÑA"
+  },
+  {
+    "Codigo_concatenado": 1020,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 20,
+    "Descripcion_de_Distrito": "SANTA FE DEL PARANÁ"
+  },
+  {
+    "Codigo_concatenado": 1021,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 21,
+    "Descripcion_de_Distrito": "TAVAPY"
+  },
+  {
+    "Codigo_concatenado": 1022,
+    "Codigo_de_Departamento": 10,
+    "Descripcion_de_Departamento": "ALTO PARANÁ",
+    "Codigo_de_Distrito": 22,
+    "Descripcion_de_Distrito": "DR. RAÚL PEÑA"
+  },
+  {
+    "Codigo_concatenado": 1101,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "AREGUÁ"
+  },
+  {
+    "Codigo_concatenado": 1102,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "CAPIATÁ"
+  },
+  {
+    "Codigo_concatenado": 1103,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "FERNANDO DE LA MORA"
+  },
+  {
+    "Codigo_concatenado": 1104,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "GUARAMBARÉ"
+  },
+  {
+    "Codigo_concatenado": 1105,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "ITÁ"
+  },
+  {
+    "Codigo_concatenado": 1106,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "ITAUGUÁ"
+  },
+  {
+    "Codigo_concatenado": 1107,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "LAMBARÉ"
+  },
+  {
+    "Codigo_concatenado": 1108,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "LIMPIO"
+  },
+  {
+    "Codigo_concatenado": 1109,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "LUQUE"
+  },
+  {
+    "Codigo_concatenado": 1110,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "MARIANO ROQUE ALONSO"
+  },
+  {
+    "Codigo_concatenado": 1111,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "NUEVA ITALIA"
+  },
+  {
+    "Codigo_concatenado": 1112,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "ÑEMBY"
+  },
+  {
+    "Codigo_concatenado": 1113,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "SAN ANTONIO"
+  },
+  {
+    "Codigo_concatenado": 1114,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 14,
+    "Descripcion_de_Distrito": "SAN LORENZO"
+  },
+  {
+    "Codigo_concatenado": 1115,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 15,
+    "Descripcion_de_Distrito": "VILLA ELISA"
+  },
+  {
+    "Codigo_concatenado": 1116,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 16,
+    "Descripcion_de_Distrito": "VILLETA"
+  },
+  {
+    "Codigo_concatenado": 1117,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 17,
+    "Descripcion_de_Distrito": "YPACARAÍ"
+  },
+  {
+    "Codigo_concatenado": 1118,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 18,
+    "Descripcion_de_Distrito": "YPANÉ"
+  },
+  {
+    "Codigo_concatenado": 1119,
+    "Codigo_de_Departamento": 11,
+    "Descripcion_de_Departamento": "CENTRAL",
+    "Codigo_de_Distrito": 19,
+    "Descripcion_de_Distrito": "J. AUGUSTO SALDIVAR"
+  },
+  {
+    "Codigo_concatenado": 1201,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "PILAR"
+  },
+  {
+    "Codigo_concatenado": 1202,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "ALBERDI"
+  },
+  {
+    "Codigo_concatenado": 1203,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "CERRITO"
+  },
+  {
+    "Codigo_concatenado": 1204,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "DESMOCHADOS"
+  },
+  {
+    "Codigo_concatenado": 1205,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "GRAL. JOSÉ EDUVIGIS DÍAZ"
+  },
+  {
+    "Codigo_concatenado": 1206,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "GUAZÚ-CUÁ"
+  },
+  {
+    "Codigo_concatenado": 1207,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "HUMAITÁ"
+  },
+  {
+    "Codigo_concatenado": 1208,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "ISLA UMBÚ"
+  },
+  {
+    "Codigo_concatenado": 1209,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "LAURELES"
+  },
+  {
+    "Codigo_concatenado": 1210,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "MAYOR JOSÉ DEJESÚS MARTÍNEZ"
+  },
+  {
+    "Codigo_concatenado": 1211,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "PASO DE PATRIA"
+  },
+  {
+    "Codigo_concatenado": 1212,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "SAN JUAN BAUTISTA DE ÑEEMBUCÚ"
+  },
+  {
+    "Codigo_concatenado": 1213,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "TACUARAS"
+  },
+  {
+    "Codigo_concatenado": 1214,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": 14,
+    "Descripcion_de_Distrito": "VILLA FRANCA"
+  },
+  {
+    "Codigo_concatenado": 1215,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": 15,
+    "Descripcion_de_Distrito": "VILLA OLIVA"
+  },
+  {
+    "Codigo_concatenado": 1216,
+    "Codigo_de_Departamento": 12,
+    "Descripcion_de_Departamento": "ÑEEMBUCÚ",
+    "Codigo_de_Distrito": 16,
+    "Descripcion_de_Distrito": "VILLALBÍN"
+  },
+  {
+    "Codigo_concatenado": 1301,
+    "Codigo_de_Departamento": 13,
+    "Descripcion_de_Departamento": "AMAMBAY",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "PEDRO JUAN CABALLERO"
+  },
+  {
+    "Codigo_concatenado": 1302,
+    "Codigo_de_Departamento": 13,
+    "Descripcion_de_Departamento": "AMAMBAY",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "BELLA VISTA"
+  },
+  {
+    "Codigo_concatenado": 1303,
+    "Codigo_de_Departamento": 13,
+    "Descripcion_de_Departamento": "AMAMBAY",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "CAPITÁN BADO"
+  },
+  {
+    "Codigo_concatenado": 1304,
+    "Codigo_de_Departamento": 13,
+    "Descripcion_de_Departamento": "AMAMBAY",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "ZANJA PYTÃ"
+  },
+  {
+    "Codigo_concatenado": 1305,
+    "Codigo_de_Departamento": 13,
+    "Descripcion_de_Departamento": "AMAMBAY",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "KARAPAÍ"
+  },
+  {
+    "Codigo_concatenado": 1401,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "SALTO DEL GUAIRÁ"
+  },
+  {
+    "Codigo_concatenado": 1402,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "CORPUS CHRISTI"
+  },
+  {
+    "Codigo_concatenado": 1403,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "VILLA CURUGUATY"
+  },
+  {
+    "Codigo_concatenado": 1404,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "VILLA YGATIMÍ"
+  },
+  {
+    "Codigo_concatenado": 1405,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "ITANARÁ"
+  },
+  {
+    "Codigo_concatenado": 1406,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "YPEJHÚ"
+  },
+  {
+    "Codigo_concatenado": 1407,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "FRANCISCO CABALLERO ALVAREZ"
+  },
+  {
+    "Codigo_concatenado": 1408,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "KATUETÉ"
+  },
+  {
+    "Codigo_concatenado": 1409,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "LA PALOMA DEL ESPÍRITU SANTO"
+  },
+  {
+    "Codigo_concatenado": 1410,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": 10,
+    "Descripcion_de_Distrito": "NUEVA ESPERANZA"
+  },
+  {
+    "Codigo_concatenado": 1411,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": 11,
+    "Descripcion_de_Distrito": "YASY CAÑY"
+  },
+  {
+    "Codigo_concatenado": 1412,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": 12,
+    "Descripcion_de_Distrito": "YBYRAROBANÁ"
+  },
+  {
+    "Codigo_concatenado": 1413,
+    "Codigo_de_Departamento": 14,
+    "Descripcion_de_Departamento": "CANINDEYÚ",
+    "Codigo_de_Distrito": 13,
+    "Descripcion_de_Distrito": "YBY PYTÁ"
+  },
+  {
+    "Codigo_concatenado": 1502,
+    "Codigo_de_Departamento": 15,
+    "Descripcion_de_Departamento": "PRESIDENTE HAYES",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "BENJAMÍN ACEVAL"
+  },
+  {
+    "Codigo_concatenado": 1503,
+    "Codigo_de_Departamento": 15,
+    "Descripcion_de_Departamento": "PRESIDENTE HAYES",
+    "Codigo_de_Distrito": "03",
+    "Descripcion_de_Distrito": "PUERTO PINASCO"
+  },
+  {
+    "Codigo_concatenado": 1504,
+    "Codigo_de_Departamento": 15,
+    "Descripcion_de_Departamento": "PRESIDENTE HAYES",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "VILLA HAYES"
+  },
+  {
+    "Codigo_concatenado": 1505,
+    "Codigo_de_Departamento": 15,
+    "Descripcion_de_Departamento": "PRESIDENTE HAYES",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "NANAWA"
+  },
+  {
+    "Codigo_concatenado": 1506,
+    "Codigo_de_Departamento": 15,
+    "Descripcion_de_Departamento": "PRESIDENTE HAYES",
+    "Codigo_de_Distrito": "06",
+    "Descripcion_de_Distrito": "JOSÉ FALCÓN"
+  },
+  {
+    "Codigo_concatenado": 1507,
+    "Codigo_de_Departamento": 15,
+    "Descripcion_de_Departamento": "PRESIDENTE HAYES",
+    "Codigo_de_Distrito": "07",
+    "Descripcion_de_Distrito": "TTE. 1° MANUEL IRALA FERNÁNDEZ"
+  },
+  {
+    "Codigo_concatenado": 1508,
+    "Codigo_de_Departamento": 15,
+    "Descripcion_de_Departamento": "PRESIDENTE HAYES",
+    "Codigo_de_Distrito": "08",
+    "Descripcion_de_Distrito": "TENIENTE ESTEBAN MARTÍNEZ"
+  },
+  {
+    "Codigo_concatenado": 1509,
+    "Codigo_de_Departamento": 15,
+    "Descripcion_de_Departamento": "PRESIDENTE HAYES",
+    "Codigo_de_Distrito": "09",
+    "Descripcion_de_Distrito": "GENERAL JOSÉ MARÍA BRUGUEZ"
+  },
+  {
+    "Codigo_concatenado": 1602,
+    "Codigo_de_Departamento": 16,
+    "Descripcion_de_Departamento": "BOQUERÓN",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "MARISCAL JOSÉ FÉLIX ESTIGARRIBIA"
+  },
+  {
+    "Codigo_concatenado": 1604,
+    "Codigo_de_Departamento": 16,
+    "Descripcion_de_Departamento": "BOQUERÓN",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "FILADELFIA"
+  },
+  {
+    "Codigo_concatenado": 1605,
+    "Codigo_de_Departamento": 16,
+    "Descripcion_de_Departamento": "BOQUERÓN",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "LOMA PLATA"
+  },
+  {
+    "Codigo_concatenado": 1701,
+    "Codigo_de_Departamento": 17,
+    "Descripcion_de_Departamento": "ALTO PARAGUAY",
+    "Codigo_de_Distrito": "01",
+    "Descripcion_de_Distrito": "FUERTE OLIMPO"
+  },
+  {
+    "Codigo_concatenado": 1702,
+    "Codigo_de_Departamento": 17,
+    "Descripcion_de_Departamento": "ALTO PARAGUAY",
+    "Codigo_de_Distrito": "02",
+    "Descripcion_de_Distrito": "PUERTO CASADO"
+  },
+  {
+    "Codigo_concatenado": 1704,
+    "Codigo_de_Departamento": 17,
+    "Descripcion_de_Departamento": "ALTO PARAGUAY",
+    "Codigo_de_Distrito": "04",
+    "Descripcion_de_Distrito": "BAHÍA NEGRA"
+  },
+  {
+    "Codigo_concatenado": 1705,
+    "Codigo_de_Departamento": 17,
+    "Descripcion_de_Departamento": "ALTO PARAGUAY",
+    "Codigo_de_Distrito": "05",
+    "Descripcion_de_Distrito": "CARMELO PERALTA"
+  }
+]

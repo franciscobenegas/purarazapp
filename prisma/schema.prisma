@@ -33,7 +33,33 @@ model Usuario{
   rol Rol @default(ADMIN)
 }
 
+model Estancia{
+  id String    @id @default(uuid())
+  nombre  String
+  departamento String
+  distrito String
+  localidad String
+  ruc String
+  telefono String
+  usuario String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime   @updatedAt
 
+  propietario Propietario[]
+}
+
+model Propietario{
+  id String    @id @default(uuid())
+  nombre String
+  email String
+  telfono String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime   @updatedAt
+  usuario String
+  estanciaId String
+  estancia Estancia? @relation(fields: [estanciaId], references: [id], onDelete: Cascade )
+  @@index([estanciaId])
+}
 
 
 

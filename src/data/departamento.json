@@ -1,0 +1,74 @@
+[
+  {
+    "codigo_dpto": "0",
+    "descripcion_dpto": "ASUNCIÓN"
+  },
+  {
+    "codigo_dpto": 1,
+    "descripcion_dpto": "CONCEPCIÓN"
+  },
+  {
+    "codigo_dpto": 2,
+    "descripcion_dpto": "SAN PEDRO"
+  },
+  {
+    "codigo_dpto": 3,
+    "descripcion_dpto": "CORDILLERA"
+  },
+  {
+    "codigo_dpto": 4,
+    "descripcion_dpto": "GUAIRÁ"
+  },
+  {
+    "codigo_dpto": 5,
+    "descripcion_dpto": "CAAGUAZÚ"
+  },
+  {
+    "codigo_dpto": 6,
+    "descripcion_dpto": "CAAZAPÁ"
+  },
+  {
+    "codigo_dpto": 7,
+    "descripcion_dpto": "ITAPÚA"
+  },
+  {
+    "codigo_dpto": 8,
+    "descripcion_dpto": "MISIONES"
+  },
+  {
+    "codigo_dpto": 9,
+    "descripcion_dpto": "PARAGUARÍ"
+  },
+  {
+    "codigo_dpto": 10,
+    "descripcion_dpto": "ALTO PARANÁ"
+  },
+  {
+    "codigo_dpto": 11,
+    "descripcion_dpto": "CENTRAL"
+  },
+  {
+    "codigo_dpto": 12,
+    "descripcion_dpto": "ÑEEMBUCÚ"
+  },
+  {
+    "codigo_dpto": 13,
+    "descripcion_dpto": "AMAMBAY"
+  },
+  {
+    "codigo_dpto": 14,
+    "descripcion_dpto": "CANINDEYÚ"
+  },
+  {
+    "codigo_dpto": 15,
+    "descripcion_dpto": "PRESIDENTE HAYES"
+  },
+  {
+    "codigo_dpto": 16,
+    "descripcion_dpto": "BOQUERÓN"
+  },
+  {
+    "codigo_dpto": 17,
+    "descripcion_dpto": "ALTO PARAGUAY"
+  }
+]
