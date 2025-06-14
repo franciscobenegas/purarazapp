@@ -85,7 +85,12 @@ export function FormEstancia(props: FormProps) {
           d.Codigo_de_Departamento ===
           String(watchDepartamento).padStart(2, "0")
       );
-      setDistritosFiltrados(filtrados);
+
+      const datosOrdenados = [...filtrados].sort((a, b) =>
+        a.Descripcion_de_Distrito.localeCompare(b.Descripcion_de_Distrito)
+      );
+
+      setDistritosFiltrados(datosOrdenados);
       form.setValue("distrito", "");
       form.setValue("localidad", "");
       setLocalidadesFiltradas([]);
@@ -106,8 +111,12 @@ export function FormEstancia(props: FormProps) {
       //     l.Descripcion_de_Departamento === watchDepartamento &&
       //     l.Descripcion_de_Distrito === watchDepartamento
       // );
-
-      setLocalidadesFiltradas(filtrados);
+      const datosOrdenados = [...filtrados].sort((a, b) =>
+        a.Descripcion_de_Barrio_Localidad.localeCompare(
+          b.Descripcion_de_Barrio_Localidad
+        )
+      );
+      setLocalidadesFiltradas(datosOrdenados);
       form.setValue("localidad", "");
     }
   }, [form, watchDepartamento, watchDistrito]);
