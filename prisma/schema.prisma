@@ -46,6 +46,10 @@ model Estancia{
   updatedAt   DateTime   @updatedAt
 
   propietario Propietario[]
+  establesimiento String
+
+   @@index([establesimiento])
+   @@index([departamento])
 }
 
 model Propietario{

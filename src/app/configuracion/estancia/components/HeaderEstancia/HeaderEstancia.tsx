@@ -23,7 +23,6 @@ export function HeaderEstancia() {
       <Dialog open={openModal} onOpenChange={setOpenModal}>
         <DialogTrigger asChild>
           <Button>
-            {" "}
             <Plus /> Categorias{" "}
           </Button>
         </DialogTrigger>

@@ -80,36 +80,37 @@ export function FormEstancia(props: FormProps) {
   useEffect(() => {
     if (watchDepartamento) {
       const filtrados = distritos.filter(
-        (d) => d.Descripcion_de_Departamento === watchDepartamento
-        //   d.Codigo_de_Departamento ===
-        //   String(watchDepartamento).padStart(2, "0")
+        //(d) => d.Descripcion_de_Departamento === watchDepartamento
+        (d) =>
+          d.Codigo_de_Departamento ===
+          String(watchDepartamento).padStart(2, "0")
       );
-
       setDistritosFiltrados(filtrados);
       form.setValue("distrito", "");
       form.setValue("localidad", "");
       setLocalidadesFiltradas([]);
     }
-  }, [watchDepartamento]);
+  }, [form, watchDepartamento]);
 
   useEffect(() => {
     if (watchDistrito && watchDepartamento) {
-      //   const filtrados = localidades.filter(
-      //     (l) =>
-      //       l.Codigo_de_Departamento === String(watchDepartamento).padStart(2, "0") &&
-      //       l.Codigo_de_Distrito === String(watchDepartamento).padStart(2, "0")
-      //   );
-
       const filtrados = localidades.filter(
         (l) =>
-          l.Descripcion_de_Departamento === watchDepartamento &&
-          l.Descripcion_de_Distrito === watchDepartamento
+          l.Codigo_de_Departamento ===
+            String(watchDepartamento).padStart(2, "0") &&
+          l.Codigo_de_Distrito === String(watchDistrito).padStart(2, "0")
       );
+
+      // const filtrados = localidades.filter(
+      //   (l) =>
+      //     l.Descripcion_de_Departamento === watchDepartamento &&
+      //     l.Descripcion_de_Distrito === watchDepartamento
+      // );
 
       setLocalidadesFiltradas(filtrados);
       form.setValue("localidad", "");
     }
-  }, [watchDistrito]);
+  }, [form, watchDepartamento, watchDistrito]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true); // Desactivar el botón
@@ -190,7 +191,7 @@ export function FormEstancia(props: FormProps) {
                         {departamentos.map((d) => (
                           <SelectItem
                             key={d.codigo_dpto}
-                            value={String(d.descripcion_dpto)}
+                            value={String(d.codigo_dpto)}
                           >
                             {d.descripcion_dpto}
                           </SelectItem>
@@ -219,11 +220,14 @@ export function FormEstancia(props: FormProps) {
                       <SelectTrigger>
                         <SelectValue placeholder="Seleccione un distrito" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent
+                        position="item-aligned"
+                        className="bg-slate-100"
+                      >
                         {distritosFiltrados.map((d) => (
                           <SelectItem
                             key={d.Codigo_concatenado}
-                            value={String(d.Descripcion_de_Distrito)}
+                            value={String(d.Codigo_de_Distrito)}
                           >
                             {d.Descripcion_de_Distrito}
                           </SelectItem>
@@ -252,11 +256,14 @@ export function FormEstancia(props: FormProps) {
                       <SelectTrigger>
                         <SelectValue placeholder="Seleccione una localidad" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent
+                        position="item-aligned"
+                        className="bg-slate-100"
+                      >
                         {localidadesFiltradas.map((l) => (
                           <SelectItem
                             key={l.Codigo_concatenado}
-                            value={l.Descripcion_de_Barrio_Localidad}
+                            value={l.Codigo_de_Barrio_Localidad}
                           >
                             {l.Descripcion_de_Barrio_Localidad}
                           </SelectItem>
