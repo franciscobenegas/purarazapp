@@ -1,12 +1,15 @@
-//"use client";
-import { redirect } from "next/navigation";
+"use client";
+
+import { SplineSceneBasic } from "./components/ui/demo";
+
+//import { redirect } from "next/navigation";
 
 export default function Home() {
-  redirect("/dashboard");
+  //redirect("/dashboard");
 
   return (
     <div>
-      <h1>Redireccionando al Dashborad</h1>
+      <SplineSceneBasic />
     </div>
   );
 }
