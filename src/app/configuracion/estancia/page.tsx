@@ -1,13 +1,12 @@
 import React from "react";
-import Departamentos from "../../../data/departamento.json";
 import { HeaderEstancia } from "./components/HeaderEstancia";
+import { ListEstancia } from "./components/ListEstancia";
 
 export default function EstanciaPage() {
-  console.log("Departamento = ", Departamentos);
-
   return (
     <div>
       <HeaderEstancia />
+      <ListEstancia />
     </div>
   );
 }

@@ -39,8 +39,8 @@ export const dataGeneralSidebar = [
 export const dataToolsSidear = [
   {
     icon: LayoutDashboard,
-    label: "Categorias",
-    href: "/categorias",
+    label: "Estancia",
+    href: "/configuracion/estancia",
   },
   {
     icon: BarChart4,

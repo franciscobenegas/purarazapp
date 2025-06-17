@@ -16,8 +16,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dispatch, SetStateAction, useState } from "react";
-// import { useToast } from "@/hooks/use-toast";
-// import { useRouter } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
 import departamentos from "../../../../../data/departamento.json";
 import distritos from "../../../../../data/distritos.json";
@@ -29,9 +27,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const formSchema = z.object({
-  nombre: z.string().min(2),
+  nombre: z.string().min(3),
   departamento: z.string(),
   distrito: z.string(),
   localidad: z.string(),
@@ -45,12 +45,8 @@ interface FormProps {
 
 export function FormEstancia(props: FormProps) {
   const { setOpenModal } = props;
-  //   const router = useRouter();
-  //   const { toast } = useToast();
+  const router = useRouter();
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
-
-  //   const [open, setOpen] = React.useState(false);
-  //   const [value, setValue] = React.useState("");
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -64,7 +60,7 @@ export function FormEstancia(props: FormProps) {
       ruc: "",
     },
   });
-  //   const [open, setOpen] = useState(false);
+
   const { isValid } = form.formState;
 
   const watchDepartamento = form.watch("departamento");
@@ -80,10 +76,10 @@ export function FormEstancia(props: FormProps) {
   useEffect(() => {
     if (watchDepartamento) {
       const filtrados = distritos.filter(
-        //(d) => d.Descripcion_de_Departamento === watchDepartamento
-        (d) =>
-          d.Codigo_de_Departamento ===
-          String(watchDepartamento).padStart(2, "0")
+        (d) => d.Descripcion_de_Departamento === watchDepartamento
+        // (d) =>
+        //   d.Codigo_de_Departamento ===
+        //   String(watchDepartamento).padStart(2, "0")
       );
 
       const datosOrdenados = [...filtrados].sort((a, b) =>
@@ -99,18 +95,19 @@ export function FormEstancia(props: FormProps) {
 
   useEffect(() => {
     if (watchDistrito && watchDepartamento) {
-      const filtrados = localidades.filter(
-        (l) =>
-          l.Codigo_de_Departamento ===
-            String(watchDepartamento).padStart(2, "0") &&
-          l.Codigo_de_Distrito === String(watchDistrito).padStart(2, "0")
-      );
-
       // const filtrados = localidades.filter(
       //   (l) =>
-      //     l.Descripcion_de_Departamento === watchDepartamento &&
-      //     l.Descripcion_de_Distrito === watchDepartamento
+      //     l.Codigo_de_Departamento ===
+      //       String(watchDepartamento).padStart(2, "0") &&
+      //     l.Codigo_de_Distrito === String(watchDistrito).padStart(2, "0")
       // );
+
+      const filtrados = localidades.filter(
+        (l) =>
+          l.Descripcion_de_Departamento ===
+            String(watchDepartamento).padStart(2, "0") &&
+          l.Descripcion_de_Distrito === String(watchDistrito).padStart(2, "0")
+      );
       const datosOrdenados = [...filtrados].sort((a, b) =>
         a.Descripcion_de_Barrio_Localidad.localeCompare(
           b.Descripcion_de_Barrio_Localidad
@@ -122,43 +119,33 @@ export function FormEstancia(props: FormProps) {
   }, [form, watchDepartamento, watchDistrito]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true); // Desactivar el botón
-    console.log("values", values);
-    setOpenModal(false);
+    try {
+      setLoading(true); // Desactivar el botón
 
-    setLoading(false); // Desactivar el botón
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+      const resp = await fetch("/api/estancia", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
-    // try {
-    //   setLoading(true); // Desactivar el botón
+      if (resp.ok) {
+        setOpenModal(false);
+        toast.success("Exito!!! 😃 ", {
+          description: "Los datos fueron guardados",
+        });
+        router.refresh();
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
 
-    //   const resp = await fetch("/api/categoria", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(values),
-    //   });
-    //   if (resp.ok) {
-    //     router.refresh();
-    //     setOpenModal(false);
-    //     toast({
-    //       title: "Exito!!! 😃",
-    //       description: "Los datos fueron guardados",
-    //       //variant: "successful",
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.log(error);
+      console.error("error en FormEstancia", message);
 
-    //   toast({
-    //     title: "Error al dar de alta el Cliente",
-    //     variant: "destructive",
-    //   });
-    // } finally {
-    //   setLoading(false); // Reactivar el botón
-    // }
+      toast.error("Error !!!", {
+        description: message,
+      });
+    }
   };
 
   return (
@@ -200,7 +187,7 @@ export function FormEstancia(props: FormProps) {
                         {departamentos.map((d) => (
                           <SelectItem
                             key={d.codigo_dpto}
-                            value={String(d.codigo_dpto)}
+                            value={String(d.descripcion_dpto)}
                           >
                             {d.descripcion_dpto}
                           </SelectItem>
@@ -236,7 +223,7 @@ export function FormEstancia(props: FormProps) {
                         {distritosFiltrados.map((d) => (
                           <SelectItem
                             key={d.Codigo_concatenado}
-                            value={String(d.Codigo_de_Distrito)}
+                            value={String(d.Descripcion_de_Distrito)}
                           >
                             {d.Descripcion_de_Distrito}
                           </SelectItem>
@@ -272,7 +259,7 @@ export function FormEstancia(props: FormProps) {
                         {localidadesFiltradas.map((l) => (
                           <SelectItem
                             key={l.Codigo_concatenado}
-                            value={l.Codigo_de_Barrio_Localidad}
+                            value={l.Descripcion_de_Barrio_Localidad}
                           >
                             {l.Descripcion_de_Barrio_Localidad}
                           </SelectItem>
