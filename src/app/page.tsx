@@ -1,15 +1,11 @@
 "use client";
 
 import { SplineSceneBasic } from "./components/ui/demo";
-
-//import { redirect } from "next/navigation";
+import { useSession } from "@/hooks/useSession";
+import Loading from "@/components/Loading/Loading";
 
 export default function Home() {
-  //redirect("/dashboard");
+  const { user } = useSession();
 
-  return (
-    <div>
-      <SplineSceneBasic />
-    </div>
-  );
+  return <div>{user?.usuario !== "" ? <SplineSceneBasic /> : <Loading />}</div>;
 }
