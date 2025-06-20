@@ -131,11 +131,11 @@ export function FormEstancia(props: FormProps) {
       });
 
       if (resp.ok) {
-        setOpenModal(false);
         toast.success("Exito!!! 😃 ", {
           description: "Los datos fueron guardados",
         });
         router.refresh();
+        setOpenModal(false);
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);

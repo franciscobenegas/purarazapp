@@ -235,7 +235,7 @@ export function DataTable({ data }: DataTableProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <Link href={`/estancia/${row.original.id}`}>
+              <Link href={`/configuracion/estancia/${row.original.id}`}>
                 <DropdownMenuItem>
                   <Pencil className="w-4 h-4 mr-2" />
                   <p className="">Editar</p>

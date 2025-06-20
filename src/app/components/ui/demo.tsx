@@ -14,36 +14,29 @@ export function SplineSceneBasic() {
         fill="white"
       />
 
-      <div className="flex h-full">
+      <div className="flex h-full flex-col md:flex-row">
         {/* Left content */}
-
         <div className="flex-1 p-8 relative z-10 flex flex-col justify-center">
-          <h1 className=" text-transparent text-4xl md:text-5xl font-bold bg-clip-text  bg-gradient-to-b from-neutral-50 to-neutral-400">
+          <h1 className="text-transparent text-4xl md:text-5xl font-bold bg-clip-text bg-gradient-to-b from-neutral-50 to-neutral-400">
             Bienvenido a Pura Raza
           </h1>
 
-          <p className="mt-4 text-neutral-300 max-w-lg">
-            Tú Asistente Ganadero Digital ayuda a usted o su personal de campo a
-            registrar de forma clara y sin inconvenientes algunos de los datos
-            que actualmente se registran en partes diarias, la App al estar
-            pensada y adaptada al personal de campo no tendrá necesidad de
-            contratar personal capacitado para cargar los datos al sistema.
-          </p>
-          <p className="mt-4 text-neutral-300 max-w-lg">
-            Donde podra ver el status onLine de su establesimiento en cualquier
-            parte del mundo, con ayuda de reportes y estadisticas realizados en
-            forma automatica por su asistente de IA.
+          <p className="mt-10 text-neutral-300 max-w-lg">
+            Tú Asistente Ganadero Digital ayuda a usted y a su personal de campo
+            a ver el status onLine de su establecimiento en cualquier parte del
+            mundo, con ayuda de reportes y estadísticas realizados en forma
+            automática por su asistente de Inteligencia Artifical.
           </p>
 
-          <div className="relative justify-center mt-10">
+          <div className="relative justify-center mt-12">
             <Link href="/dashboard">
-              <InteractiveHoverButton text="Ir al Dashborad" />
+              <InteractiveHoverButton text="Ir al Dashboard" />
             </Link>
           </div>
         </div>
 
-        {/* Right content */}
-        <div className="flex-1 relative">
+        {/* Right content: oculto en móvil */}
+        <div className="hidden md:block flex-1 relative">
           <SplineScene
             scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
             className="w-full h-full"
