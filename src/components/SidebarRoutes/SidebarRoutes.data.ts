@@ -1,14 +1,9 @@
 import {
   BarChart4,
-  PanelsTopLeft,
   Settings,
   ShieldCheck,
-  Calendar,
-  ContactIcon,
   LayoutDashboard,
   AudioWaveform,
-  BookOpen,
-  Bot,
   Command,
   Frame,
   GalleryVerticalEnd,
@@ -17,24 +12,6 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react";
-
-export const dataGeneralSidebar = [
-  {
-    icon: PanelsTopLeft,
-    label: "DashBoard",
-    href: "/dashboard",
-  },
-  {
-    icon: ContactIcon,
-    label: "Clientes",
-    href: "/clientes",
-  },
-  {
-    icon: Calendar,
-    label: "Calendario",
-    href: "/tareas",
-  },
-];
 
 export const dataToolsSidear = [
   {
@@ -87,86 +64,73 @@ export const data = {
   ],
   navMain: [
     {
-      title: "CLIENTE",
+      title: "Diaria",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "Clientes",
+          title: "Mortandad",
           url: "/clientes",
         },
         {
-          title: "Tipos",
+          title: "Nacimiento",
           url: "/tipoclientes",
         },
         {
-          title: "Cuentas por Cobrar",
+          title: "Entrada",
+          url: "#",
+        },
+        {
+          title: "Salida",
+          url: "#",
+        },
+        {
+          title: "Pesaje",
+          url: "#",
+        },
+        {
+          title: "Movimientos",
           url: "#",
         },
       ],
     },
+
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
+      title: "Configuraicones",
       url: "#",
       icon: Settings2,
       items: [
         {
-          title: "General",
+          title: "Clasificacion",
           url: "#",
         },
         {
-          title: "Team",
+          title: "Tipo Razas",
           url: "#",
         },
         {
-          title: "Billing",
+          title: "Causa Mortandad",
           url: "#",
         },
         {
-          title: "Limits",
+          title: "Motivo Pesaje",
+          url: "#",
+        },
+        {
+          title: "Motivo Entrada",
+          url: "#",
+        },
+        {
+          title: "Motivo Salida",
+          url: "#",
+        },
+        {
+          title: "Establesimiento",
+          url: "#",
+        },
+        {
+          title: "Usuarios",
           url: "#",
         },
       ],
