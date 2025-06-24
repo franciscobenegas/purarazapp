@@ -38,7 +38,7 @@ export default async function RootLayout({
                   <Navbar />
                   <div className="p-3 bg-[#fafbfc] dark:bg-secondary">
                     {children}
-                    <Toaster position="top-right" richColors />
+                    <Toaster richColors />
                     <Analytics />
                   </div>
                 </div>

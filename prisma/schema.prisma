@@ -66,4 +66,12 @@ model Propietario{
 }
 
 
+model TipoRaza{
+  id String    @id @default(uuid())
+  nombre String
+  estanciaId String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
 

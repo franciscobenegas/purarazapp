@@ -62,7 +62,6 @@ interface DataTableProps {
 
 export function DataTable({ data }: DataTableProps) {
   const router = useRouter();
-  //  const { toast } = useToast();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -88,7 +87,7 @@ export function DataTable({ data }: DataTableProps) {
 
         if (resp.ok) {
           toast.warning("Exito!!! 😃 ", {
-            description: "Los datos fueron eliminados",
+            description: "Los datos fueron eliminados...",
           });
           setDeletingEstancia(null);
           router.refresh();

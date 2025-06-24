@@ -6,6 +6,7 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Estancia } from "@prisma/client";
+import { toast } from "sonner";
 
 import {
   Form,
@@ -37,7 +38,6 @@ const formSchema = z.object({
 export function FormEstancia(props: EstanciaFormProops) {
   const { estancia } = props;
   const router = useRouter();
-  //const { toast } = useToast();
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,7 +52,7 @@ export function FormEstancia(props: EstanciaFormProops) {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const clienteAdd = {
+    const estanciaMod = {
       nombre: values.nombre,
       departamento: values.departamento,
       distrito: values.distrito,
@@ -63,27 +63,27 @@ export function FormEstancia(props: EstanciaFormProops) {
 
     try {
       setLoading(true); // Desactivar el botón
-      const resp = await fetch(`/api/cliente/${estancia.id}`, {
+      const resp = await fetch(`/api/estancia/${estancia.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(clienteAdd),
+        body: JSON.stringify(estanciaMod),
       });
 
       if (resp.ok) {
-        // toast({
-        //   title: "Dato Actualizado!!! 😃",
-        //   variant: "successful",
-        // });
-        router.push("/clientes");
+        toast.success("Exito!!! 😃 ", {
+          description: "Los datos fueron actualizados...",
+        });
+        router.push("/configuracion/estancia");
+        router.refresh();
       }
     } catch (error) {
-      //   toast({
-      //     title: "Algo salio mal, vuelva a intentarlo",
-      //     variant: "destructive",
-      //   });
       console.log(error);
+      const message = error instanceof Error ? error.message : String(error);
+      toast.error("Error !!!", {
+        description: message,
+      });
     } finally {
       setLoading(false); // Reactivar el botón
     }
