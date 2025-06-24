@@ -21,7 +21,6 @@ export async function InfoEstancia(props: EstanciaProps) {
           <p className="p-5 font-bold">Datos Estancia</p>
           <Separator />
           <FormEstancia estancia={estancia} />
-          {/* <FormCliente cliente={cliente}  /> */}
         </div>
       </div>
 

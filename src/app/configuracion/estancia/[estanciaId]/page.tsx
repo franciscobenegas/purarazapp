@@ -27,7 +27,6 @@ export default async function EstanciaPageId({
     <div>
       <Headers />
       <InfoEstancia estancia={estancia} />
-      <p>Footer</p>
     </div>
   );
 }
