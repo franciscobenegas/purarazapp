@@ -10,7 +10,7 @@ import {
   Map,
   PieChart,
   Settings2,
-  SquareTerminal,
+  NotebookTextIcon,
 } from "lucide-react";
 
 export const dataToolsSidear = [
@@ -64,9 +64,9 @@ export const data = {
   ],
   navMain: [
     {
-      title: "Diaria",
+      title: "Parte Diaria",
       url: "#",
-      icon: SquareTerminal,
+      icon: NotebookTextIcon,
       isActive: true,
       items: [
         {

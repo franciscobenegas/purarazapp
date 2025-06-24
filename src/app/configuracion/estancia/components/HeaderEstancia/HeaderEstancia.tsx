@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Plus, TractorIcon } from "lucide-react";
 import { FormEstancia } from "../FormEstancia";
 
 export function HeaderEstancia() {
@@ -39,7 +39,17 @@ export function HeaderEstancia() {
 
   return (
     <div className="flex justify-between items-center ">
-      <h2 className="text-2xl text-primary">Listado Estancia</h2>
+      <div className="flex items-center space-x-2 ml-5">
+        <TractorIcon className="h-6 w-6" />
+        <div>
+          <h2 className="text-primary text-2xl font-semibold leading-none tracking-tight">
+            Gestion de Estancia
+          </h2>
+          <h3 className="text-sm text-muted-foreground">
+            Administra la información de tus Estancias
+          </h3>
+        </div>
+      </div>
 
       <Dialog open={openModal} onOpenChange={setOpenModal}>
         <DialogTrigger asChild>

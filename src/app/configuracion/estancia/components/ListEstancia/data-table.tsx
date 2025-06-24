@@ -235,6 +235,7 @@ export function DataTable({ data }: DataTableProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              {/* <DropdownMenuLabel>Acciones</DropdownMenuLabel> */}
               <Link href={`/configuracion/estancia/${row.original.id}`}>
                 <DropdownMenuItem>
                   <Pencil className="w-4 h-4 mr-2" />
@@ -443,6 +444,11 @@ export function DataTable({ data }: DataTableProps) {
           >
             Siguiente
           </Button>
+        </div>
+      </div>
+      <div className="flex items-center justify-between space-x-2 py-4">
+        <div className="text-sm text-muted-foreground">
+          Total de Datos: {data.length}
         </div>
       </div>
     </div>
