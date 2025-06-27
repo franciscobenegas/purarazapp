@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { FormEstancia } from "../FormEstancia";
 import { TractorIcon } from "lucide-react";
 import { NewPropietario } from "../NewPropietario";
+import { ListPropietario } from "../ListPropietario";
 
 //import prisma from "@/libs/prisma";
 interface EstanciaProps {
@@ -33,7 +34,7 @@ export async function InfoEstancia(props: EstanciaProps) {
             <NewPropietario />
           </div>
         </div>
-        <p>Listado Propietarios</p>
+        <ListPropietario estancia={estancia} />
       </div>
     </div>
   );

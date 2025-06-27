@@ -73,8 +73,6 @@ export function DataTable({ data }: DataTableProps) {
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
 
   const handleDeleteConfirm = async () => {
-    console.log("deletingEstancia = ", deletingEstancia);
-
     if (deletingEstancia) {
       setLoading(true); // Desactivar el botón
       try {
