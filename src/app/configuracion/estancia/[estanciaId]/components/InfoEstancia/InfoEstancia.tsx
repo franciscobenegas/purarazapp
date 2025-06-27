@@ -3,6 +3,7 @@ import { Estancia } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import { FormEstancia } from "../FormEstancia";
 import { TractorIcon } from "lucide-react";
+import { NewPropietario } from "../NewPropietario";
 
 //import prisma from "@/libs/prisma";
 interface EstanciaProps {
@@ -29,7 +30,7 @@ export async function InfoEstancia(props: EstanciaProps) {
             Propietarios
           </div>
           <div>
-            <p>Nuevos Contactos</p>
+            <NewPropietario />
           </div>
         </div>
         <p>Listado Propietarios</p>
