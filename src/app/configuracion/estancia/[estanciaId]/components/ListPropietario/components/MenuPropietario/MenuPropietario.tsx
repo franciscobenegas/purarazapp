@@ -17,8 +17,6 @@ interface MenuPropietarioProps {
 export function MenuPropietario(props: MenuPropietarioProps) {
   const { propietario } = props;
 
-  console.log("Menu Propietario = ", propietario);
-
   const onEdit = (propietario: {
     id: string;
     nombre: string;

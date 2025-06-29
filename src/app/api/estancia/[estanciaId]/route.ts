@@ -11,9 +11,6 @@ export async function PUT(
     const { estanciaId } = params;
     const values = await req.json();
 
-    console.log("values = ", values);
-    console.log("estanciaId  = ", estanciaId);
-
     if (!usuario) {
       return new Response("No tiene autorizacion para ejecuar este servicio", {
         status: 401,

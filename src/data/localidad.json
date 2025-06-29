@@ -257,7 +257,7 @@
     "Descripcion_de_Distrito": "ASUNCIÓN",
     "Area": 1,
     "Codigo_de_Barrio_Localidad": "026",
-    "Descripcion_de_Barrio_Localidad": "BANCO SAN MIGUEL"
+    "Descripcion_de_Barrio_Localidad": "BARRIO SAN MIGUEL"
   },
   {
     "Codigo_concatenado": "0000027",
@@ -1157,7 +1157,7 @@
     "Descripcion_de_Distrito": "CONCEPCIÓN",
     "Area": 6,
     "Codigo_de_Barrio_Localidad": 620,
-    "Descripcion_de_Barrio_Localidad": "BANCO CHACO'I"
+    "Descripcion_de_Barrio_Localidad": "BARRIO CHACO'I"
   },
   {
     "Codigo_concatenado": "0101645",
@@ -15537,7 +15537,7 @@
     "Descripcion_de_Distrito": "ARROYOS Y ESTEROS",
     "Area": 6,
     "Codigo_de_Barrio_Localidad": 100,
-    "Descripcion_de_Barrio_Localidad": "BANCO'I"
+    "Descripcion_de_Barrio_Localidad": "BARRIO'I"
   },
   {
     "Codigo_concatenado": "0303110",
@@ -69417,7 +69417,7 @@
     "Descripcion_de_Distrito": "VILLA FRANCA",
     "Area": 6,
     "Codigo_de_Barrio_Localidad": 130,
-    "Descripcion_de_Barrio_Localidad": "BANCO PIRA'I"
+    "Descripcion_de_Barrio_Localidad": "BARRIO PIRA'I"
   },
   {
     "Codigo_concatenado": 1214140,
@@ -69427,7 +69427,7 @@
     "Descripcion_de_Distrito": "VILLA FRANCA",
     "Area": 6,
     "Codigo_de_Barrio_Localidad": 140,
-    "Descripcion_de_Barrio_Localidad": "BANCO PARAGUAY"
+    "Descripcion_de_Barrio_Localidad": "BARRIO PARAGUAY"
   },
   {
     "Codigo_concatenado": 1214150,

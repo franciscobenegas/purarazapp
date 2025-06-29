@@ -31,7 +31,6 @@ export async function ListPropietario(props: ListPropietarioProps) {
         <p className="hidden md:block">Teléfono</p>
         <p className="flex items-center gap-x-2 justify-end">Contacto</p>
         <p className="flex items-center gap-x-2 justify-end">
-          {" "}
           <Logs className="w-4 h-4 text-primary" />{" "}
         </p>
       </div>
@@ -39,7 +38,10 @@ export async function ListPropietario(props: ListPropietarioProps) {
       {/* Filas de datos */}
       {propietarios.map((propietario) => (
         <div key={propietario.id}>
-          <div className="grid grid-cols-[1fr_2fr_1fr_auto_auto] gap-x-3 items-center justify-between px-4">
+          <div
+            className="grid grid-cols-[1fr_2fr_1fr_auto_auto] gap-x-3 items-center justify-between px-4
+           hover:bg-gray-100 rounded-md transition-colors duration-200 hover:dark:text-black"
+          >
             <p>{propietario.nombre}</p>
             <p className="hidden md:block">{propietario.email}</p>
             <p className="hidden md:block">{propietario.telefono}</p>
@@ -47,10 +49,10 @@ export async function ListPropietario(props: ListPropietarioProps) {
             {/* Contacto */}
             <div className="flex items-center gap-x-2 justify-end">
               <a href={`tel:${propietario.telefono}`} target="_blank">
-                <Phone className="w-4 h-4" />
+                <Phone className="w-5 h-5 text-primary " />
               </a>
               <a href={`mailto:${propietario.email}`} target="_blank">
-                <Mail className="w-4 h-4" />
+                <Mail className="w-5 h-5 text-primary" />
               </a>
             </div>
 
