@@ -2,7 +2,7 @@ import { Estancia } from "@prisma/client";
 //import { FormCliente } from "../FormCliente";
 import { Separator } from "@/components/ui/separator";
 import { FormEstancia } from "../FormEstancia";
-import { TractorIcon } from "lucide-react";
+import { Users } from "lucide-react";
 import { NewPropietario } from "../NewPropietario";
 import { ListPropietario } from "../ListPropietario";
 
@@ -27,7 +27,7 @@ export async function InfoEstancia(props: EstanciaProps) {
       <div className="rounded-lg bg-background shadow-md hover:shadow-lg p-4">
         <div className="flex items-center justify-between gap-x-2">
           <div className="flex items-center gap-x-2">
-            <TractorIcon className="w-5 h-5" />
+            <Users className="w-5 h-5" />
             Propietarios
           </div>
           <div>
