@@ -19,7 +19,11 @@ export async function ListPropietario(props: ListPropietarioProps) {
   });
 
   if (propietarios.length === 0) {
-    return <p>Actualmente no hay registros de Propietarios</p>;
+    return (
+      <p className="flex justify-center p-20 text-slate-700">
+        Actualmente no hay registros de Propietarios
+      </p>
+    );
   }
 
   return (
