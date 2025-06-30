@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,34 +25,34 @@ interface MenuPropietarioProps {
   propietario: Propietario;
 }
 
-export function MenuPropietario(props: MenuPropietarioProps) {
+export function MenuPropietario({ propietario }: MenuPropietarioProps) {
   const router = useRouter();
-  const { propietario } = props;
-  const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const onEdit = (propietario: Propietario) => {
-    console.log("onEdit2", propietario);
-    setOpen(true);
+  const onEdit = () => {
+    // Primero cerramos el dropdown
+    setDropdownOpen(false);
+    // Y luego abrimos el diálogo con un pequeño delay
+    setTimeout(() => {
+      setDialogOpen(true);
+    }, 50); // Pequeña espera para que el foco se libere correctamente
   };
 
-  const onDelete = async (value: string) => {
+  const onDelete = async (id: string) => {
     try {
-      const resp = await fetch(`/api/propietario/${value}`, {
+      const resp = await fetch(`/api/propietario/${id}`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
 
       if (resp.ok) {
-        toast.warning("Exito!!! 😃 ", {
+        toast.warning("Atención!!! 😞", {
           description: "Los datos fueron eliminados...",
         });
-
         router.refresh();
       }
     } catch (error) {
-      console.error(error);
       const message = error instanceof Error ? error.message : String(error);
       toast.error("Error !!!", {
         description: message,
@@ -61,19 +62,15 @@ export function MenuPropietario(props: MenuPropietarioProps) {
 
   return (
     <div>
-      {/* Menú de acciones */}
       <div className="flex justify-end">
-        <DropdownMenu>
+        <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
               <MoreVertical className="w-5 h-5" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => onEdit(propietario)}
-              className="w-full"
-            >
+            <DropdownMenuItem onClick={() => onEdit()}>
               <Pencil className="w-4 h-4 mr-2" />
               Modificar
             </DropdownMenuItem>
@@ -87,16 +84,16 @@ export function MenuPropietario(props: MenuPropietarioProps) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <Dialog open={open} onOpenChange={setOpen}>
-        {/* <DialogTrigger asChild></DialogTrigger> */}
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-[625px]">
           <DialogHeader>
-            <DialogTitle>Agregra nuevo proprietario</DialogTitle>
+            <DialogTitle>Agregar nuevo propietario</DialogTitle>
             <DialogDescription>
               Formulario para alta de un nuevo propietario
             </DialogDescription>
           </DialogHeader>
-          <FormPropietario setOpen={setOpen} />
+          <FormPropietario setOpen={setDialogOpen} propietario={propietario} />
         </DialogContent>
       </Dialog>
     </div>

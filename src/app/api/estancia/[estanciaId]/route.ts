@@ -43,20 +43,30 @@ export async function DELETE(
     const { estanciaId } = params;
 
     if (!usuario) {
-      return new Response("No tiene autorizacion para ejecuar este servicio", {
+      return new Response("No tiene autorización para ejecutar este servicio", {
         status: 401,
       });
     }
 
-    const DeleteEstancia = await prisma.estancia.delete({
+    // Verifica si la estancia existe
+    const estancia = await prisma.estancia.findUnique({
+      where: { id: estanciaId },
+    });
+
+    if (!estancia) {
+      return new Response("Estancia no encontrada", { status: 404 });
+    }
+
+    // Elimina la estancia y en cascada los propietarios
+    const deletedEstancia = await prisma.estancia.delete({
       where: {
         id: estanciaId,
       },
     });
 
-    return NextResponse.json(DeleteEstancia);
+    return NextResponse.json(deletedEstancia);
   } catch (error) {
-    console.log("[Categoria ID Delete] ", error);
-    return new NextResponse("Error Interno", { status: 500 });
+    console.error("[ESTANCIA_DELETE_ERROR]:", error);
+    return new NextResponse("Error interno del servidor", { status: 500 });
   }
 }

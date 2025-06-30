@@ -14,9 +14,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoaderCircle } from "lucide-react";
+import { Propietario } from "@prisma/client";
 
 interface FormPropietarioProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
+  propietario?: Propietario;
 }
 
 const formSchema = z.object({
@@ -29,48 +31,62 @@ const formSchema = z.object({
 });
 
 export function FormPropietario(props: FormPropietarioProps) {
-  const { setOpen } = props;
+  const { setOpen, propietario } = props;
+
   const params = useParams<{ estanciaId: string }>();
   const router = useRouter();
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
 
+  const defaultValues = propietario
+    ? {
+        nombre: propietario.nombre || "",
+        email: propietario.email || "",
+        telefono: propietario.telefono || "",
+      }
+    : {
+        nombre: "",
+        email: "",
+        telefono: "",
+      };
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      nombre: "",
-      email: "",
-      telefono: "",
-    },
+    defaultValues,
   });
+
   const { isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true); // Desactivar el botón
+      const isEdit = Boolean(propietario?.id);
+      const url = isEdit
+        ? `/api/propietario/${propietario?.id}`
+        : `/api/estancia/${params.estanciaId}/propietario`;
+      const method = isEdit ? "PUT" : "POST";
+      const resp = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
-      const resp = await fetch(
-        `/api/estancia/${params.estanciaId}/propietario`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        }
-      );
+      if (!resp.ok) throw new Error("Error al guardar los datos");
 
-      if (resp.ok) {
-        toast.success("Exito!!! 😃 ", {
-          description: "Los datos fueron guardados",
-        });
-        router.refresh();
-        setOpen(false);
-      }
+      toast.success("Éxito 😃", {
+        description: isEdit
+          ? "El propietario fue actualizado."
+          : "El propietario fue creado.",
+      });
+
+      router.refresh();
+      setOpen(false);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       console.error("error en FormEstancia", message);
-      toast.error("Error !!!", {
+      toast.error("Error 😞", {
         description: message,
       });
     }
@@ -134,6 +150,8 @@ export function FormPropietario(props: FormPropietarioProps) {
               <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
               Guardando
             </>
+          ) : propietario ? (
+            "Actualizar"
           ) : (
             "Guardar"
           )}
