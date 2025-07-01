@@ -27,11 +27,17 @@ export function SplineSceneBasic() {
             mundo, con ayuda de reportes y estadísticas realizados en forma
             automática por su asistente de Inteligencia Artifical.
           </p>
-
-          <div className="relative justify-center mt-12">
-            <Link href="/dashboard">
-              <InteractiveHoverButton text="Ir al Dashboard" />
-            </Link>
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="relative justify-center mt-12">
+              <Link href="/dashboard">
+                <InteractiveHoverButton text="Ir al Dashboard" />
+              </Link>
+            </div>
+            <div className="relative justify-center mt-12">
+              <Link href="/chat">
+                <InteractiveHoverButton text="Chat con VAKI" />
+              </Link>
+            </div>
           </div>
         </div>
 

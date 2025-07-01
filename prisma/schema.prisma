@@ -72,9 +72,12 @@ model Propietario{
 model TipoRaza{
   id String    @id @default(uuid())
   nombre String
-  estanciaId String
+  establesimiento String
+  usuario String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime   @updatedAt
+
+    @@index([establesimiento])
 }
 
 
