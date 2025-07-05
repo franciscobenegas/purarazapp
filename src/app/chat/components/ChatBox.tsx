@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -17,6 +17,14 @@ export default function ChatBox() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // 👇 Referencia al final del scroll
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  // 👇 Scroll automático cada vez que cambian los mensajes o el estado de carga
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
   const handleSend = async () => {
     if (!input.trim()) return;
 
@@ -25,28 +33,43 @@ export default function ChatBox() {
     setInput("");
     setLoading(true);
 
-    // Simulación de respuesta de IA (puedes reemplazar esto por una llamada real)
-    setTimeout(() => {
-      const aiResponse: Message = {
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input }),
+      });
+
+      const data = await res.json();
+
+      const aiMessage: Message = {
         from: "ai",
-        text: `Respuesta automática a: "${userMessage.text}"`,
+        text: data.reply || "No se recibió respuesta.",
       };
-      setMessages((prev) => [...prev, aiResponse]);
-      setLoading(false);
-    }, 2500);
+
+      setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      console.error("Error al comunicarse con la IA:", error);
+      setMessages((prev) => [
+        ...prev,
+        { from: "ai", text: "Hubo un error al responder." },
+      ]);
+    }
+
+    setLoading(false);
   };
 
   return (
     <Card className="p-4 space-y-4 shadow-xl">
-      <ScrollArea className="h-96 border rounded-md p-2 bg-muted ">
+      <ScrollArea className="h-96 border rounded-md p-2 bg-muted">
         <div className="flex flex-col space-y-2">
           {messages.map((msg, idx) => (
             <div
               key={idx}
-              className={`p-2 rounded-lg max-w-xs ${
+              className={`p-2 rounded-lg  ${
                 msg.from === "user"
-                  ? "bg-blue-500 text-white self-end"
-                  : "bg-gray-100 text-black self-start"
+                  ? "bg-blue-500 text-white self-end max-w-xs"
+                  : "bg-gray-100 text-black self-start m-6"
               }`}
             >
               {msg.text}
@@ -58,6 +81,8 @@ export default function ChatBox() {
               <Loader2 className="inline animate-spin" size={16} />
             </div>
           )}
+          {/* 👇 Esto asegura que siempre se vea el final */}
+          <div ref={bottomRef} />
         </div>
       </ScrollArea>
 
@@ -72,9 +97,10 @@ export default function ChatBox() {
           placeholder="Escribe tu mensaje..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          disabled={loading}
         />
-        <Button type="submit" disabled={loading}>
-          <Send className="w-12 h-12" />
+        <Button type="submit" disabled={loading || !input.trim()}>
+          <Send className="w-5 h-5" />
         </Button>
       </form>
     </Card>

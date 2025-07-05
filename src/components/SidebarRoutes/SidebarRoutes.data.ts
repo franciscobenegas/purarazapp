@@ -107,7 +107,7 @@ export const data = {
         },
         {
           title: "Tipo Razas",
-          url: "#",
+          url: "/configuracion/tiporazas",
         },
         {
           title: "Causa Mortandad",
