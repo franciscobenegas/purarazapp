@@ -3,7 +3,7 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import { redirect } from "next/navigation";
 import prisma from "@/libs/prisma";
 import { HeadersTipoRaza } from "./components/HeadersTipoRaza";
-import { FormTipoRaza } from "./components/FormTipoRaza";
+import { InfoTipoRazas } from "./components/InfoTipoRazas";
 
 export default async function TipoRazasPageId({
   params,
@@ -26,7 +26,7 @@ export default async function TipoRazasPageId({
   return (
     <div>
       <HeadersTipoRaza />
-      <FormTipoRaza tiporaza={tipoRazas} />
+      <InfoTipoRazas TipoRaza={tipoRazas} />
     </div>
   );
 }

@@ -77,7 +77,52 @@ model TipoRaza{
   createdAt   DateTime    @default(now())
   updatedAt   DateTime   @updatedAt
 
-    @@index([establesimiento])
+  @@index([establesimiento])
 }
+
+model CausaMortandad{
+  id String    @id @default(uuid())
+  nombre String
+  establesimiento String
+  usuario String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([establesimiento])
+}
+
+model MotivoPesaje{
+  id String    @id @default(uuid())
+  nombre String
+  establesimiento String
+  usuario String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([establesimiento])
+}
+
+model MotivoEntrada{
+  id String    @id @default(uuid())
+  nombre String
+  establesimiento String
+  usuario String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([establesimiento])
+}
+
+model MotivoSalida{
+  id String    @id @default(uuid())
+  nombre String
+  establesimiento String
+  usuario String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([establesimiento])
+}
+
 
 

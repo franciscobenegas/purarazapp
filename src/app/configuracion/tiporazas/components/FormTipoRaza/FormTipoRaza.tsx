@@ -87,7 +87,7 @@ export function FormTipoRaza(props: FormProps) {
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Nombre de la estancia"
+                      placeholder="Nombre del tipo de raza"
                       type="text"
                       {...field}
                     />

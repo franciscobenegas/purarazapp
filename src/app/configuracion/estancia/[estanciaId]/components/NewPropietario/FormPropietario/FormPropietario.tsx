@@ -104,7 +104,7 @@ export function FormPropietario(props: FormPropietarioProps) {
                 <FormLabel>Nombre</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Nombre de la estancia"
+                    placeholder="Nombre Propietario"
                     type="text"
                     {...field}
                   />
