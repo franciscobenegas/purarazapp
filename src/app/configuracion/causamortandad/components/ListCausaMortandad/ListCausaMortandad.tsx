@@ -1,12 +1,12 @@
 import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
 import React from "react";
-import { DataTableTpoRaza } from "./data-table";
+import { DataTableCausaMortandad } from "./data-table";
 
-export async function ListTipoRazas() {
+export async function ListCausaMortandad() {
   const { establesimiento } = getUserFromToken();
 
-  const tipoRazas = await prisma.tipoRaza.findMany({
+  const causaMortandad = await prisma.causaMortandad.findMany({
     where: {
       establesimiento,
     },
@@ -15,5 +15,5 @@ export async function ListTipoRazas() {
     },
   });
 
-  return <DataTableTpoRaza data={tipoRazas} />;
+  return <DataTableCausaMortandad data={causaMortandad} />;
 }

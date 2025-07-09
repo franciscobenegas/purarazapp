@@ -111,7 +111,7 @@ export const data = {
         },
         {
           title: "Causa Mortandad",
-          url: "#",
+          url: "/configuracion/causamortandad",
         },
         {
           title: "Motivo Pesaje",

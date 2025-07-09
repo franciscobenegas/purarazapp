@@ -8,22 +8,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Award, Plus } from "lucide-react";
+import { Plus, ThumbsDown } from "lucide-react";
 import React, { useState } from "react";
-import { FormTipoRaza } from "../FormTipoRaza/FormTipoRaza";
+import { FormCausaMortandad } from "../FormCausaMortandad";
 
-export function HeaderTipoRazas() {
+export function HeaderCausaMortandad() {
   const [openModal, setOpenModal] = useState(false);
   return (
     <div className="flex justify-between items-center mx-2">
       <div className="flex items-center space-x-2 ml-5">
-        <Award className="h-8 w-8" />
+        <ThumbsDown className="h-8 w-8" />
         <div>
           <h2 className="text-primary text-2xl font-semibold leading-none tracking-tight">
-            Gestion de Tipos de Razas
+            Gestion Causa de Mortandad
           </h2>
           <h3 className="text-sm text-muted-foreground">
-            Administra los tipos de razas del establesimineto
+            Administra los tipos de mortandades del establesimineto
           </h3>
         </div>
       </div>
@@ -31,15 +31,17 @@ export function HeaderTipoRazas() {
       <Dialog open={openModal} onOpenChange={setOpenModal}>
         <DialogTrigger asChild>
           <Button>
-            <Plus /> Tipo Raza
+            <Plus /> Causa Mortandad
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[625px]">
           <DialogHeader>
-            <DialogTitle>Tipos de Razas</DialogTitle>
-            <DialogDescription>Crear nuevos tipos de razas</DialogDescription>
+            <DialogTitle>Causa Mortandad</DialogTitle>
+            <DialogDescription>
+              Crear nueva cauda de mortandad
+            </DialogDescription>
           </DialogHeader>
-          <FormTipoRaza setOpenModal={setOpenModal} />
+          <FormCausaMortandad setOpenModal={setOpenModal} />
         </DialogContent>
       </Dialog>
     </div>

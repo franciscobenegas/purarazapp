@@ -32,7 +32,7 @@ import {
   Settings2,
   Trash,
 } from "lucide-react";
-import { TipoRaza } from "@prisma/client";
+import { TipoRaza, CausaMortandad } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -57,37 +57,39 @@ import { formatDate } from "@/utils/formatDate";
 import { toast } from "sonner";
 
 interface DataTableProps {
-  data: TipoRaza[];
+  data: CausaMortandad[];
 }
 
-export function DataTableTpoRaza({ data }: DataTableProps) {
+export function DataTableCausaMortandad({ data }: DataTableProps) {
   const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const [isMonted, setIsMonted] = useState(false);
-  const [deletingTipoRazas, setDeletingTipoRazas] = useState<TipoRaza | null>(
-    null
-  );
+  const [deletingCausaMortandad, setDeletingCausaMortandad] =
+    useState<TipoRaza | null>(null);
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
 
   const handleDeleteConfirm = async () => {
-    if (deletingTipoRazas) {
+    if (deletingCausaMortandad) {
       setLoading(true); // Desactivar el botón
       try {
-        const resp = await fetch(`/api/tiporazas/${deletingTipoRazas.id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const resp = await fetch(
+          `/api/causamortandad/${deletingCausaMortandad.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (resp.ok) {
           toast.warning("Exito!!! 😃 ", {
             description: "Los datos fueron eliminados...",
           });
-          setDeletingTipoRazas(null);
+          setDeletingCausaMortandad(null);
           router.refresh();
         }
       } catch (error) {
@@ -102,7 +104,7 @@ export function DataTableTpoRaza({ data }: DataTableProps) {
     }
   };
 
-  const columns: ColumnDef<TipoRaza>[] = [
+  const columns: ColumnDef<CausaMortandad>[] = [
     {
       accessorKey: "nombre",
       header: ({ column }) => {
@@ -163,7 +165,7 @@ export function DataTableTpoRaza({ data }: DataTableProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {/* <DropdownMenuLabel>Acciones</DropdownMenuLabel> */}
-              <Link href={`/configuracion/tiporazas/${row.original.id}`}>
+              <Link href={`/configuracion/causamortandad/${row.original.id}`}>
                 <DropdownMenuItem>
                   <Pencil className="w-4 h-4 mr-2" />
                   <p className="">Editar</p>
@@ -171,7 +173,7 @@ export function DataTableTpoRaza({ data }: DataTableProps) {
               </Link>
 
               <DropdownMenuItem
-                onClick={() => setDeletingTipoRazas(row.original)}
+                onClick={() => setDeletingCausaMortandad(row.original)}
               >
                 <Trash className="w-4 h-4 mr-2 text-red-500" />
                 <p className="text-red-500">Eliminar</p>
@@ -313,20 +315,20 @@ export function DataTableTpoRaza({ data }: DataTableProps) {
 
         {/* Dialog para Eliminar */}
         <Dialog
-          open={!!deletingTipoRazas}
-          onOpenChange={() => setDeletingTipoRazas(null)}
+          open={!!deletingCausaMortandad}
+          onOpenChange={() => setDeletingCausaMortandad(null)}
         >
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="text-primary">
-                Eliminar Tipo de Raza 🗑️
+                Eliminar Causa Mortandad 🗑️
               </DialogTitle>
 
               <DialogDescription>
                 <p className="mt-2">
                   ¿Estás seguro de que deseas eliminar el registro de
                   <span className="font-bold italic">
-                    {" " + deletingTipoRazas?.nombre + " "}
+                    {" " + deletingCausaMortandad?.nombre + " "}
                   </span>
                   ? Esta acción no se puede deshacer.
                 </p>
@@ -336,7 +338,7 @@ export function DataTableTpoRaza({ data }: DataTableProps) {
               <DialogClose>
                 <Button
                   variant="outline"
-                  onClick={() => setDeletingTipoRazas(null)}
+                  onClick={() => setDeletingCausaMortandad(null)}
                 >
                   Cancelar
                 </Button>

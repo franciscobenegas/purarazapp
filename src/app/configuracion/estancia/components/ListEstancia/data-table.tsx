@@ -389,7 +389,7 @@ export function DataTable({ data }: DataTableProps) {
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="text-primary">
-                Eliminar Categoria 🗑️
+                Eliminar Estancia 🗑️
               </DialogTitle>
 
               <DialogDescription>
