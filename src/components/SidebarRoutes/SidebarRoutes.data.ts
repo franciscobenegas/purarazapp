@@ -126,7 +126,7 @@ export const data = {
           url: "#",
         },
         {
-          title: "Establesimiento",
+          title: "Establecimiento",
           url: "#",
         },
         {
