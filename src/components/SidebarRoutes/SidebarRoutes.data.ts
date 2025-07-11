@@ -115,7 +115,7 @@ export const data = {
         },
         {
           title: "Motivo Pesaje",
-          url: "#",
+          url: "/configuracion/motivopesaje",
         },
         {
           title: "Motivo Entrada",

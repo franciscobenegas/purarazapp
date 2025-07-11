@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { CausaMortandad } from "@prisma/client";
+import { MotivoPesaje } from "@prisma/client";
 import { toast } from "sonner";
 
 import {
@@ -20,45 +20,45 @@ import { Input } from "@/components/ui/input";
 import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 
-interface CausaMortandadFormProops {
-  causaMortandad: CausaMortandad;
+interface MotivoPesajeFormProops {
+  motivoPesaje: MotivoPesaje;
 }
 
 const formSchema = z.object({
   nombre: z.string().min(5),
 });
 
-export function FormCausaMortandadId(props: CausaMortandadFormProops) {
-  const { causaMortandad } = props;
+export function FormMotivoPesajeId(props: MotivoPesajeFormProops) {
+  const { motivoPesaje } = props;
   const router = useRouter();
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nombre: causaMortandad.nombre,
+      nombre: motivoPesaje.nombre,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const causaMortandadMod = {
+    const motivoPesajeMod = {
       nombre: values.nombre,
     };
 
     try {
       setLoading(true); // Desactivar el botón
-      const resp = await fetch(`/api/causamortandad/${causaMortandad.id}`, {
+      const resp = await fetch(`/api/motivopesaje/${motivoPesaje.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(causaMortandadMod),
+        body: JSON.stringify(motivoPesajeMod),
       });
 
       if (resp.ok) {
         toast.success("Exito!!! 😃 ", {
           description: "Los datos fueron actualizados...",
         });
-        router.push("/configuracion/causamortandad");
+        router.push("/configuracion/motivopesaje");
         router.refresh();
       }
     } catch (error) {

@@ -101,7 +101,7 @@ export function FormTipoRaza(props: TipoRazasFormProops) {
               Actualizando...
             </>
           ) : (
-            "Actualizar Datos"
+            "Actualizar Dato"
           )}
         </Button>
       </form>

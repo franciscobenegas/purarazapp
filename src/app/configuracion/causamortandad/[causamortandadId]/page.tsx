@@ -26,7 +26,6 @@ export default async function CausaMortandadPageId({
   return (
     <div>
       <HeaderCausaMortandadId />
-      {/* <InfoTipoRazas TipoRaza={tipoRazas} /> */}
       <InfoCausaMortandad CausaMortandad={causaMortandad} />
     </div>
   );

@@ -32,7 +32,7 @@ import {
   Settings2,
   Trash,
 } from "lucide-react";
-import { CausaMortandad } from "@prisma/client";
+import { MotivoPesaje } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -57,26 +57,26 @@ import { formatDate } from "@/utils/formatDate";
 import { toast } from "sonner";
 
 interface DataTableProps {
-  data: CausaMortandad[];
+  data: MotivoPesaje[];
 }
 
-export function DataTableCausaMortandad({ data }: DataTableProps) {
+export function DataTableMotivoPesaje({ data }: DataTableProps) {
   const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const [isMonted, setIsMonted] = useState(false);
-  const [deletingCausaMortandad, setDeletingCausaMortandad] =
-    useState<CausaMortandad | null>(null);
+  const [deletingMotivoPesaje, setDeletingMotivoPesaje] =
+    useState<MotivoPesaje | null>(null);
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
 
   const handleDeleteConfirm = async () => {
-    if (deletingCausaMortandad) {
+    if (deletingMotivoPesaje) {
       setLoading(true); // Desactivar el botón
       try {
         const resp = await fetch(
-          `/api/causamortandad/${deletingCausaMortandad.id}`,
+          `/api/motivopesaje/${deletingMotivoPesaje.id}`,
           {
             method: "DELETE",
             headers: {
@@ -89,7 +89,7 @@ export function DataTableCausaMortandad({ data }: DataTableProps) {
           toast.warning("Exito!!! 😃 ", {
             description: "Los datos fueron eliminados...",
           });
-          setDeletingCausaMortandad(null);
+          setDeletingMotivoPesaje(null);
           router.refresh();
         }
       } catch (error) {
@@ -104,7 +104,7 @@ export function DataTableCausaMortandad({ data }: DataTableProps) {
     }
   };
 
-  const columns: ColumnDef<CausaMortandad>[] = [
+  const columns: ColumnDef<MotivoPesaje>[] = [
     {
       accessorKey: "nombre",
       header: ({ column }) => {
@@ -164,8 +164,7 @@ export function DataTableCausaMortandad({ data }: DataTableProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {/* <DropdownMenuLabel>Acciones</DropdownMenuLabel> */}
-              <Link href={`/configuracion/causamortandad/${row.original.id}`}>
+              <Link href={`/configuracion/motivopesaje/${row.original.id}`}>
                 <DropdownMenuItem>
                   <Pencil className="w-4 h-4 mr-2" />
                   <p className="">Editar</p>
@@ -173,7 +172,7 @@ export function DataTableCausaMortandad({ data }: DataTableProps) {
               </Link>
 
               <DropdownMenuItem
-                onClick={() => setDeletingCausaMortandad(row.original)}
+                onClick={() => setDeletingMotivoPesaje(row.original)}
               >
                 <Trash className="w-4 h-4 mr-2 text-red-500" />
                 <p className="text-red-500">Eliminar</p>
@@ -315,20 +314,20 @@ export function DataTableCausaMortandad({ data }: DataTableProps) {
 
         {/* Dialog para Eliminar */}
         <Dialog
-          open={!!deletingCausaMortandad}
-          onOpenChange={() => setDeletingCausaMortandad(null)}
+          open={!!deletingMotivoPesaje}
+          onOpenChange={() => setDeletingMotivoPesaje(null)}
         >
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="text-primary">
-                Eliminar Causa Mortandad 🗑️
+                Eliminar Motivo Pesaje 🗑️
               </DialogTitle>
 
               <DialogDescription>
                 <p className="mt-2">
                   ¿Estás seguro de que deseas eliminar el registro de
                   <span className="font-bold italic">
-                    {" " + deletingCausaMortandad?.nombre + " "}
+                    {" " + deletingMotivoPesaje?.nombre + " "}
                   </span>
                   ? Esta acción no se puede deshacer.
                 </p>
@@ -338,7 +337,7 @@ export function DataTableCausaMortandad({ data }: DataTableProps) {
               <DialogClose>
                 <Button
                   variant="outline"
-                  onClick={() => setDeletingCausaMortandad(null)}
+                  onClick={() => setDeletingMotivoPesaje(null)}
                 >
                   Cancelar
                 </Button>

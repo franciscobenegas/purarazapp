@@ -301,7 +301,7 @@ export function FormEstancia(props: EstanciaFormProops) {
               Actualizando...
             </>
           ) : (
-            "Actualizar Datos"
+            "Actualizar Dato"
           )}
         </Button>
       </form>

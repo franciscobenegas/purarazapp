@@ -29,7 +29,7 @@ interface FormProps {
   setOpenModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export function FormCausaMortandad(props: FormProps) {
+export function FormMotivoPesaje(props: FormProps) {
   const { setOpenModal } = props;
   const router = useRouter();
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
@@ -48,7 +48,7 @@ export function FormCausaMortandad(props: FormProps) {
     try {
       setLoading(true); // Desactivar el botón
 
-      const resp = await fetch("/api/causamortandad", {
+      const resp = await fetch("/api/motivopesaje", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export function FormCausaMortandad(props: FormProps) {
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Causa de la Mortandad..."
+                      placeholder="Motivo del Pesaje..."
                       type="text"
                       {...field}
                     />
