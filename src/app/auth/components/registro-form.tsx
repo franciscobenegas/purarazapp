@@ -108,8 +108,8 @@ export function RegistroForm() {
             </p>
           )}
 
-          <label htmlFor="Establesimiento Ganadero">
-            Nombre Establesimiento
+          <label htmlFor="Establecimiento Ganadero">
+            Nombre Establecimiento
           </label>
           <input
             className="px-5 py-2 border bg-gray-200 rounded mb-5 dark:text-slate-800"
@@ -117,7 +117,7 @@ export function RegistroForm() {
             {...register("establesimiento", {
               required: {
                 value: true,
-                message: "Nombre establesimiento requerido...",
+                message: "Nombre establecimiento requerido...",
               },
             })}
             placeholder="estblesimiento_ganadero"

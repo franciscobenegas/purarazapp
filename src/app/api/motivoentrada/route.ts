@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
     const data = await req.json();
 
-    const addMotivoPesaje = await prisma.motivoPesaje.create({
+    const addMotivoEntrada = await prisma.motivoEntrada.create({
       data: {
         establesimiento,
         usuario,
@@ -16,9 +16,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(addMotivoPesaje);
+    return NextResponse.json(addMotivoEntrada);
   } catch (error) {
-    console.log("[MOTIVOPESAJE]", error);
+    console.log("[MOTIVOENTRADA]", error);
     return new NextResponse("Error interno del servidor", { status: 500 });
   }
 }

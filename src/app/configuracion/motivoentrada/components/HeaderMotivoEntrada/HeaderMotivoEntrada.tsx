@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import { Plus, Weight } from "lucide-react";
 import React, { useState } from "react";
-import { FormMotivoPesaje } from "../FormMotivoPesaje";
+import { FormMotivoEntrada } from "../FormMotivoEntrada";
 
-export function HeaderMotivoPesaje() {
+export function HeaderMotivoEntrada() {
   const [openModal, setOpenModal] = useState(false);
   return (
     <div className="flex justify-between items-center mx-2">
@@ -20,10 +20,10 @@ export function HeaderMotivoPesaje() {
         <Weight className="h-8 w-8" />
         <div>
           <h2 className="text-primary text-2xl font-semibold leading-none tracking-tight">
-            Gestion Motivo Pesaje
+            Gestion Motivo de Entrada
           </h2>
           <h3 className="text-sm text-muted-foreground">
-            Administra los tipos de motivos de pesajes del establesimineto
+            Administra los tipos de motivos de entrada del establesimineto
           </h3>
         </div>
       </div>
@@ -31,15 +31,15 @@ export function HeaderMotivoPesaje() {
       <Dialog open={openModal} onOpenChange={setOpenModal}>
         <DialogTrigger asChild>
           <Button>
-            <Plus /> Motivo Pesaje
+            <Plus /> Motivo Entrada
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[625px]">
           <DialogHeader>
-            <DialogTitle>Motivo Pesaje</DialogTitle>
-            <DialogDescription>Crear nuevo motivo pesaje</DialogDescription>
+            <DialogTitle>Motivo Entrada</DialogTitle>
+            <DialogDescription>Crear nuevo motivo entrada</DialogDescription>
           </DialogHeader>
-          <FormMotivoPesaje setOpenModal={setOpenModal} />
+          <FormMotivoEntrada setOpenModal={setOpenModal} />
         </DialogContent>
       </Dialog>
     </div>
