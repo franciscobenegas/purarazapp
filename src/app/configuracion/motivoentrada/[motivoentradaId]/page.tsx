@@ -5,7 +5,7 @@ import React from "react";
 import { HeaderMotivoEntradaId } from "./components/HeaderMotivoEntradaId";
 import { InfoMotivoEntrada } from "./components/InfoMotivoEntrada";
 
-export default async function page({
+export default async function MotivoEntradaIdPage({
   params,
 }: {
   params: { motivoentradaId: string };

@@ -123,7 +123,7 @@ export const data = {
         },
         {
           title: "Motivo Salida",
-          url: "#",
+          url: "/configuracion/motivosalida",
         },
         {
           title: "Establecimiento",

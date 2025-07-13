@@ -4,11 +4,11 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 
 export async function PUT(
   req: Request,
-  { params }: { params: { motivoentradaId: string } }
+  { params }: { params: { motivosalidaId: string } }
 ) {
   try {
     const { usuario } = getUserFromToken();
-    const { motivoentradaId } = params;
+    const { motivosalidaId } = params;
     const values = await req.json();
 
     if (!usuario) {
@@ -17,9 +17,9 @@ export async function PUT(
       });
     }
 
-    const motivoEntradaUpdate = await prisma.motivoEntrada.update({
+    const motivoSalidaUpdate = await prisma.motivoSalida.update({
       where: {
-        id: motivoentradaId,
+        id: motivosalidaId,
       },
       data: {
         ...values,
@@ -27,20 +27,20 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json(motivoEntradaUpdate);
+    return NextResponse.json(motivoSalidaUpdate);
   } catch (error) {
-    console.log("[MotivoEntrada PUT]", error);
+    console.log("[MotivoSalida PUT]", error);
     return new NextResponse("Error Interno", { status: 500 });
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { motivoentradaId: string } }
+  { params }: { params: { motivosalidaId: string } }
 ) {
   try {
     const { usuario } = getUserFromToken();
-    const { motivoentradaId } = params;
+    const { motivosalidaId } = params;
 
     if (!usuario) {
       return new Response("No tiene autorización para ejecutar este servicio", {
@@ -49,24 +49,24 @@ export async function DELETE(
     }
 
     // Verifica si el id tipo raza existe
-    const motivoEntrada = await prisma.motivoEntrada.findUnique({
-      where: { id: motivoentradaId },
+    const motivoSalida = await prisma.motivoSalida.findUnique({
+      where: { id: motivosalidaId },
     });
 
-    if (!motivoEntrada) {
-      return new Response("Motivo Entrada no encontrada", { status: 404 });
+    if (!motivoSalida) {
+      return new Response("Motivo Salida no encontrada", { status: 404 });
     }
 
     // Elimina el tipo de raza y en cascada los propietarios
-    const deletedMotivoEntrada = await prisma.motivoEntrada.delete({
+    const deletedMotivoSalida = await prisma.motivoSalida.delete({
       where: {
-        id: motivoentradaId,
+        id: motivosalidaId,
       },
     });
 
-    return NextResponse.json(deletedMotivoEntrada);
+    return NextResponse.json(deletedMotivoSalida);
   } catch (error) {
-    console.error("[MOTIVOENTRADA_DELETE_ERROR]:", error);
+    console.error("[MOTIVOSALIDA_DELETE_ERROR]:", error);
     return new NextResponse("Error interno del servidor", { status: 500 });
   }
 }
