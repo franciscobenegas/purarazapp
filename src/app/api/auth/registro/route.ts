@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const establesimientoFount = await prisma.usuario.findUnique({
+    const establesimientoFount = await prisma.usuario.findFirst({
       where: {
         establesimiento: data.establesimiento,
       },

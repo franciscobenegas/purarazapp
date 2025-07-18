@@ -27,10 +27,14 @@ model Usuario{
   email String @unique
   username String @unique
   password String
-  establesimiento String @unique
+  establesimiento String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   rol Rol @default(ADMIN)
+  activo Boolean @default(true)
+  
+  @@index([establesimiento])
+
 }
 
 model Estancia{

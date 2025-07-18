@@ -127,11 +127,11 @@ export const data = {
         },
         {
           title: "Establecimiento",
-          url: "#",
+          url: "/configuracion/estancia",
         },
         {
           title: "Usuarios",
-          url: "#",
+          url: "/configuracion/usuarios",
         },
       ],
     },
