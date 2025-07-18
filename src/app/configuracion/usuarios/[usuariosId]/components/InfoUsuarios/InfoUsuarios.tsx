@@ -14,7 +14,7 @@ export default function InfoUsuarios(props: UsuariosProps) {
     <div className="grid grid-cols-1 ">
       <div className="rounded-lg bg-background shadow-md hover:shadow-lg p-4">
         <div>
-          <p className="py-5 font-bold">Datos Tipo de Raza</p>
+          <p className="py-5 font-bold">Cambio del tipo del ROL</p>
           <Separator />
           <FormUsuarioId usuario={Usuario} />
         </div>
