@@ -53,13 +53,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogClose,
 } from "@/components/ui/dialog";
 import ExportExcelButton from "./ExportExcelButton";
 import Link from "next/link";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { formatDate } from "@/utils/formatDate";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { ChangePassword } from "../../[usuariosId]/components/ChangePassword";
 
 interface DataTableProps {
   data: Usuario[];
@@ -73,6 +74,7 @@ export function DataTableUsuarios({ data }: DataTableProps) {
   );
   const [isMonted, setIsMonted] = useState(false);
   const [deletingUsuario, setDeletingUsuario] = useState<Usuario | null>(null);
+  const [chkPsswUsuario, setChkPsswUsuario] = useState<Usuario | null>(null);
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
 
   const handleDeleteConfirm = async () => {
@@ -253,7 +255,7 @@ export function DataTableUsuarios({ data }: DataTableProps) {
                 )}
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => console.log(row.original.id)}>
+              <DropdownMenuItem onClick={() => setChkPsswUsuario(row.original)}>
                 <KeySquare className="mr-2 h-4 w-4" />
                 Cambiar Contaseña
               </DropdownMenuItem>
@@ -448,6 +450,22 @@ export function DataTableUsuarios({ data }: DataTableProps) {
                 Eliminar
               </Button>
             </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Dialog para Cambiar Contraseña */}
+        <Dialog
+          open={!!chkPsswUsuario}
+          onOpenChange={() => setChkPsswUsuario(null)}
+        >
+          <DialogContent className="sm:max-w-[625px]">
+            <DialogHeader>
+              <DialogTitle className="text-primary"></DialogTitle>
+            </DialogHeader>
+            <ChangePassword
+              usuarioId={chkPsswUsuario?.id}
+              onClose={() => setChkPsswUsuario(null)}
+            />
           </DialogContent>
         </Dialog>
       </div>

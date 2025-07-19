@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
+import bcrypt from "bcryptjs";
 
 export async function PUT(
   req: Request,
@@ -11,10 +12,18 @@ export async function PUT(
     const { usuariosId } = params;
     const values = await req.json();
 
+    console.log("values = ", values);
+
     if (!usuario) {
       return new Response("No tiene autorizacion para ejecuar este servicio", {
         status: 401,
       });
+    }
+
+    // 🔐 Si viene la propiedad password, encriptamos
+    if (values.password) {
+      const salt = bcrypt.genSaltSync(10);
+      values.password = bcrypt.hashSync(values.password, salt);
     }
 
     const usuariosUpdate = await prisma.usuario.update({
