@@ -20,6 +20,17 @@ enum Rol {
   ADMIN
 }
 
+enum Sexo {
+  Macho
+  Hembra
+}
+
+enum Edad {
+  RecienNacido
+  Adulto
+  Joven
+}
+
 
 model Usuario{
   id String    @id @default(uuid())
@@ -46,7 +57,6 @@ model Estancia{
   usuario String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime   @updatedAt
-
   propietario Propietario[]
   establesimiento String
 
@@ -70,6 +80,24 @@ model Propietario{
   @@index([establesimiento])
 }
 
+
+model Categoria{
+  id String    @id @default(uuid())
+   nombre String
+   sexo Sexo
+   edad Edad
+   promedioKilos Int
+   precioVentaCabeza Int
+   precioVentaKilo Int
+   precioCostoCabeza Int
+   precioCostoKilo Int
+   usuario String
+   establesimiento String
+   createdAt   DateTime    @default(now())
+   updatedAt   DateTime   @updatedAt
+
+   @@index([establesimiento])
+}
 
 model TipoRaza{
   id String    @id @default(uuid())

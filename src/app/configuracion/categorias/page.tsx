@@ -1,5 +1,12 @@
 import React from "react";
+import { HeaderCategoria } from "./components/HeaderCategoria";
+import { ListCategoria } from "./components/ListCategoria";
 
 export default function CategoriaPage() {
-  return <div>Categoria Page</div>;
+  return (
+    <div>
+      <HeaderCategoria />
+      <ListCategoria />
+    </div>
+  );
 }

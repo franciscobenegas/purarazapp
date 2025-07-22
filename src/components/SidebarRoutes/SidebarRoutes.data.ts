@@ -102,8 +102,8 @@ export const data = {
       icon: Settings2,
       items: [
         {
-          title: "Clasificacion",
-          url: "#",
+          title: "Categoria",
+          url: "/configuracion/categorias",
         },
         {
           title: "Tipo Razas",
