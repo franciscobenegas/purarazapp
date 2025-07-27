@@ -4,9 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Categoria } from "@prisma/client";
-import { toast } from "sonner";
 
 import {
   Form,
@@ -16,10 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -34,86 +29,71 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useState } from "react";
+import { toast } from "sonner";
 
-interface FormProops {
+interface FormProps {
   categoria: Categoria;
 }
 
-// Enums basados en el contexto ganadero
-const Sexo = {
+const SexoEnum = {
   MACHO: "Macho",
   HEMBRA: "Hembra",
 } as const;
 
-const Edad = {
-  ADULATO: "Adulto",
+const EdadEnum = {
+  ADULTO: "Adulto",
   JOVEN: "Joven",
   RECIEN_NACIDO: "RecienNacido",
 } as const;
 
 const formSchema = z.object({
-  nombre: z
-    .string()
-    .min(1, "El nombre es requerido")
-    .max(100, "El nombre no puede exceder 100 caracteres"),
-  sexo: z.enum([Sexo.MACHO, Sexo.HEMBRA], {
-    required_error: "Debe seleccionar un sexo",
-  }),
-  edad: z.enum([Edad.ADULATO, Edad.JOVEN, Edad.RECIEN_NACIDO], {
-    required_error: "Debe seleccionar una edad",
-  }),
-  promedioKilos: z
-    .number()
-    .min(1, "El promedio de kilos debe ser mayor a 0")
-    .max(2000, "El promedio no puede exceder 2000 kg"),
-  precioVentaCabeza: z.number().min(0, "El precio debe ser mayor o igual a 0"),
-  precioVentaKilo: z.number().min(0, "El precio debe ser mayor o igual a 0"),
-  precioCostoCabeza: z.number().min(0, "El precio debe ser mayor o igual a 0"),
-  precioCostoKilo: z.number().min(0, "El precio debe ser mayor o igual a 0"),
+  nombre: z.string().min(1).max(100),
+  sexo: z.enum([SexoEnum.MACHO, SexoEnum.HEMBRA]),
+  edad: z.enum([EdadEnum.ADULTO, EdadEnum.JOVEN, EdadEnum.RECIEN_NACIDO]),
+  promedioKilos: z.number().min(1).max(2000),
+  precioVentaCabeza: z.number().min(0),
+  precioVentaKilo: z.number().min(0),
+  precioCostoCabeza: z.number().min(0),
+  precioCostoKilo: z.number().min(0),
+  usuario: z.string(),
+  updatedAt: z.date(),
 });
 
-export function FormViewCategoriaId(props: FormProops) {
-  const { categoria } = props;
+export function FormViewCategoriaId({ categoria }: FormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      nombre: categoria.nombre,
-      sexo: categoria.sexo,
-      edad: categoria.edad,
-      promedioKilos: categoria.promedioKilos,
-      precioVentaCabeza: categoria.precioVentaCabeza,
-      precioVentaKilo: categoria.precioVentaKilo,
-      precioCostoCabeza: categoria.precioCostoCabeza,
-      precioCostoKilo: categoria.precioCostoKilo,
-    },
-  });
+  const [openModal, setopenModal] = useState(false);
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const motivoSalidaMod = {
-      nombre: values.nombre,
-    };
-
+  const handleDeleteConfirm = async () => {
+    setLoading(true); // Desactivar el botón
     try {
-      setLoading(true); // Desactivar el botón
       const resp = await fetch(`/api/categoria/${categoria.id}`, {
-        method: "PUT",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(motivoSalidaMod),
       });
 
       if (resp.ok) {
-        toast.success("Exito!!! 😃 ", {
-          description: "Los datos fueron actualizados...",
+        toast.warning("Exito!!! 😃 ", {
+          description: "Los datos fueron eliminados...",
         });
         router.push("/configuracion/categorias");
         router.refresh();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const message = error instanceof Error ? error.message : String(error);
       toast.error("Error !!!", {
         description: message,
@@ -123,20 +103,28 @@ export function FormViewCategoriaId(props: FormProops) {
     }
   };
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { ...categoria },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+    router.push(`/configuracion/categorias/edit/${categoria.id}`);
+  };
+
   return (
-    <div className=" mx-auto py-4 px-4 max-w-4xl">
+    <div className="mx-auto py-4 px-4 max-w-4xl">
       <Card>
         <CardHeader>
           <CardTitle>Visualizar datos Categoría</CardTitle>
           <CardDescription>
-            Complete el formulario para dar de alta una nueva categoría de
-            ganado.
+            Visualizar todos los datos de la categoría.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Información básica */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -145,11 +133,7 @@ export function FormViewCategoriaId(props: FormProops) {
                     <FormItem>
                       <FormLabel>Nombre de la Categoría</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Ej: Novillos 400-450kg"
-                          {...field}
-                          disabled
-                        />
+                        <Input {...field} disabled />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -165,8 +149,7 @@ export function FormViewCategoriaId(props: FormProops) {
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="450"
-                          {...field}
+                          value={field.value?.toString()}
                           onChange={(e) =>
                             field.onChange(Number(e.target.value))
                           }
@@ -179,7 +162,6 @@ export function FormViewCategoriaId(props: FormProops) {
                 />
               </div>
 
-              {/* Sexo y Edad */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -188,9 +170,9 @@ export function FormViewCategoriaId(props: FormProops) {
                     <FormItem>
                       <FormLabel>Sexo</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
                         disabled
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -198,8 +180,10 @@ export function FormViewCategoriaId(props: FormProops) {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value={Sexo.MACHO}>Macho</SelectItem>
-                          <SelectItem value={Sexo.HEMBRA}>Hembra</SelectItem>
+                          <SelectItem value={SexoEnum.MACHO}>Macho</SelectItem>
+                          <SelectItem value={SexoEnum.HEMBRA}>
+                            Hembra
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -214,9 +198,9 @@ export function FormViewCategoriaId(props: FormProops) {
                     <FormItem>
                       <FormLabel>Edad/Categoría</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
                         disabled
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -224,9 +208,11 @@ export function FormViewCategoriaId(props: FormProops) {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value={Edad.ADULATO}>Adulato</SelectItem>
-                          <SelectItem value={Edad.JOVEN}>Joven</SelectItem>
-                          <SelectItem value={Edad.RECIEN_NACIDO}>
+                          <SelectItem value={EdadEnum.ADULTO}>
+                            Adulto
+                          </SelectItem>
+                          <SelectItem value={EdadEnum.JOVEN}>Joven</SelectItem>
+                          <SelectItem value={EdadEnum.RECIEN_NACIDO}>
                             Recien Nacido
                           </SelectItem>
                         </SelectContent>
@@ -241,49 +227,33 @@ export function FormViewCategoriaId(props: FormProops) {
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Precios de Venta</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="precioVentaCabeza"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Precio Venta por Cabeza (Gs.)</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="150000"
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
-                            disabled
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="precioVentaKilo"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Precio Venta por Kilo (Gs.)</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="350"
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
-                            disabled
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {["precioVentaCabeza", "precioVentaKilo"].map((name) => (
+                    <FormField
+                      key={name}
+                      control={form.control}
+                      name={name as keyof z.infer<typeof formSchema>}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            {name === "precioVentaCabeza"
+                              ? "Precio Venta por Cabeza (Gs.)"
+                              : "Precio Venta por Kilo (Gs.)"}
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              value={field.value?.toString()}
+                              onChange={(e) =>
+                                field.onChange(Number(e.target.value))
+                              }
+                              disabled
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  ))}
                 </div>
               </div>
 
@@ -291,22 +261,42 @@ export function FormViewCategoriaId(props: FormProops) {
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Precios de Costo</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {["precioCostoCabeza", "precioCostoKilo"].map((name) => (
+                    <FormField
+                      key={name}
+                      control={form.control}
+                      name={name as keyof z.infer<typeof formSchema>}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            {name === "precioCostoCabeza"
+                              ? "Precio Costo por Cabeza (Gs.)"
+                              : "Precio Costo por Kilo (Gs.)"}
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              value={field.value?.toString()}
+                              onChange={(e) =>
+                                field.onChange(Number(e.target.value))
+                              }
+                              disabled
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  ))}
+
                   <FormField
                     control={form.control}
-                    name="precioCostoCabeza"
+                    name="usuario"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Precio Costo por Cabeza (Gs.)</FormLabel>
+                        <FormLabel>Usuario</FormLabel>
                         <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="120000"
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
-                            disabled
-                          />
+                          <Input {...field} disabled />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -315,19 +305,15 @@ export function FormViewCategoriaId(props: FormProops) {
 
                   <FormField
                     control={form.control}
-                    name="precioCostoKilo"
+                    name="updatedAt"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Precio Costo por Kilo (Gs.)</FormLabel>
+                        <FormLabel>Fecha Modificación</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
-                            placeholder="280"
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
+                            value={field.value?.toLocaleString() ?? ""}
                             disabled
+                            readOnly
                           />
                         </FormControl>
                         <FormMessage />
@@ -339,15 +325,21 @@ export function FormViewCategoriaId(props: FormProops) {
 
               {/* Botones */}
               <div className="flex gap-4 pt-4">
-                <Button type="submit" disabled={loading} className="flex-1">
-                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {loading ? "Creando..." : "Modificar"}
+                <Button
+                  type="button"
+                  className="flex-1"
+                  onClick={() =>
+                    router.push(
+                      `/configuracion/categorias/edit/${categoria.id}`
+                    )
+                  }
+                >
+                  Modificar
                 </Button>
                 <Button
                   type="button"
                   variant="destructive"
-                  // onClick={() => setOpenModal(false)}
-                  disabled={loading}
+                  onClick={() => setopenModal(true)} // ← aquí estaba el error
                 >
                   Eliminar
                 </Button>
@@ -356,6 +348,41 @@ export function FormViewCategoriaId(props: FormProops) {
           </Form>
         </CardContent>
       </Card>
+
+      {/* Dialog para Eliminar */}
+      <Dialog open={!!openModal} onOpenChange={() => setopenModal(false)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-primary">
+              Eliminar Categoria 🗑️
+            </DialogTitle>
+
+            <DialogDescription>
+              <p className="mt-2">
+                ¿Estás seguro de que deseas eliminar el registro de
+                <span className="font-bold italic">
+                  {" " + categoria.nombre + " "}
+                </span>
+                ? Esta acción no se puede deshacer.
+              </p>
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:space-x-0">
+            <DialogClose>
+              <Button variant="outline" onClick={() => setopenModal(false)}>
+                Cancelar
+              </Button>
+            </DialogClose>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteConfirm}
+              disabled={loading}
+            >
+              Eliminar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

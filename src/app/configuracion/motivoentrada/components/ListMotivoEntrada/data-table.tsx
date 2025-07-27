@@ -375,7 +375,7 @@ export function DataTableMotivoEntrada({ data }: DataTableProps) {
       </div>
       <div className="flex items-center justify-between space-x-2 py-4">
         <div className="text-sm text-muted-foreground">
-          Total de Datos: {data.length}
+          Total de registros: {data.length}
         </div>
       </div>
     </div>

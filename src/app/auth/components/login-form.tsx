@@ -47,19 +47,35 @@ export function LoginForm({
         },
         body: JSON.stringify(credenciales),
       });
+      console.log("resp = ", resp);
 
       // Si la respuesta no es válida, muestra una notificación de error
       if (!resp.ok) {
-        toast.error("Usuario o Contraseña invalida!!!", {
-          position: "top-right",
-          autoClose: 7000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "light",
-          transition: Bounce,
-        });
+        if (resp.status === 403) {
+          toast.error("Usuario INACTIVO. Comuníquese con el administrador.", {
+            position: "top-right",
+            autoClose: 7000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+            transition: Bounce,
+          });
+        }
+
+        if (resp.status === 401) {
+          toast.error("Usuario o Contraseña invalido!!!.", {
+            position: "top-right",
+            autoClose: 7000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+            transition: Bounce,
+          });
+        }
       } else {
         // Si es exitosa, redirige al usuario a la página principal
         window.location.href = "/";

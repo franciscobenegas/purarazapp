@@ -21,6 +21,14 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Validar si el usuario está activo
+  if (!user.activo) {
+    return NextResponse.json(
+      { error: "Usuario inactivo. Comuníquese con el administrador." },
+      { status: 403 }
+    );
+  }
+
   const isValid = await comparePassword(password, user.password);
 
   if (!isValid) {
@@ -53,9 +61,4 @@ export async function POST(request: NextRequest) {
   cookieStore.set("tokenPuraRaza", myToken);
 
   return NextResponse.json("Login Correcto");
-  //}
-
-  // return new NextResponse("Ops algo salio mal, vuelva a intentarlos", {
-  //   status: 401,
-  // });
 }
