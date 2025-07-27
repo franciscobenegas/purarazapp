@@ -189,9 +189,7 @@ export function DataTableCategoria({ data }: DataTableProps) {
         </Button>
       ),
       cell: ({ cell }) => (
-        <div className="text-center">
-          {String(formatoPrecio(cell.getValue() as number))}
-        </div>
+        <div className="text-center">{cell.getValue() as number} Kg.</div>
       ),
     },
     {
