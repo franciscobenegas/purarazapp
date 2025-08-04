@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { MotivoEntrada } from "@prisma/client";
+import { Potrero } from "@prisma/client";
 import { toast } from "sonner";
 
 import {
@@ -20,45 +20,45 @@ import { Input } from "@/components/ui/input";
 import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 
-interface MotivoEntradaFormProops {
-  motivoEntrada: MotivoEntrada;
+interface PotreroFormProps {
+  potrero: Potrero;
 }
 
 const formSchema = z.object({
   nombre: z.string().min(5),
 });
 
-export function FormMotivoEntradaId(props: MotivoEntradaFormProops) {
-  const { motivoEntrada } = props;
+export function FormPotreroId(props: PotreroFormProps) {
+  const { potrero } = props;
   const router = useRouter();
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nombre: motivoEntrada.nombre,
+      nombre: potrero.nombre,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const motivoEntradaMod = {
+    const potreroMod = {
       nombre: values.nombre,
     };
 
     try {
       setLoading(true); // Desactivar el botón
-      const resp = await fetch(`/api/motivoentrada/${motivoEntrada.id}`, {
+      const resp = await fetch(`/api/potrero/${potrero.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(motivoEntradaMod),
+        body: JSON.stringify(potreroMod),
       });
 
       if (resp.ok) {
         toast.success("Exito!!! 😃 ", {
           description: "Los datos fueron actualizados...",
         });
-        router.push("/configuracion/motivoentrada");
+        router.push("/configuracion/potrero");
         router.refresh();
       }
     } catch (error) {
@@ -84,7 +84,7 @@ export function FormMotivoEntradaId(props: MotivoEntradaFormProops) {
                 <FormLabel> Nombre </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Nombre Cliente..."
+                    placeholder="Nombre Salida..."
                     type="text"
                     {...field}
                   />

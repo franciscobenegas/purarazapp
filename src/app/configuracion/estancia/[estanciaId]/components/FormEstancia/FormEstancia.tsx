@@ -297,11 +297,11 @@ export function FormEstancia(props: EstanciaFormProops) {
         <Button type="submit" disabled={loading}>
           {loading ? (
             <>
+              Actualizando
               <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
-              Actualizando...
             </>
           ) : (
-            "Actualizar Dato"
+            "Actualizar"
           )}
         </Button>
       </form>

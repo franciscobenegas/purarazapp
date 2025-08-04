@@ -78,7 +78,7 @@ export function FormMotivoPesaje(props: FormProps) {
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3">
             <FormField
               control={form.control}
               name="nombre"

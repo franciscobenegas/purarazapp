@@ -75,7 +75,7 @@ export function FormMotivoSalidaId(props: MotivoSalidaFormProops) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           <FormField
             control={form.control}
             name="nombre"
@@ -97,11 +97,11 @@ export function FormMotivoSalidaId(props: MotivoSalidaFormProops) {
         <Button type="submit" disabled={loading}>
           {loading ? (
             <>
+              Actualizando
               <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
-              Actualizando...
             </>
           ) : (
-            "Actualizar Dato"
+            "Actualizar"
           )}
         </Button>
       </form>

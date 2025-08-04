@@ -29,7 +29,7 @@ interface FormProps {
   setOpenModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export function FormMotivoSalida(props: FormProps) {
+export function FormPotrero(props: FormProps) {
   const { setOpenModal } = props;
   const router = useRouter();
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
@@ -48,7 +48,7 @@ export function FormMotivoSalida(props: FormProps) {
     try {
       setLoading(true); // Desactivar el botón
 
-      const resp = await fetch("/api/motivosalida", {
+      const resp = await fetch("/api/potrero", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +77,7 @@ export function FormMotivoSalida(props: FormProps) {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8  ">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
           <div className="grid grid-cols-1 gap-3">
             <FormField
               control={form.control}
@@ -86,11 +86,7 @@ export function FormMotivoSalida(props: FormProps) {
                 <FormItem>
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Motivo de la salida..."
-                      type="text"
-                      {...field}
-                    />
+                    <Input placeholder="Potrero..." type="text" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

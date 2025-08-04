@@ -75,6 +75,7 @@ model Propietario{
   estanciaId String
   estancia Estancia? @relation(fields: [estanciaId], references: [id], onDelete: Cascade )
   establesimiento String
+  mortandades Mortandad[] // <-- Esta es la relación inversa
 
   @@index([estanciaId])
   @@index([establesimiento])
@@ -95,6 +96,7 @@ model Categoria{
    establesimiento String
    createdAt   DateTime    @default(now())
    updatedAt   DateTime   @updatedAt
+   mortandades Mortandad[] // <-- Esta es la relación inversa
 
    @@index([establesimiento])
 }
@@ -117,6 +119,7 @@ model CausaMortandad{
   usuario String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime   @updatedAt
+  mortandades Mortandad[] // <-- Esta es la relación inversa
 
   @@index([establesimiento])
 }
@@ -152,6 +155,49 @@ model MotivoSalida{
   updatedAt   DateTime   @updatedAt
 
   @@index([establesimiento])
+}
+
+model Potrero{
+  id String    @id @default(uuid())
+  nombre String
+  establesimiento String
+  usuario String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime   @updatedAt
+  mortandades Mortandad[] // <-- Esta es la relación inversa
+
+  @@index([establesimiento])
+}
+
+
+
+model Mortandad {
+  id              String           @id @default(uuid())
+  fecha           DateTime
+  propietarioId   String
+  propietario     Propietario      @relation(fields: [propietarioId], references: [id])
+  numeroAnimal    String           // Caravana
+  categoriaId     String
+  categoria       Categoria        @relation(fields: [categoriaId], references: [id])
+  causaId         String
+  causa           CausaMortandad   @relation(fields: [causaId], references: [id])
+  potreroId       String
+  potrero         Potrero          @relation(fields: [potreroId], references: [id])
+  ubicacionGps    String
+  foto1           String?          // URL o ruta de imagen
+  foto2           String?
+  foto3           String?
+  usuario         String
+  establesimiento String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([establesimiento])
+  @@index([fecha])
+  @@index([propietarioId])
+  @@index([categoriaId])
+  @@index([causaId])
+  @@index([potreroId])
 }
 
 

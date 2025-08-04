@@ -54,7 +54,6 @@ import {
 } from "@/components/ui/dialog";
 import ExportExcelButton from "./ExportExcelButton";
 import Link from "next/link";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { formatDate } from "@/utils/formatDate";
 import { toast } from "sonner";
 import {
@@ -71,16 +70,6 @@ interface DataTableProps {
   data: Categoria[];
 }
 
-// const formatNumber = (value: unknown) => {
-//   if (typeof value === "number") {
-//     return new Intl.NumberFormat("es-ES", {
-//       minimumFractionDigits: 0,
-//       maximumFractionDigits: 2,
-//     }).format(value);
-//   }
-//   return value;
-// };
-
 export function DataTableCategoria({ data }: DataTableProps) {
   const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -88,42 +77,61 @@ export function DataTableCategoria({ data }: DataTableProps) {
     []
   );
   const [isMonted, setIsMonted] = useState(false);
-  const [deletingCategoria, setDeletingCategoria] = useState<Categoria | null>(
-    null
-  );
+  const [deletingCategoria, setDeletingCategoria] = React.useState<
+    Categoria | Categoria[] | null
+  >(null);
+
   const [loading, setLoading] = useState(false); // Estado para el botón de carga
 
   const handleDeleteConfirm = async () => {
-    if (deletingCategoria) {
-      setLoading(true); // Desactivar el botón
-      try {
-        const resp = await fetch(`/api/categoria/${deletingCategoria.id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+    setLoading(true);
+    try {
+      const ids = Array.isArray(deletingCategoria)
+        ? deletingCategoria.map((item) => item.id)
+        : [deletingCategoria?.id];
 
-        if (resp.ok) {
-          toast.warning("Exito!!! 😃 ", {
-            description: "Los datos fueron eliminados...",
-          });
-          setDeletingCategoria(null);
-          router.refresh();
-        }
-      } catch (error) {
-        console.error(error);
-        const message = error instanceof Error ? error.message : String(error);
-        toast.error("Error !!!", {
-          description: message,
-        });
-      } finally {
-        setLoading(false); // Reactivar el botón
-      }
+      await Promise.all(
+        ids.map((id) =>
+          fetch(`/api/categoria/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+        )
+      );
+
+      toast.success("Categorías eliminadas correctamente");
+      setDeletingCategoria(null);
+      router.refresh();
+    } catch (error) {
+      toast.error("Error al eliminar");
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const columns: ColumnDef<Categoria>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <input
+          type="checkbox"
+          checked={table.getIsAllPageRowsSelected()}
+          onChange={table.getToggleAllPageRowsSelectedHandler()}
+        />
+      ),
+      cell: ({ row }) => (
+        <input
+          type="checkbox"
+          checked={row.getIsSelected()}
+          onChange={row.getToggleSelectedHandler()}
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
     {
       accessorKey: "nombre",
       header: ({ column }) => {
@@ -336,6 +344,7 @@ export function DataTableCategoria({ data }: DataTableProps) {
   React.useEffect(() => {
     setIsMonted(true);
   }, []);
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -347,10 +356,18 @@ export function DataTableCategoria({ data }: DataTableProps) {
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
+      rowSelection,
       sorting,
       columnFilters,
     },
+    onRowSelectionChange: setRowSelection,
+    enableRowSelection: true,
+    getRowId: (row) => row.id,
   });
+
+  const selectedRows = table
+    .getSelectedRowModel()
+    .rows.map((row) => row.original);
   if (!isMonted) {
     return null;
   }
@@ -448,6 +465,17 @@ export function DataTableCategoria({ data }: DataTableProps) {
             <div className="p-2">
               <ExportExcelButton data={data} />
             </div>
+            <div className="flex-row md:flex items-center mt-4">
+              {selectedRows.length > 0 && (
+                <Button
+                  variant="destructive"
+                  onClick={() => setDeletingCategoria(selectedRows)}
+                  className="mb-4"
+                >
+                  Eliminar seleccionados ({selectedRows.length})
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -504,15 +532,25 @@ export function DataTableCategoria({ data }: DataTableProps) {
         {/* Dialog para Eliminar */}
         <Dialog
           open={!!deletingCategoria}
-          onOpenChange={() => setDeletingCategoria(null)}
+          onOpenChange={(open) => {
+            if (!open) setDeletingCategoria(null);
+          }}
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-primary">
-                Eliminar Categoria 🗑️
+              <DialogTitle className="text-destructive">
+                Confirmar Eliminación
               </DialogTitle>
+            </DialogHeader>
 
-              <DialogDescription>
+            <DialogDescription>
+              {Array.isArray(deletingCategoria) ? (
+                <p className="mt-2">
+                  ¿Estás seguro de que deseas eliminar los{" "}
+                  <span className="font-bold">{deletingCategoria.length}</span>{" "}
+                  registros seleccionados? Esta acción no se puede deshacer.
+                </p>
+              ) : (
                 <p className="mt-2">
                   ¿Estás seguro de que deseas eliminar el registro de
                   <span className="font-bold italic">
@@ -520,23 +558,22 @@ export function DataTableCategoria({ data }: DataTableProps) {
                   </span>
                   ? Esta acción no se puede deshacer.
                 </p>
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter className="gap-2 sm:space-x-0">
-              <DialogClose>
-                <Button
-                  variant="outline"
-                  onClick={() => setDeletingCategoria(null)}
-                >
-                  Cancelar
-                </Button>
-              </DialogClose>
+              )}
+            </DialogDescription>
+
+            <DialogFooter className="mt-4">
+              <Button
+                variant="outline"
+                onClick={() => setDeletingCategoria(null)}
+              >
+                Cancelar
+              </Button>
               <Button
                 variant="destructive"
                 onClick={handleDeleteConfirm}
                 disabled={loading}
               >
-                Eliminar
+                {loading ? "Eliminando..." : "Confirmar"}
               </Button>
             </DialogFooter>
           </DialogContent>

@@ -71,27 +71,27 @@ export const data = {
       items: [
         {
           title: "Mortandad",
-          url: "/clientes",
+          url: "/diaria/mortandad",
         },
         {
           title: "Nacimiento",
-          url: "/tipoclientes",
+          url: "/diaria/nacimiento",
         },
         {
           title: "Entrada",
-          url: "#",
+          url: "/diaria/entrada",
         },
         {
           title: "Salida",
-          url: "#",
+          url: "/diaria/salida",
         },
         {
           title: "Pesaje",
-          url: "#",
+          url: "/diaria/pesaje",
         },
         {
           title: "Movimientos",
-          url: "#",
+          url: "/diaria/movimientos",
         },
       ],
     },
@@ -124,6 +124,10 @@ export const data = {
         {
           title: "Motivo Salida",
           url: "/configuracion/motivosalida",
+        },
+        {
+          title: "Potrero",
+          url: "/configuracion/potrero",
         },
         {
           title: "Establecimiento",
