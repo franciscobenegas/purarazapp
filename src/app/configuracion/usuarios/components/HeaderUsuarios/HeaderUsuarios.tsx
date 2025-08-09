@@ -17,7 +17,7 @@ export function HeaderUsuarios() {
   return (
     <div className="flex justify-between items-center mx-2">
       <div className="flex items-center space-x-2 ml-5">
-        <Users className="h-8 w-8" />
+        <Users className="h-8 w-8 text-primary" />
         <div>
           <h2 className="text-primary text-2xl font-semibold leading-none tracking-tight">
             Gestion de Usuarios
