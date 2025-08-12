@@ -78,9 +78,24 @@ const MortandadSchema = z.object({
     .regex(/^-?\d{1,2}\.\d+,-?\d{1,3}\.\d+$/, {
       message: 'Formato GPS inválido. Usa "lat,long" con decimales.',
     }),
-  foto1: z.string().optional(),
-  foto2: z.string().optional(),
-  foto3: z.string().optional(),
+  foto1: z
+    .any()
+    .refine((file) => file === undefined || file instanceof File, {
+      message: "Debe ser un archivo válido",
+    })
+    .optional(),
+  foto2: z
+    .any()
+    .refine((file) => file === undefined || file instanceof File, {
+      message: "Debe ser un archivo válido",
+    })
+    .optional(),
+  foto3: z
+    .any()
+    .refine((file) => file === undefined || file instanceof File, {
+      message: "Debe ser un archivo válido",
+    })
+    .optional(),
 });
 
 interface FormProps {
@@ -119,20 +134,33 @@ export function FormMortandad({
       causaId: listCausaMortandad[0]?.id ?? "",
       potreroId: listPotrero[0]?.id ?? "",
       ubicacionGps: "",
-      foto1: "",
-      foto2: "",
-      foto3: "",
+      foto1: undefined,
+      foto2: undefined,
+      foto3: undefined,
     },
   });
 
   const onSubmit = async (values: MortandadFormValues) => {
     try {
       setLoading(true);
+
+      const formData = new FormData();
+
+      // Agregar todos los valores al FormData
+      for (const [key, value] of Object.entries(values)) {
+        if (value instanceof File) {
+          formData.append(key, value);
+        } else if (value !== undefined && value !== null) {
+          formData.append(key, String(value));
+        }
+      }
+
       const resp = await fetch("/api/mortandad", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: formData,
+        // No agregues headers['Content-Type'] - el navegador lo hará automáticamente con el boundary correcto
       });
+
       if (resp.ok) {
         toast.success("Éxito 😃", {
           description: "Los datos fueron guardados",
@@ -160,8 +188,12 @@ export function FormMortandad({
     if (!file) return;
     const url = URL.createObjectURL(file);
     setPreview((p) => ({ ...p, [key]: url }));
-    // Guardamos solo el nombre del archivo en RHF para tu API actual
-    form.setValue(key, file.name, { shouldValidate: false, shouldDirty: true });
+
+    // Guardar el archivo real en react-hook-form
+    form.setValue(key, file as never, {
+      shouldValidate: false,
+      shouldDirty: true,
+    });
   }
 
   function handleGetGPS() {
@@ -400,7 +432,7 @@ export function FormMortandad({
                                 accept="image/*"
                                 onChange={(e) => {
                                   handleFile(e, "foto1");
-                                  field.onChange(e);
+                                  field.onChange(e.target.files?.[0]);
                                 }}
                                 onBlur={field.onBlur}
                                 ref={field.ref}
@@ -444,7 +476,7 @@ export function FormMortandad({
                                 accept="image/*"
                                 onChange={(e) => {
                                   handleFile(e, "foto2");
-                                  field.onChange(e);
+                                  field.onChange(e.target.files?.[0]);
                                 }}
                                 onBlur={field.onBlur}
                                 ref={field.ref}
@@ -488,7 +520,7 @@ export function FormMortandad({
                                 accept="image/*"
                                 onChange={(e) => {
                                   handleFile(e, "foto3");
-                                  field.onChange(e);
+                                  field.onChange(e.target.files?.[0]);
                                 }}
                                 onBlur={field.onBlur}
                                 ref={field.ref}
