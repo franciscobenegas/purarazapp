@@ -68,6 +68,7 @@ const formSchema = z.object({
   precioCostoKilo: z.number().min(0),
   usuario: z.string(),
   updatedAt: z.date(),
+  cantidad: z.number().nullable(),
 });
 
 export function FormViewCategoriaId({ categoria }: FormProps) {
@@ -222,7 +223,28 @@ export function FormViewCategoriaId({ categoria }: FormProps) {
                   )}
                 />
               </div>
-
+              <FormField
+                control={form.control}
+                name="cantidad"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cantidad</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        value={field.value?.toString() ?? ""}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value ? Number(e.target.value) : undefined
+                          )
+                        }
+                        disabled
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               {/* Precios de Venta */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Precios de Venta</h3>

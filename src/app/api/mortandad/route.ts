@@ -41,12 +41,11 @@ export async function POST(req: NextRequest) {
       if (!file || !(file instanceof File)) return null;
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-
       const uploadResult = await new Promise<UploadApiResponse>(
         (resolve, reject) => {
           cloudinary.uploader
             .upload_stream(
-              { folder: "mortandad", public_id: uuidv4() },
+              { folder: `mortandad/${establesimiento}`, public_id: uuidv4() },
               (
                 error: UploadApiErrorResponse | undefined,
                 result: UploadApiResponse | undefined

@@ -97,6 +97,7 @@ model Categoria{
    createdAt   DateTime    @default(now())
    updatedAt   DateTime   @updatedAt
    mortandades Mortandad[] // <-- Esta es la relación inversa
+   cantidad Int?
 
    @@index([establesimiento])
 }

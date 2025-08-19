@@ -54,7 +54,7 @@ import {
 } from "@/components/ui/dialog";
 import ExportExcelButton from "./ExportExcelButton";
 import Link from "next/link";
-import { formatDate } from "@/utils/formatDate";
+//import { formatDate } from "@/utils/formatDate";
 import { toast } from "sonner";
 import {
   Select,
@@ -187,6 +187,23 @@ export function DataTableCategoria({ data }: DataTableProps) {
       },
     },
     {
+      accessorKey: "cantidad",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Cantidad <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+      cell: ({ cell }) => {
+        const value = cell.getValue() as number;
+        // Formateo con separador de miles según locale español
+        const formatted = new Intl.NumberFormat("es-ES").format(value);
+        return <div className="text-center">{formatted}</div>;
+      },
+    },
+    {
       accessorKey: "promedioKilos",
       header: ({ column }) => (
         <Button
@@ -263,35 +280,35 @@ export function DataTableCategoria({ data }: DataTableProps) {
     //   },
     // },
 
-    {
-      accessorKey: "usuario",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Usuario <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-    },
+    // {
+    //   accessorKey: "usuario",
+    //   header: ({ column }) => {
+    //     return (
+    //       <Button
+    //         variant="ghost"
+    //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //       >
+    //         Usuario <ArrowUpDown className="ml-2 h-4 w-4" />
+    //       </Button>
+    //     );
+    //   },
+    // },
 
-    {
-      accessorKey: "updatedAt",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Fecha Modif.
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ cell }) => formatDate(cell.getValue() as Date),
-    },
+    // {
+    //   accessorKey: "updatedAt",
+    //   header: ({ column }) => {
+    //     return (
+    //       <Button
+    //         variant="ghost"
+    //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //       >
+    //         Fecha Modif.
+    //         <ArrowUpDown className="ml-2 h-4 w-4" />
+    //       </Button>
+    //     );
+    //   },
+    //   cell: ({ cell }) => formatDate(cell.getValue() as Date),
+    // },
 
     {
       id: "actions",
