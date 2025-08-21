@@ -27,13 +27,14 @@ import {
 import {
   ArrowUpDown,
   ChevronDown,
+  ListFilterPlus,
   Logs,
   MoreHorizontal,
   Pencil,
   Settings2,
   Trash,
 } from "lucide-react";
-import { Mortandad } from "@prisma/client";
+import { Mortandad, Prisma } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -55,12 +56,32 @@ import Link from "next/link";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { formatDate, formatDateSingle } from "@/utils/formatDate";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+type MortandadWithRelations = Prisma.MortandadGetPayload<{
+  include: {
+    propietario: true;
+    categoria: true;
+    causa: true;
+    potrero: true;
+  };
+}>;
 
 interface DataTableProps {
-  data: Mortandad[];
+  data: MortandadWithRelations[];
 }
 
+type DateRangeFilter = { from?: string; to?: string }; // 👈 Tipo para el filtro de fecha
+
 export function DataTableMortandad({ data }: DataTableProps) {
+  console.log("data", data);
+
   const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -70,11 +91,11 @@ export function DataTableMortandad({ data }: DataTableProps) {
   const [deletingMortandad, setDeletingMortandad] = useState<Mortandad | null>(
     null
   );
-  const [loading, setLoading] = useState(false); // Estado para el botón de carga
+  const [loading, setLoading] = useState(false);
 
   const handleDeleteConfirm = async () => {
     if (deletingMortandad) {
-      setLoading(true); // Desactivar el botón
+      setLoading(true);
       try {
         const resp = await fetch(`/api/mortandad/${deletingMortandad.id}`, {
           method: "DELETE",
@@ -97,12 +118,12 @@ export function DataTableMortandad({ data }: DataTableProps) {
           description: message,
         });
       } finally {
-        setLoading(false); // Reactivar el botón
+        setLoading(false);
       }
     }
   };
 
-  const columns: ColumnDef<Mortandad>[] = [
+  const columns: ColumnDef<MortandadWithRelations>[] = [
     {
       accessorKey: "foto1",
       header: "Foto",
@@ -121,41 +142,70 @@ export function DataTableMortandad({ data }: DataTableProps) {
     },
     {
       accessorKey: "fecha",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Fecha <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      ),
+      header: "Fecha",
       cell: ({ cell }) => formatDateSingle(cell.getValue() as Date),
-    },
+      filterFn: (row, columnId, filterValue: DateRangeFilter) => {
+        const value = row.getValue<Date>(columnId);
+        if (!value) return false;
 
+        const fecha = new Date(value);
+        const from = filterValue?.from ? new Date(filterValue.from) : null;
+        const to = filterValue?.to ? new Date(filterValue.to) : null;
+
+        if (from && fecha < from) return false;
+        if (to && fecha > to) return false;
+
+        return true;
+      },
+    },
     {
-      accessorKey: "propietario.nombre", // Debes incluirlo en tu query con include
+      accessorKey: "propietario",
       header: "Propietario",
+      accessorFn: (row) => row.propietario?.nombre ?? "",
+      filterFn: (row, columnId, filterValue) => {
+        if (!filterValue) return true;
+        const value = row.getValue<string>(columnId);
+        return value?.toLowerCase().includes(filterValue.toLowerCase());
+      },
     },
     {
       accessorKey: "numeroAnimal",
       header: "# Carabana",
     },
     {
-      accessorKey: "categoria.nombre", // también requiere include en tu fetch
+      accessorKey: "categoria",
       header: "Categoría",
+      accessorFn: (row) => row.categoria?.nombre ?? "",
+      filterFn: (row, columnId, filterValue) => {
+        if (!filterValue) return true;
+        const value = row.getValue<string>(columnId);
+        return value?.toLowerCase().includes(filterValue.toLowerCase());
+      },
     },
     {
-      accessorKey: "causa.nombre",
+      accessorKey: "causa",
       header: "Causa Mortandad",
+      accessorFn: (row) => row.causa?.nombre ?? "",
+      filterFn: (row, columnId, filterValue) => {
+        if (!filterValue) return true;
+        const value = row.getValue<string>(columnId);
+        return value?.toLowerCase().includes(filterValue.toLowerCase());
+      },
     },
     {
-      accessorKey: "potrero.nombre",
+      accessorKey: "potrero",
       header: "Potrero",
+      accessorFn: (row) => row.potrero?.nombre ?? "",
+      filterFn: (row, columnId, filterValue) => {
+        if (!filterValue) return true;
+        const value = row.getValue<string>(columnId);
+        return value?.toLowerCase().includes(filterValue.toLowerCase());
+      },
     },
-    {
-      accessorKey: "ubicacionGps",
-      header: "Ubicación GPS",
-    },
+    // {
+    //   accessorKey: "ubicacionGps",
+    //   header: "Ubicación GPS",
+    // },
     {
       accessorKey: "usuario",
       header: ({ column }) => (
@@ -167,7 +217,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
         </Button>
       ),
     },
-
     {
       accessorKey: "updatedAt",
       header: "Fecha Modif.",
@@ -241,6 +290,165 @@ export function DataTableMortandad({ data }: DataTableProps) {
             }
             className="mb-2 md:mb-0"
           />
+
+          {/* Filtro por fecha */}
+          <div className="flex items-center gap-2">
+            <Input
+              type="date"
+              onChange={(e) =>
+                table
+                  .getColumn("fecha")
+                  ?.setFilterValue((old: DateRangeFilter) => ({
+                    ...old,
+                    from: e.target.value,
+                  }))
+              }
+            />
+            <Input
+              type="date"
+              onChange={(e) =>
+                table
+                  .getColumn("fecha")
+                  ?.setFilterValue((old: DateRangeFilter) => ({
+                    ...old,
+                    to: e.target.value,
+                  }))
+              }
+            />
+          </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-44 flex items-center justify-between"
+              >
+                <ListFilterPlus className="ml-2 h-8 w-8" />{" "}
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="p-2 w-60">
+              {/* Filtro Categoría */}
+              <div className="mb-2">
+                <label className="block text-sm font-medium mb-1">
+                  Categoría
+                </label>
+                <Select
+                  onValueChange={(value) =>
+                    table
+                      .getColumn("categoria")
+                      ?.setFilterValue(value === "all" ? undefined : value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Todos" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    {[
+                      ...new Set(
+                        data.map((d) => d.categoria?.nombre).filter(Boolean)
+                      ),
+                    ].map((categoria) => (
+                      <SelectItem key={categoria} value={categoria}>
+                        {categoria}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Filtro Causa */}
+              <div className="mb-2">
+                <label className="block text-sm font-medium mb-1">
+                  Causa Mortandad
+                </label>
+                <Select
+                  onValueChange={(value) =>
+                    table
+                      .getColumn("causa")
+                      ?.setFilterValue(value === "all" ? undefined : value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Todos" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    {[
+                      ...new Set(
+                        data.map((d) => d.causa?.nombre).filter(Boolean)
+                      ),
+                    ].map((causa) => (
+                      <SelectItem key={causa} value={causa}>
+                        {causa}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Filtro Propietario */}
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Propietario
+                </label>
+                <Select
+                  onValueChange={(value) =>
+                    table
+                      .getColumn("propietario")
+                      ?.setFilterValue(value === "all" ? undefined : value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Todos" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    {[
+                      ...new Set(
+                        data.map((d) => d.propietario?.nombre).filter(Boolean)
+                      ),
+                    ].map((propietario) => (
+                      <SelectItem key={propietario} value={propietario}>
+                        {propietario}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Filtro Propietario */}
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Potrero
+                </label>
+                <Select
+                  onValueChange={(value) =>
+                    table
+                      .getColumn("potrero")
+                      ?.setFilterValue(value === "all" ? undefined : value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Todos" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    {[
+                      ...new Set(
+                        data.map((d) => d.potrero?.nombre).filter(Boolean)
+                      ),
+                    ].map((potrero) => (
+                      <SelectItem key={potrero} value={potrero}>
+                        {potrero}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <div className="flex-row md:flex items-center">
             <DropdownMenu>
