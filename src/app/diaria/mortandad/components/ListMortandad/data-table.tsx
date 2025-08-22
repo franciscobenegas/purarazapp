@@ -53,7 +53,6 @@ import {
 } from "@/components/ui/dialog";
 import ExportExcelButton from "./ExportExcelButton";
 import Link from "next/link";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { formatDate, formatDateSingle } from "@/utils/formatDate";
 import { toast } from "sonner";
 import {
@@ -63,6 +62,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type MortandadWithRelations = Prisma.MortandadGetPayload<{
   include: {
@@ -80,37 +81,83 @@ interface DataTableProps {
 type DateRangeFilter = { from?: string; to?: string }; // 👈 Tipo para el filtro de fecha
 
 export function DataTableMortandad({ data }: DataTableProps) {
-  console.log("data", data);
-
   const router = useRouter();
+
+  // Estados para mantener los filtros seleccionados
+  const [selectedCategoria, setSelectedCategoria] = useState("all");
+  const [selectedCausa, setSelectedCausa] = useState("all");
+  const [selectedPropietario, setSelectedPropietario] = useState("all");
+  const [selectedPotrero, setSelectedPotrero] = useState("all");
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const [isMonted, setIsMonted] = useState(false);
-  const [deletingMortandad, setDeletingMortandad] = useState<Mortandad | null>(
-    null
-  );
+  const [deletingMortandad, setDeletingMortandad] = useState<
+    Mortandad | Mortandad[] | null
+  >(null);
   const [loading, setLoading] = useState(false);
+  const [rowSelection, setRowSelection] = useState({});
+
+  // 🚀 cuando cambia el filtro, actualizo tanto el estado como la tabla
+  const handleFilterChange = (
+    columnId: string,
+    value: string,
+    setFn: (v: string) => void
+  ) => {
+    setFn(value);
+    table
+      .getColumn(columnId)
+      ?.setFilterValue(value === "all" ? undefined : value);
+  };
+
+  // 👇 Nueva función para limpiar filtros
+  const clearFilters = () => {
+    setSelectedCategoria("all");
+    setSelectedCausa("all");
+    setSelectedPropietario("all");
+    setSelectedPotrero("all");
+
+    table.getColumn("categoria")?.setFilterValue(undefined);
+    table.getColumn("causa")?.setFilterValue(undefined);
+    table.getColumn("propietario")?.setFilterValue(undefined);
+    table.getColumn("potrero")?.setFilterValue(undefined);
+  };
+
+  // 👇 Variable para saber si hay filtros activos
+  const hasActiveFilters =
+    selectedCategoria !== "all" ||
+    selectedCausa !== "all" ||
+    selectedPropietario !== "all" ||
+    selectedPotrero !== "all";
 
   const handleDeleteConfirm = async () => {
+    console.log(" deletingMortandad ", deletingMortandad);
+
     if (deletingMortandad) {
       setLoading(true);
       try {
-        const resp = await fetch(`/api/mortandad/${deletingMortandad.id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const ids = Array.isArray(deletingMortandad)
+          ? deletingMortandad.map((item) => item.id)
+          : [deletingMortandad?.id];
 
-        if (resp.ok) {
-          toast.warning("Exito!!! 😃 ", {
-            description: "Los datos fueron eliminados...",
-          });
-          setDeletingMortandad(null);
-          router.refresh();
-        }
+        await Promise.all(
+          ids.map((id) =>
+            fetch(`/api/mortandad/${id}`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+          )
+        );
+
+        toast.warning("Exito!!! 😃 ", {
+          description: "Los datos fueron eliminados...",
+        });
+        setDeletingMortandad(null);
+        router.refresh();
       } catch (error) {
         console.error(error);
         const message = error instanceof Error ? error.message : String(error);
@@ -124,6 +171,37 @@ export function DataTableMortandad({ data }: DataTableProps) {
   };
 
   const columns: ColumnDef<MortandadWithRelations>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <div className="flex items-center justify-center px-2">
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+            aria-label="Seleccionar todos"
+            className="border-gray-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+          />
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="flex items-center justify-center px-2">
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Seleccionar fila"
+            className="border-gray-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+          />
+        </div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+      size: 50, // Tamaño fijo para la columna
+    },
     {
       accessorKey: "foto1",
       header: "Foto",
@@ -267,11 +345,16 @@ export function DataTableMortandad({ data }: DataTableProps) {
     state: {
       sorting,
       columnFilters,
+      rowSelection, // 👈 agregado
     },
+    onRowSelectionChange: setRowSelection, // 👈 agregado
   });
-  if (!isMonted) {
-    return null;
-  }
+
+  const selectedRows = table
+    .getSelectedRowModel()
+    .rows.map((row) => row.original);
+
+  if (!isMonted) return null;
 
   return (
     <div className="p-4 bg-background shadow-md rounded-lg mt-4">
@@ -293,28 +376,42 @@ export function DataTableMortandad({ data }: DataTableProps) {
 
           {/* Filtro por fecha */}
           <div className="flex items-center gap-2">
-            <Input
-              type="date"
-              onChange={(e) =>
-                table
-                  .getColumn("fecha")
-                  ?.setFilterValue((old: DateRangeFilter) => ({
-                    ...old,
-                    from: e.target.value,
-                  }))
-              }
-            />
-            <Input
-              type="date"
-              onChange={(e) =>
-                table
-                  .getColumn("fecha")
-                  ?.setFilterValue((old: DateRangeFilter) => ({
-                    ...old,
-                    to: e.target.value,
-                  }))
-              }
-            />
+            {/* Filtro por fecha */}
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col">
+                <label className="text-xs font-medium text-muted-foreground mb-1">
+                  Fecha desde
+                </label>
+                <Input
+                  type="date"
+                  onChange={(e) =>
+                    table
+                      .getColumn("fecha")
+                      ?.setFilterValue((old: DateRangeFilter) => ({
+                        ...old,
+                        from: e.target.value,
+                      }))
+                  }
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="text-xs font-medium text-muted-foreground mb-1">
+                  Fecha hasta
+                </label>
+                <Input
+                  type="date"
+                  onChange={(e) =>
+                    table
+                      .getColumn("fecha")
+                      ?.setFilterValue((old: DateRangeFilter) => ({
+                        ...old,
+                        to: e.target.value,
+                      }))
+                  }
+                />
+              </div>
+            </div>
           </div>
 
           <DropdownMenu>
@@ -334,10 +431,9 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   Categoría
                 </label>
                 <Select
+                  value={selectedCategoria}
                   onValueChange={(value) =>
-                    table
-                      .getColumn("categoria")
-                      ?.setFilterValue(value === "all" ? undefined : value)
+                    handleFilterChange("categoria", value, setSelectedCategoria)
                   }
                 >
                   <SelectTrigger>
@@ -345,6 +441,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Todos</SelectItem>
+                    <Separator />
                     {[
                       ...new Set(
                         data.map((d) => d.categoria?.nombre).filter(Boolean)
@@ -364,10 +461,9 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   Causa Mortandad
                 </label>
                 <Select
+                  value={selectedCausa}
                   onValueChange={(value) =>
-                    table
-                      .getColumn("causa")
-                      ?.setFilterValue(value === "all" ? undefined : value)
+                    handleFilterChange("causa", value, setSelectedCausa)
                   }
                 >
                   <SelectTrigger>
@@ -375,6 +471,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Todos</SelectItem>
+                    <Separator />
                     {[
                       ...new Set(
                         data.map((d) => d.causa?.nombre).filter(Boolean)
@@ -394,10 +491,13 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   Propietario
                 </label>
                 <Select
+                  value={selectedPropietario}
                   onValueChange={(value) =>
-                    table
-                      .getColumn("propietario")
-                      ?.setFilterValue(value === "all" ? undefined : value)
+                    handleFilterChange(
+                      "propietario",
+                      value,
+                      setSelectedPropietario
+                    )
                   }
                 >
                   <SelectTrigger>
@@ -405,6 +505,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Todos</SelectItem>
+                    <Separator />
                     {[
                       ...new Set(
                         data.map((d) => d.propietario?.nombre).filter(Boolean)
@@ -424,10 +525,9 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   Potrero
                 </label>
                 <Select
+                  value={selectedPotrero}
                   onValueChange={(value) =>
-                    table
-                      .getColumn("potrero")
-                      ?.setFilterValue(value === "all" ? undefined : value)
+                    handleFilterChange("potrero", value, setSelectedPotrero)
                   }
                 >
                   <SelectTrigger>
@@ -435,6 +535,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Todos</SelectItem>
+                    <Separator />
                     {[
                       ...new Set(
                         data.map((d) => d.potrero?.nombre).filter(Boolean)
@@ -447,6 +548,14 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   </SelectContent>
                 </Select>
               </div>
+              {/* 👇 Botón solo si hay filtros activos */}
+              {hasActiveFilters && (
+                <div className="mt-4 flex justify-end">
+                  <Button size="sm" onClick={clearFilters}>
+                    Limpiar filtros
+                  </Button>
+                </div>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -487,6 +596,19 @@ export function DataTableMortandad({ data }: DataTableProps) {
 
             <div className="p-2">
               <ExportExcelButton data={data} />
+            </div>
+            <div className="flex-row md:flex items-center mt-4">
+              {selectedRows.length > 0 && (
+                <Button
+                  variant="destructive"
+                  onClick={() => setDeletingMortandad(selectedRows)}
+                  className="mb-4"
+                  size="sm"
+                >
+                  <Trash className="h-4 w-4 mr-2" />
+                  Eliminar seleccionados ({selectedRows.length})
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -544,15 +666,25 @@ export function DataTableMortandad({ data }: DataTableProps) {
         {/* Dialog para Eliminar */}
         <Dialog
           open={!!deletingMortandad}
-          onOpenChange={() => setDeletingMortandad(null)}
+          onOpenChange={(open) => {
+            if (!open) setDeletingMortandad(null);
+          }}
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-primary">
-                Eliminar Mortandad 🗑️
+              <DialogTitle className="text-destructive">
+                Confirmar Eliminación
               </DialogTitle>
+            </DialogHeader>
 
-              <DialogDescription>
+            <DialogDescription>
+              {Array.isArray(deletingMortandad) ? (
+                <p className="mt-2">
+                  ¿Estás seguro de que deseas eliminar los{" "}
+                  <span className="font-bold">{deletingMortandad.length}</span>{" "}
+                  registros seleccionados? Esta acción no se puede deshacer.
+                </p>
+              ) : (
                 <p className="mt-2">
                   ¿Estás seguro de que deseas eliminar el registro de
                   <span className="font-bold italic">
@@ -560,23 +692,22 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   </span>
                   ? Esta acción no se puede deshacer.
                 </p>
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter className="gap-2 sm:space-x-0">
-              <DialogClose>
-                <Button
-                  variant="outline"
-                  onClick={() => setDeletingMortandad(null)}
-                >
-                  Cancelar
-                </Button>
-              </DialogClose>
+              )}
+            </DialogDescription>
+
+            <DialogFooter className="mt-4">
+              <Button
+                variant="outline"
+                onClick={() => setDeletingMortandad(null)}
+              >
+                Cancelar
+              </Button>
               <Button
                 variant="destructive"
                 onClick={handleDeleteConfirm}
                 disabled={loading}
               >
-                Eliminar
+                {loading ? "Eliminando..." : "Confirmar"}
               </Button>
             </DialogFooter>
           </DialogContent>

@@ -31,6 +31,7 @@ import {
   MoreHorizontal,
   Settings2,
   SquarePen,
+  Trash,
   Trash2,
 } from "lucide-react";
 import { Categoria } from "@prisma/client";
@@ -65,6 +66,7 @@ import {
 } from "@/components/ui/select";
 import { formatoPrecio } from "@/utils/formatoPrecio";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface DataTableProps {
   data: Categoria[];
@@ -116,21 +118,33 @@ export function DataTableCategoria({ data }: DataTableProps) {
     {
       id: "select",
       header: ({ table }) => (
-        <input
-          type="checkbox"
-          checked={table.getIsAllPageRowsSelected()}
-          onChange={table.getToggleAllPageRowsSelectedHandler()}
-        />
+        <div className="flex items-center justify-center px-2">
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+            aria-label="Seleccionar todos"
+            className="border-gray-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+          />
+        </div>
       ),
       cell: ({ row }) => (
-        <input
-          type="checkbox"
-          checked={row.getIsSelected()}
-          onChange={row.getToggleSelectedHandler()}
-        />
+        <div className="flex items-center justify-center px-2">
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Seleccionar fila"
+            className="border-gray-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+          />
+        </div>
       ),
       enableSorting: false,
       enableHiding: false,
+      size: 50, // Tamaño fijo para la columna
     },
     {
       accessorKey: "nombre",
@@ -488,7 +502,9 @@ export function DataTableCategoria({ data }: DataTableProps) {
                   variant="destructive"
                   onClick={() => setDeletingCategoria(selectedRows)}
                   className="mb-4"
+                  size="sm"
                 >
+                  <Trash className="h-4 w-4 mr-2" />
                   Eliminar seleccionados ({selectedRows.length})
                 </Button>
               )}
