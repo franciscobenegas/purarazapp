@@ -556,33 +556,27 @@ export function FormMortandad({
                             <FormLabel className="flex items-center gap-2">
                               <ImagePlus className="h-4 w-4" /> Foto 1
                             </FormLabel>
-                            <div className="flex gap-2 mb-2">
-                              <FormControl>
-                                <Input
-                                  id="foto1"
-                                  type="file"
-                                  accept="image/*"
-                                  capture="environment" // Esto habilita la cámara en móviles
-                                  onChange={(e) => {
-                                    handleFile(e, "foto1");
-                                    field.onChange(e.target.files?.[0]);
-                                  }}
-                                  onBlur={field.onBlur}
-                                  ref={field.ref}
-                                  className="flex-1"
-                                />
-                              </FormControl>
-                              <Button
-                                type="button"
-                                size="icon"
-                                variant="outline"
-                                onClick={() => openCamera("foto1")}
-                              >
-                                <Camera className="h-4 w-4" />
-                              </Button>
-                            </div>
+
+                            {/* Input para seleccionar archivo - ARRIBA */}
+                            <FormControl>
+                              <Input
+                                id="foto1"
+                                type="file"
+                                accept="image/*"
+                                capture="environment"
+                                onChange={(e) => {
+                                  handleFile(e, "foto1");
+                                  field.onChange(e.target.files?.[0]);
+                                }}
+                                onBlur={field.onBlur}
+                                ref={field.ref}
+                                className="mb-2"
+                              />
+                            </FormControl>
+
+                            {/* Vista previa de la imagen */}
                             {preview.foto1 ? (
-                              <div className="relative w-full h-40 rounded-md border overflow-hidden group">
+                              <div className="relative w-full h-40 rounded-md border overflow-hidden group mb-2">
                                 <Image
                                   src={preview.foto1}
                                   alt="Vista previa foto 1"
@@ -601,10 +595,22 @@ export function FormMortandad({
                                 </Button>
                               </div>
                             ) : (
-                              <div className="w-full h-40 border rounded-md grid place-items-center text-sm text-muted-foreground">
+                              <div className="w-full h-40 border rounded-md grid place-items-center text-sm text-muted-foreground mb-2">
                                 {"Sin imagen"}
                               </div>
                             )}
+
+                            {/* Botón para tomar foto - ABAJO */}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              className="w-full"
+                              onClick={() => openCamera("foto1")}
+                            >
+                              <Camera className="h-4 w-4 mr-2" />
+                              Tomar foto
+                            </Button>
+
                             <FormMessage />
                           </FormItem>
                         )}
@@ -617,33 +623,27 @@ export function FormMortandad({
                             <FormLabel className="flex items-center gap-2">
                               <ImagePlus className="h-4 w-4" /> Foto 2
                             </FormLabel>
-                            <div className="flex gap-2 mb-2">
-                              <FormControl>
-                                <Input
-                                  id="foto2"
-                                  type="file"
-                                  accept="image/*"
-                                  capture="environment"
-                                  onChange={(e) => {
-                                    handleFile(e, "foto2");
-                                    field.onChange(e.target.files?.[0]);
-                                  }}
-                                  onBlur={field.onBlur}
-                                  ref={field.ref}
-                                  className="flex-1"
-                                />
-                              </FormControl>
-                              <Button
-                                type="button"
-                                size="icon"
-                                variant="outline"
-                                onClick={() => openCamera("foto2")}
-                              >
-                                <Camera className="h-4 w-4" />
-                              </Button>
-                            </div>
+
+                            {/* Input para seleccionar archivo - ARRIBA */}
+                            <FormControl>
+                              <Input
+                                id="foto2"
+                                type="file"
+                                accept="image/*"
+                                capture="environment"
+                                onChange={(e) => {
+                                  handleFile(e, "foto2");
+                                  field.onChange(e.target.files?.[0]);
+                                }}
+                                onBlur={field.onBlur}
+                                ref={field.ref}
+                                className="mb-2"
+                              />
+                            </FormControl>
+
+                            {/* Vista previa de la imagen */}
                             {preview.foto2 ? (
-                              <div className="relative w-full h-40 rounded-md border overflow-hidden group">
+                              <div className="relative w-full h-40 rounded-md border overflow-hidden group mb-2">
                                 <Image
                                   src={preview.foto2}
                                   alt="Vista previa foto 2"
@@ -662,10 +662,22 @@ export function FormMortandad({
                                 </Button>
                               </div>
                             ) : (
-                              <div className="w-full h-40 border rounded-md grid place-items-center text-sm text-muted-foreground">
+                              <div className="w-full h-40 border rounded-md grid place-items-center text-sm text-muted-foreground mb-2">
                                 {"Sin imagen"}
                               </div>
                             )}
+
+                            {/* Botón para tomar foto - ABAJO */}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              className="w-full"
+                              onClick={() => openCamera("foto2")}
+                            >
+                              <Camera className="h-4 w-4 mr-2" />
+                              Tomar foto
+                            </Button>
+
                             <FormMessage />
                           </FormItem>
                         )}
@@ -678,33 +690,27 @@ export function FormMortandad({
                             <FormLabel className="flex items-center gap-2">
                               <ImagePlus className="h-4 w-4" /> Foto 3
                             </FormLabel>
-                            <div className="flex gap-2 mb-2">
-                              <FormControl>
-                                <Input
-                                  id="foto3"
-                                  type="file"
-                                  accept="image/*"
-                                  capture="environment"
-                                  onChange={(e) => {
-                                    handleFile(e, "foto3");
-                                    field.onChange(e.target.files?.[0]);
-                                  }}
-                                  onBlur={field.onBlur}
-                                  ref={field.ref}
-                                  className="flex-1"
-                                />
-                              </FormControl>
-                              <Button
-                                type="button"
-                                size="icon"
-                                variant="outline"
-                                onClick={() => openCamera("foto3")}
-                              >
-                                <Camera className="h-4 w-4" />
-                              </Button>
-                            </div>
+
+                            {/* Input para seleccionar archivo - ARRIBA */}
+                            <FormControl>
+                              <Input
+                                id="foto3"
+                                type="file"
+                                accept="image/*"
+                                capture="environment"
+                                onChange={(e) => {
+                                  handleFile(e, "foto3");
+                                  field.onChange(e.target.files?.[0]);
+                                }}
+                                onBlur={field.onBlur}
+                                ref={field.ref}
+                                className="mb-2"
+                              />
+                            </FormControl>
+
+                            {/* Vista previa de la imagen */}
                             {preview.foto3 ? (
-                              <div className="relative w-full h-40 rounded-md border overflow-hidden group">
+                              <div className="relative w-full h-40 rounded-md border overflow-hidden group mb-2">
                                 <Image
                                   src={preview.foto3}
                                   alt="Vista previa foto 3"
@@ -723,10 +729,22 @@ export function FormMortandad({
                                 </Button>
                               </div>
                             ) : (
-                              <div className="w-full h-40 border rounded-md grid place-items-center text-sm text-muted-foreground">
+                              <div className="w-full h-40 border rounded-md grid place-items-center text-sm text-muted-foreground mb-2">
                                 {"Sin imagen"}
                               </div>
                             )}
+
+                            {/* Botón para tomar foto - ABAJO */}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              className="w-full"
+                              onClick={() => openCamera("foto3")}
+                            >
+                              <Camera className="h-4 w-4 mr-2" />
+                              Tomar foto
+                            </Button>
+
                             <FormMessage />
                           </FormItem>
                         )}

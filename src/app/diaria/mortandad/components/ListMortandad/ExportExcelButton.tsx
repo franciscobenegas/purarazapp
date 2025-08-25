@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"; // Asegúrate de tener el botó
 import { useState } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { Mortandad } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { Download } from "lucide-react";
 import {
   Tooltip,
@@ -12,8 +12,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+type MortandadWithRelations = Prisma.MortandadGetPayload<{
+  include: {
+    propietario: true;
+    categoria: true;
+    causa: true;
+    potrero: true;
+  };
+}>;
+
 interface ExportExcelButtonProps {
-  data: Mortandad[]; // El array de objetos que se exportarán
+  data: MortandadWithRelations[]; // El array de objetos que se exportarán
   fileName?: string; // Nombre opcional para el archivo de Excel
 }
 

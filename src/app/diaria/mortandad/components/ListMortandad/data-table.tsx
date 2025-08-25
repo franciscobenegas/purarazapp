@@ -82,7 +82,7 @@ interface DataTableProps {
   data: MortandadWithRelations[];
 }
 
-type DateRangeFilter = { from?: string; to?: string }; // 👈 Tipo para el filtro de fecha
+type DateRangeFilter = { from?: string; to?: string };
 
 export function DataTableMortandad({ data }: DataTableProps) {
   const router = useRouter();
@@ -104,7 +104,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
   const [loading, setLoading] = useState(false);
   const [rowSelection, setRowSelection] = useState({});
 
-  // 🚀 cuando cambia el filtro, actualizo tanto el estado como la tabla
   const handleFilterChange = (
     columnId: string,
     value: string,
@@ -116,7 +115,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
       ?.setFilterValue(value === "all" ? undefined : value);
   };
 
-  // 👇 Nueva función para limpiar filtros
   const clearFilters = () => {
     setSelectedCategoria("all");
     setSelectedCausa("all");
@@ -129,7 +127,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
     table.getColumn("potrero")?.setFilterValue(undefined);
   };
 
-  // 👇 Variable para saber si hay filtros activos
   const hasActiveFilters =
     selectedCategoria !== "all" ||
     selectedCausa !== "all" ||
@@ -204,7 +201,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
       ),
       enableSorting: false,
       enableHiding: false,
-      size: 50, // Tamaño fijo para la columna
+      size: 50,
     },
     {
       accessorKey: "foto1",
@@ -284,10 +281,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
         return value?.toLowerCase().includes(filterValue.toLowerCase());
       },
     },
-    // {
-    //   accessorKey: "ubicacionGps",
-    //   header: "Ubicación GPS",
-    // },
     {
       accessorKey: "usuario",
       header: ({ column }) => (
@@ -304,7 +297,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
       header: "Fecha Modif.",
       cell: ({ cell }) => formatDate(cell.getValue() as Date),
     },
-
     {
       id: "actions",
       header: ({}) => {
@@ -337,7 +329,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   Detalle
                 </DropdownMenuItem>
               </Link>
-
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => setDeletingMortandad(row.original)}
@@ -369,9 +360,9 @@ export function DataTableMortandad({ data }: DataTableProps) {
     state: {
       sorting,
       columnFilters,
-      rowSelection, // 👈 agregado
+      rowSelection,
     },
-    onRowSelectionChange: setRowSelection, // 👈 agregado
+    onRowSelectionChange: setRowSelection,
   });
 
   const selectedRows = table
@@ -383,212 +374,223 @@ export function DataTableMortandad({ data }: DataTableProps) {
   return (
     <div className="p-4 bg-background shadow-md rounded-lg mt-4">
       <div className="w-full items-center justify-between">
-        <div className="flex-row md:flex items-center mb-2 gap-5">
-          <Input
-            placeholder="Nro Carabana..."
-            value={
-              (table.getColumn("numeroAnimal")?.getFilterValue() as string) ??
-              ""
-            }
-            onChange={(event) =>
-              table
-                .getColumn("numeroAnimal")
-                ?.setFilterValue(event.target.value)
-            }
-            className="mb-2 md:mb-0"
-          />
+        {/* Fila de filtros principal */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+          {/* Filtro de Nro Carabana */}
+          <div className="flex-1 md:w-auto">
+            <Input
+              placeholder="Nro Carabana..."
+              value={
+                (table.getColumn("numeroAnimal")?.getFilterValue() as string) ??
+                ""
+              }
+              onChange={(event) =>
+                table
+                  .getColumn("numeroAnimal")
+                  ?.setFilterValue(event.target.value)
+              }
+              className="w-full"
+            />
+          </div>
 
-          {/* Filtro por fecha */}
-          <div className="flex items-center gap-2">
-            {/* Filtro por fecha */}
-            <div className="flex items-center gap-4">
-              <div className="flex flex-col">
-                <label className="text-xs font-medium text-muted-foreground mb-1">
-                  Fecha desde
-                </label>
-                <Input
-                  type="date"
-                  onChange={(e) =>
-                    table
-                      .getColumn("fecha")
-                      ?.setFilterValue((old: DateRangeFilter) => ({
-                        ...old,
-                        from: e.target.value,
-                      }))
-                  }
-                />
-              </div>
+          {/* Filtros de fecha */}
+          <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+            <div className="flex-1">
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">
+                Fecha desde
+              </label>
+              <Input
+                type="date"
+                onChange={(e) =>
+                  table
+                    .getColumn("fecha")
+                    ?.setFilterValue((old: DateRangeFilter) => ({
+                      ...old,
+                      from: e.target.value,
+                    }))
+                }
+                className="w-full"
+              />
+            </div>
 
-              <div className="flex flex-col">
-                <label className="text-xs font-medium text-muted-foreground mb-1">
-                  Fecha hasta
-                </label>
-                <Input
-                  type="date"
-                  onChange={(e) =>
-                    table
-                      .getColumn("fecha")
-                      ?.setFilterValue((old: DateRangeFilter) => ({
-                        ...old,
-                        to: e.target.value,
-                      }))
-                  }
-                />
-              </div>
+            <div className="flex-1">
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">
+                Fecha hasta
+              </label>
+              <Input
+                type="date"
+                onChange={(e) =>
+                  table
+                    .getColumn("fecha")
+                    ?.setFilterValue((old: DateRangeFilter) => ({
+                      ...old,
+                      to: e.target.value,
+                    }))
+                }
+                className="w-full"
+              />
             </div>
           </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="w-44 flex items-center justify-between"
-              >
-                <ListFilterPlus className="ml-2 h-8 w-8" />{" "}
-                <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="p-2 w-60">
-              {/* Filtro Categoría */}
-              <div className="mb-2">
-                <label className="block text-sm font-medium mb-1">
-                  Categoría
-                </label>
-                <Select
-                  value={selectedCategoria}
-                  onValueChange={(value) =>
-                    handleFilterChange("categoria", value, setSelectedCategoria)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Todos" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos</SelectItem>
-                    <Separator />
-                    {[
-                      ...new Set(
-                        data.map((d) => d.categoria?.nombre).filter(Boolean)
-                      ),
-                    ].map((categoria) => (
-                      <SelectItem key={categoria} value={categoria}>
-                        {categoria}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Filtro Causa */}
-              <div className="mb-2">
-                <label className="block text-sm font-medium mb-1">
-                  Causa Mortandad
-                </label>
-                <Select
-                  value={selectedCausa}
-                  onValueChange={(value) =>
-                    handleFilterChange("causa", value, setSelectedCausa)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Todos" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos</SelectItem>
-                    <Separator />
-                    {[
-                      ...new Set(
-                        data.map((d) => d.causa?.nombre).filter(Boolean)
-                      ),
-                    ].map((causa) => (
-                      <SelectItem key={causa} value={causa}>
-                        {causa}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Filtro Propietario */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Propietario
-                </label>
-                <Select
-                  value={selectedPropietario}
-                  onValueChange={(value) =>
-                    handleFilterChange(
-                      "propietario",
-                      value,
-                      setSelectedPropietario
-                    )
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Todos" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos</SelectItem>
-                    <Separator />
-                    {[
-                      ...new Set(
-                        data.map((d) => d.propietario?.nombre).filter(Boolean)
-                      ),
-                    ].map((propietario) => (
-                      <SelectItem key={propietario} value={propietario}>
-                        {propietario}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Filtro Propietario */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Potrero
-                </label>
-                <Select
-                  value={selectedPotrero}
-                  onValueChange={(value) =>
-                    handleFilterChange("potrero", value, setSelectedPotrero)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Todos" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos</SelectItem>
-                    <Separator />
-                    {[
-                      ...new Set(
-                        data.map((d) => d.potrero?.nombre).filter(Boolean)
-                      ),
-                    ].map((potrero) => (
-                      <SelectItem key={potrero} value={potrero}>
-                        {potrero}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              {/* 👇 Botón solo si hay filtros activos */}
-              {hasActiveFilters && (
-                <div className="mt-4 flex justify-end">
-                  <Button size="sm" onClick={clearFilters}>
-                    Limpiar filtros
-                  </Button>
-                </div>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <div className="flex-row md:flex items-center">
+          {/* Botones de acciones */}
+          <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+            {/* Dropdown de filtros */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto">
-                  <Settings2 className="mr-2 size-4" />
-                  Columnas <ChevronDown className="ml-2 h-4 w-4" />
+                <Button
+                  variant="outline"
+                  className="w-full md:w-44 justify-between"
+                >
+                  <ListFilterPlus className="h-4 w-4 mr-2" />
+                  Filtros
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="p-2 w-60">
+                <div className="mb-2">
+                  <label className="block text-sm font-medium mb-1">
+                    Categoría
+                  </label>
+                  <Select
+                    value={selectedCategoria}
+                    onValueChange={(value) =>
+                      handleFilterChange(
+                        "categoria",
+                        value,
+                        setSelectedCategoria
+                      )
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Todos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos</SelectItem>
+                      <Separator />
+                      {[
+                        ...new Set(
+                          data.map((d) => d.categoria?.nombre).filter(Boolean)
+                        ),
+                      ].map((categoria) => (
+                        <SelectItem key={categoria} value={categoria}>
+                          {categoria}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="mb-2">
+                  <label className="block text-sm font-medium mb-1">
+                    Causa Mortandad
+                  </label>
+                  <Select
+                    value={selectedCausa}
+                    onValueChange={(value) =>
+                      handleFilterChange("causa", value, setSelectedCausa)
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Todos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos</SelectItem>
+                      <Separator />
+                      {[
+                        ...new Set(
+                          data.map((d) => d.causa?.nombre).filter(Boolean)
+                        ),
+                      ].map((causa) => (
+                        <SelectItem key={causa} value={causa}>
+                          {causa}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="mb-2">
+                  <label className="block text-sm font-medium mb-1">
+                    Propietario
+                  </label>
+                  <Select
+                    value={selectedPropietario}
+                    onValueChange={(value) =>
+                      handleFilterChange(
+                        "propietario",
+                        value,
+                        setSelectedPropietario
+                      )
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Todos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos</SelectItem>
+                      <Separator />
+                      {[
+                        ...new Set(
+                          data.map((d) => d.propietario?.nombre).filter(Boolean)
+                        ),
+                      ].map((propietario) => (
+                        <SelectItem key={propietario} value={propietario}>
+                          {propietario}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Potrero
+                  </label>
+                  <Select
+                    value={selectedPotrero}
+                    onValueChange={(value) =>
+                      handleFilterChange("potrero", value, setSelectedPotrero)
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Todos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos</SelectItem>
+                      <Separator />
+                      {[
+                        ...new Set(
+                          data.map((d) => d.potrero?.nombre).filter(Boolean)
+                        ),
+                      ].map((potrero) => (
+                        <SelectItem key={potrero} value={potrero}>
+                          {potrero}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {hasActiveFilters && (
+                  <div className="mt-4 flex justify-end">
+                    <Button size="sm" onClick={clearFilters}>
+                      Limpiar filtros
+                    </Button>
+                  </div>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Dropdown de columnas */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-full md:w-auto justify-between"
+                >
+                  <Settings2 className="mr-2 h-4 w-4" />
+                  Columnas
+                  <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -618,25 +620,30 @@ export function DataTableMortandad({ data }: DataTableProps) {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <div className="p-2">
+            {/* Botón de exportación */}
+            <div className="w-full md:w-auto ">
               <ExportExcelButton data={data} />
-            </div>
-            <div className="flex-row md:flex items-center mt-4">
-              {selectedRows.length > 0 && (
-                <Button
-                  variant="destructive"
-                  onClick={() => setDeletingMortandad(selectedRows)}
-                  className="mb-4"
-                  size="sm"
-                >
-                  <Trash className="h-4 w-4 mr-2" />
-                  Eliminar seleccionados ({selectedRows.length})
-                </Button>
-              )}
             </div>
           </div>
         </div>
+
+        {/* Botón de eliminar seleccionados */}
+        {selectedRows.length > 0 && (
+          <div className="mb-4">
+            <Button
+              variant="destructive"
+              onClick={() => setDeletingMortandad(selectedRows)}
+              size="sm"
+              className="w-full md:w-auto"
+            >
+              <Trash className="h-4 w-4 mr-2" />
+              Eliminar seleccionados ({selectedRows.length})
+            </Button>
+          </div>
+        )}
       </div>
+
+      {/* Tabla */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -738,7 +745,12 @@ export function DataTableMortandad({ data }: DataTableProps) {
         </Dialog>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
+      {/* Paginación */}
+      <div className="flex items-center justify-between py-4">
+        <div className="text-sm text-muted-foreground">
+          Total de registros: {data.length}
+        </div>
+
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -756,11 +768,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
           >
             Siguiente
           </Button>
-        </div>
-      </div>
-      <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="text-sm text-muted-foreground">
-          Total de registros: {data.length}
         </div>
       </div>
     </div>
