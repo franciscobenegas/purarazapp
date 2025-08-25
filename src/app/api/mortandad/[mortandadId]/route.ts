@@ -64,6 +64,16 @@ export async function DELETE(
       },
     });
 
+    // Decrementamos la cantidad en Categoria
+    await prisma.categoria.update({
+      where: { id: deletedMortandad.categoriaId },
+      data: {
+        cantidad: {
+          increment: 1,
+        },
+      },
+    });
+
     return NextResponse.json(deletedMortandad);
   } catch (error) {
     console.error("[MORTANDAD_DELETE_ERROR]:", error);

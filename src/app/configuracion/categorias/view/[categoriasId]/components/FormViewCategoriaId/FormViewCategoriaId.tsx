@@ -361,7 +361,7 @@ export function FormViewCategoriaId({ categoria }: FormProps) {
                 <Button
                   type="button"
                   variant="destructive"
-                  onClick={() => setopenModal(true)} // ← aquí estaba el error
+                  onClick={() => setopenModal(true)}
                 >
                   Eliminar
                 </Button>

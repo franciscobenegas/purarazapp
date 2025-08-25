@@ -27,12 +27,14 @@ import {
 import {
   ArrowUpDown,
   ChevronDown,
+  FileSearch,
   ListFilterPlus,
   Logs,
   MoreHorizontal,
-  Pencil,
   Settings2,
+  SquarePen,
   Trash,
+  Trash2,
 } from "lucide-react";
 import { Mortandad, Prisma } from "@prisma/client";
 import { Button } from "@/components/ui/button";
@@ -41,6 +43,8 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -300,32 +304,52 @@ export function DataTableMortandad({ data }: DataTableProps) {
       header: "Fecha Modif.",
       cell: ({ cell }) => formatDate(cell.getValue() as Date),
     },
+
     {
       id: "actions",
-      header: () => <Logs className="text-primary" />,
-      cell: ({ row }) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant="ghost" className="w-8 h-4 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <Link href={`/configuracion/mortandad/${row.original.id}`}>
-              <DropdownMenuItem>
-                <Pencil className="w-4 h-4 mr-2" />
-                Editar
+      header: ({}) => {
+        return <Logs className="text-primary" />;
+      },
+      cell: ({ row }) => {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="h-8 w-8 p-0 bg-zinc-50 hover:bg-white"
+              >
+                <span className="sr-only">Abrir menú</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <Link href={`/diaria/mortandad/edit/${row.original.id}`}>
+                <DropdownMenuItem>
+                  <SquarePen className="mr-2 h-4 w-4" />
+                  Editar
+                </DropdownMenuItem>
+              </Link>
+              <Link href={`/diaria/mortandad/view/${row.original.id}`}>
+                <DropdownMenuItem>
+                  <FileSearch className="mr-2 h-4 w-4" />
+                  Detalle
+                </DropdownMenuItem>
+              </Link>
+
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => setDeletingMortandad(row.original)}
+                className="text-red-600"
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Eliminar
               </DropdownMenuItem>
-            </Link>
-            <DropdownMenuItem
-              onClick={() => setDeletingMortandad(row.original)}
-            >
-              <Trash className="w-4 h-4 mr-2 text-red-500" />
-              <p className="text-red-500">Eliminar</p>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
     },
   ];
 

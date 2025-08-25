@@ -438,25 +438,46 @@ export function FormMortandad({
                                 ref={field.ref}
                               />
                             </FormControl>
+
                             {preview.foto1 ? (
                               <div className="relative w-full h-40 rounded-md border overflow-hidden">
                                 <Image
-                                  src={
-                                    preview.foto1 ||
-                                    "/placeholder.svg?height=160&width=320&query=preview-foto-1" ||
-                                    "/placeholder.svg"
-                                  }
+                                  src={preview.foto1}
                                   alt="Vista previa foto 1"
                                   fill
                                   className="object-cover"
                                   unoptimized
                                 />
+                                {/* Botón quitar */}
+                                <Button
+                                  type="button"
+                                  size="sm"
+                                  variant="destructive"
+                                  className="absolute top-2 right-2"
+                                  onClick={() => {
+                                    setPreview((p) => ({
+                                      ...p,
+                                      foto1: undefined,
+                                    }));
+                                    form.setValue("foto1", undefined, {
+                                      shouldValidate: true,
+                                    });
+                                    // limpiar input de archivo manualmente
+                                    const input = document.getElementById(
+                                      "foto1"
+                                    ) as HTMLInputElement;
+                                    if (input) input.value = "";
+                                  }}
+                                >
+                                  Quitar
+                                </Button>
                               </div>
                             ) : (
                               <div className="w-full h-40 border rounded-md grid place-items-center text-sm text-muted-foreground">
                                 {"Sin imagen"}
                               </div>
                             )}
+
                             <FormMessage />
                           </FormItem>
                         )}

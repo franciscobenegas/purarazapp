@@ -36,6 +36,7 @@ export async function POST(req: NextRequest) {
     formData.forEach((value, key) => {
       data[key] = value as string | File;
     });
+
     // Función para subir si existe archivo
     const uploadImage = async (file: File | null): Promise<string | null> => {
       if (!file || !(file instanceof File)) return null;
@@ -62,7 +63,7 @@ export async function POST(req: NextRequest) {
         }
       );
 
-      return uploadResult.secure_url; // 👈 devolvemos solo la URL
+      return uploadResult.secure_url;
     };
 
     // Subimos fotos si existen
@@ -70,6 +71,22 @@ export async function POST(req: NextRequest) {
     const foto2Url = await uploadImage(data.foto2 || null);
     const foto3Url = await uploadImage(data.foto3 || null);
 
+    // ✅ Validamos que la categoría tenga animales
+    const categoria = await prisma.categoria.findUnique({
+      where: { id: data.categoriaId },
+    });
+
+    if (!categoria) {
+      return new NextResponse("Categoría no encontrada", { status: 404 });
+    }
+
+    if ((categoria.cantidad ?? 0) <= 0) {
+      return new NextResponse("No hay animales suficientes en esta categoría", {
+        status: 400,
+      });
+    }
+
+    // Creamos la mortandad
     const addMortandad = await prisma.mortandad.create({
       data: {
         establesimiento,
@@ -84,6 +101,16 @@ export async function POST(req: NextRequest) {
         foto1: foto1Url,
         foto2: foto2Url,
         foto3: foto3Url,
+      },
+    });
+
+    // Decrementamos la cantidad en Categoria
+    await prisma.categoria.update({
+      where: { id: data.categoriaId },
+      data: {
+        cantidad: {
+          decrement: 1,
+        },
       },
     });
 
