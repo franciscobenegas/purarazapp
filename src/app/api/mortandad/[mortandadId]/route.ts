@@ -5,6 +5,7 @@ import type { UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 import { v4 as uuidv4 } from "uuid";
 import { Prisma } from "@prisma/client";
+import { auditDelete, auditUpdate } from "@/utils/auditoria";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -105,6 +106,7 @@ export async function PUT(
         : undefined,
       causa: data.causaId ? { connect: { id: data.causaId } } : undefined,
       potrero: data.potreroId ? { connect: { id: data.potreroId } } : undefined,
+      numeroAnimal: data.numeroAnimal || undefined,
       ubicacionGps: data.ubicacionGps,
       usuario,
       establesimiento,
@@ -129,10 +131,22 @@ export async function PUT(
       updateData.foto3 = null;
     }
 
-    const mortandadUpdate = await prisma.mortandad.update({
-      where: { id: mortandadId },
-      data: updateData,
-    });
+    const mortandadUpdate = await auditUpdate(
+      "Mortandad",
+      usuario,
+      mortandadId,
+      () => prisma.mortandad.findUnique({ where: { id: mortandadId } }),
+      () =>
+        prisma.mortandad.update({
+          where: { id: mortandadId },
+          data: updateData,
+        })
+    );
+
+    // const mortandadUpdate = await prisma.mortandad.update({
+    //   where: { id: mortandadId },
+    //   data: updateData,
+    // });
 
     return NextResponse.json(mortandadUpdate);
   } catch (error) {
@@ -164,16 +178,24 @@ export async function DELETE(
       return new Response("Mortandad Id no encontrada", { status: 404 });
     }
 
-    // Elimina el tipo de raza y en cascada los propietarios
-    const deletedMortandad = await prisma.mortandad.delete({
-      where: {
-        id: mortandadId,
-      },
-    });
+    const deletedMortandad = await auditDelete(
+      "Mortandad",
+      usuario,
+      mortandadId,
+      () => prisma.mortandad.findUnique({ where: { id: mortandadId } }),
+      () => prisma.mortandad.delete({ where: { id: mortandadId } })
+    );
+
+    // // Elimina el tipo de raza y en cascada los propietarios
+    // const deletedMortandad = await prisma.mortandad.delete({
+    //   where: {
+    //     id: mortandadId,
+    //   },
+    // });
 
     // Decrementamos la cantidad en Categoria
     await prisma.categoria.update({
-      where: { id: deletedMortandad.categoriaId },
+      where: { id: mortandadDel.categoriaId },
       data: {
         cantidad: {
           increment: 1,

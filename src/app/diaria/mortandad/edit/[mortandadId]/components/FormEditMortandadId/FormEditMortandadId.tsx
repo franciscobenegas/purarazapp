@@ -365,7 +365,7 @@ export function FormEditMortandadId({
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br  p-2 md:p-2">
+    <main className="min-h-screen bg-gradient-to-br p-2 md:p-2 ">
       <div className="mx-auto max-w-4xl">
         <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className=" bg-primary  text-white rounded-t-lg">

@@ -202,4 +202,17 @@ model Mortandad {
 }
 
 
+model Auditoria {
+  id          String   @id @default(uuid())
+  tabla       String
+  registroId  String
+  accion      String   // CREATE, UPDATE, DELETE
+  oldValues   Json?
+  newValues   Json?
+  usuarioId   String
+  createdAt   DateTime @default(now())
+}
+
+
+
 

@@ -4,6 +4,7 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import { v2 as cloudinary } from "cloudinary";
 import { v4 as uuidv4 } from "uuid";
 import type { UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
+import { auditCreate } from "@/utils/auditoria";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -86,22 +87,24 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Creamos la mortandad
-    const addMortandad = await prisma.mortandad.create({
-      data: {
-        establesimiento,
-        usuario,
-        fecha: new Date(data.fecha),
-        propietarioId: data.propietarioId,
-        numeroAnimal: data.numeroAnimal,
-        categoriaId: data.categoriaId,
-        causaId: data.causaId,
-        potreroId: data.potreroId,
-        ubicacionGps: data.ubicacionGps,
-        foto1: foto1Url,
-        foto2: foto2Url,
-        foto3: foto3Url,
-      },
+    // Creamos la mortandad + auditoría en un solo paso
+    const addMortandad = await auditCreate("Mortandad", usuario, async () => {
+      return prisma.mortandad.create({
+        data: {
+          establesimiento, // asumiendo que así se llama tu campo en el schema
+          usuario,
+          fecha: new Date(data.fecha),
+          propietarioId: data.propietarioId,
+          numeroAnimal: data.numeroAnimal,
+          categoriaId: data.categoriaId,
+          causaId: data.causaId,
+          potreroId: data.potreroId,
+          ubicacionGps: data.ubicacionGps,
+          foto1: foto1Url,
+          foto2: foto2Url,
+          foto3: foto3Url,
+        },
+      });
     });
 
     // Decrementamos la cantidad en Categoria
