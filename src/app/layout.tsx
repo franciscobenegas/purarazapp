@@ -31,10 +31,7 @@ export default async function RootLayout({
             <SidebarProvider>
               <div className="flex w-full h-full">
                 <Sidebar />
-                <div
-                  //className={cn("w-full", session?.user?.name && "xl:ml-72")}
-                  className="w-full xl:ml-72"
-                >
+                <div className="w-full xl:ml-72">
                   <Navbar />
                   <div className="p-3 bg-[#fafbfc] dark:bg-secondary">
                     {children}

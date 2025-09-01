@@ -1,6 +1,6 @@
 "use client";
-// import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // Combined component for 404 page
 export default function NotFoundPage() {
@@ -15,7 +15,7 @@ export default function NotFoundPage() {
 
 // 1. Message Display Component
 function MessageDisplay() {
-  // const navigate = useNavigate();
+  const router = useRouter(); // Usar el router de Next.js
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function MessageDisplay() {
         </div>
         <div className="flex gap-6 mt-8">
           <button
-            // onClick={() => navigate(-1)}
+            onClick={() => router.back()} // Navegar a la página anterior
             className="text-black border-2 border-black hover:bg-black hover:text-white transition-all duration-300 ease-in-out px-6 py-2 h-auto text-base font-medium flex items-center gap-2 hover:scale-105"
           >
             <svg
@@ -61,10 +61,10 @@ function MessageDisplay() {
               <path d="m12 19-7-7 7-7" />
               <path d="M19 12H5" />
             </svg>
-            Go Back
+            Atras
           </button>
           <button
-            // onClick={() => navigate("/")}
+            onClick={() => router.push("/")} // Navegar al inicio
             className="bg-black text-white hover:bg-gray-900 transition-all duration-300 ease-in-out px-6 py-2 h-auto text-base font-medium flex items-center gap-2 hover:scale-105"
           >
             <svg
@@ -82,7 +82,7 @@ function MessageDisplay() {
               <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
-            Go Home
+            Inicio
           </button>
         </div>
       </div>
@@ -90,134 +90,7 @@ function MessageDisplay() {
   );
 }
 
-// 2. Characters Animation Component
-// type StickFigure = {
-//   top?: string;
-//   bottom?: string;
-//   src: string;
-//   transform?: string;
-//   speedX: number;
-//   speedRotation?: number;
-// };
-
-// function CharactersAnimation() {
-//   const charactersRef = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     // Define stick figures with their properties
-//     const stickFigures: StickFigure[] = [
-//       {
-//         top: "0%",
-//         src: "https://raw.githubusercontent.com/RicardoYare/imagenes/9ef29f5bbe075b1d1230a996d87bca313b9b6a63/sticks/stick0.svg",
-//         transform: "rotateZ(-90deg)",
-//         speedX: 1500,
-//       },
-//       {
-//         top: "10%",
-//         src: "https://raw.githubusercontent.com/RicardoYare/imagenes/9ef29f5bbe075b1d1230a996d87bca313b9b6a63/sticks/stick1.svg",
-//         speedX: 3000,
-//         speedRotation: 2000,
-//       },
-//       {
-//         top: "20%",
-//         src: "https://raw.githubusercontent.com/RicardoYare/imagenes/9ef29f5bbe075b1d1230a996d87bca313b9b6a63/sticks/stick2.svg",
-//         speedX: 5000,
-//         speedRotation: 1000,
-//       },
-//       {
-//         top: "25%",
-//         src: "https://raw.githubusercontent.com/RicardoYare/imagenes/9ef29f5bbe075b1d1230a996d87bca313b9b6a63/sticks/stick0.svg",
-//         speedX: 2500,
-//         speedRotation: 1500,
-//       },
-//       {
-//         top: "35%",
-//         src: "https://raw.githubusercontent.com/RicardoYare/imagenes/9ef29f5bbe075b1d1230a996d87bca313b9b6a63/sticks/stick0.svg",
-//         speedX: 2000,
-//         speedRotation: 300,
-//       },
-//     ];
-
-//     // Clear existing content
-//     if (charactersRef.current) {
-//       charactersRef.current.innerHTML = "";
-//     }
-
-//     // Create and animate each stick figure
-//     stickFigures.forEach((figure, index) => {
-//       const stick = document.createElement("img");
-//       stick.classList.add("characters");
-//       stick.style.position = "absolute";
-//       stick.style.width = "18%";
-//       stick.style.height = "18%";
-
-//       // Set position
-//       if (figure.top) stick.style.top = figure.top;
-//       if (figure.bottom) stick.style.bottom = figure.bottom;
-
-//       // Set image source
-//       stick.src = figure.src;
-
-//       // Set initial transform if specified
-//       if (figure.transform) stick.style.transform = figure.transform;
-
-//       // Append to the container
-//       charactersRef.current?.appendChild(stick);
-
-//       // Skip animation for the last figure (index 5)
-//       if (index === 5) return;
-
-//       // Horizontal movement animation
-//       stick.animate([{ left: "100%" }, { left: "-20%" }], {
-//         duration: figure.speedX,
-//         easing: "linear",
-//         fill: "forwards",
-//       });
-
-//       // Skip rotation for the first figure (index 0)
-//       if (index === 0) return;
-
-//       // Rotation animation
-//       if (figure.speedRotation) {
-//         stick.animate(
-//           [{ transform: "rotate(0deg)" }, { transform: "rotate(-360deg)" }],
-//           {
-//             duration: figure.speedRotation,
-//             iterations: Infinity,
-//             easing: "linear",
-//           }
-//         );
-//       }
-//     });
-
-//     // Cleanup function
-//     return () => {
-//       if (charactersRef.current) {
-//         // eslint-disable-next-line react-hooks/exhaustive-deps
-//         charactersRef.current.innerHTML = "";
-//       }
-//     };
-//   }, []);
-
-//   // Handle window resize
-//   useEffect(() => {
-//     const handleResize = () => {
-//       if (charactersRef.current) {
-//         charactersRef.current.innerHTML = "";
-
-//         // Re-create animations after resize
-//         charactersRef.current.dispatchEvent(new Event("contentchanged"));
-//       }
-//     };
-
-//     window.addEventListener("resize", handleResize);
-//     return () => window.removeEventListener("resize", handleResize);
-//   }, []);
-
-//   return <div ref={charactersRef} className="absolute w-[99%] h-[95%]" />;
-// }
-
-// 3. Circle Animation Component
+// El resto del código (CircleAnimation) permanece igual
 interface Circulo {
   x: number;
   y: number;

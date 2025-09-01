@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 type FormValues = {
   username: string;
@@ -13,6 +13,12 @@ type FormValues = {
   password: string;
   confirmPassword: string;
   establesimiento: string;
+};
+
+// Tipo para la fortaleza de la contraseña
+type PasswordStrength = {
+  strength: number;
+  label: string;
 };
 
 export function RegistroForm() {
@@ -25,6 +31,47 @@ export function RegistroForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // Obtener el valor del campo de contraseña
+  const passwordValue = watch("password", "");
+
+  // Función para calcular la fortaleza de la contraseña
+  const calculatePasswordStrength = useMemo((): PasswordStrength => {
+    if (!passwordValue) return { strength: 0, label: "" };
+
+    let strength = 0;
+    const reasons = [];
+
+    // Longitud mínima
+    if (passwordValue.length >= 8) strength += 20;
+    else reasons.push("Mínimo 8 caracteres");
+
+    // Letra mayúscula
+    if (/[A-Z]/.test(passwordValue)) strength += 20;
+    else reasons.push("Mayúscula");
+
+    // Letra minúscula
+    if (/[a-z]/.test(passwordValue)) strength += 20;
+    else reasons.push("Minúscula");
+
+    // Número
+    if (/[0-9]/.test(passwordValue)) strength += 20;
+    else reasons.push("Número");
+
+    // Carácter especial
+    if (/[!@#$%^&*]/.test(passwordValue)) strength += 20;
+    else reasons.push("Carácter especial");
+
+    // Determinar etiqueta según la fortaleza
+    let label = "";
+    if (strength >= 80) label = "Muy fuerte";
+    else if (strength >= 60) label = "Fuerte";
+    else if (strength >= 40) label = "Medio";
+    else if (strength >= 20) label = "Débil";
+    else label = "Muy débil";
+
+    return { strength, label };
+  }, [passwordValue]);
 
   const slugify = (text: string) =>
     text
@@ -117,7 +164,7 @@ export function RegistroForm() {
             placeholder="Usuario123"
           />
           {errors.username && (
-            <p className="text-red-600 -mt-5 mb-3 text-xs">
+            <p className="text-red-600 -mt-2 mb-3 text-xs">
               {errors.username.message}
             </p>
           )}
@@ -136,7 +183,7 @@ export function RegistroForm() {
           />
 
           {errors.email && (
-            <p className="text-red-600 -mt-5 mb-3 text-xs">
+            <p className="text-red-600 -mt-2 mb-3 text-xs">
               {errors.email.message}
             </p>
           )}
@@ -156,10 +203,16 @@ export function RegistroForm() {
             placeholder="establecimiento_ganadero"
           />
 
+          {errors.establesimiento && (
+            <p className="text-red-600 -mt-2 mb-3 text-xs">
+              {errors.establesimiento.message}
+            </p>
+          )}
+
           <label htmlFor="password">Contraseña</label>
           <div className="relative">
             <input
-              className="px-5 py-2 border bg-gray-200 rounded mb-5 dark:text-slate-800 w-full"
+              className="px-5 py-2 border bg-gray-200 rounded mb-2 dark:text-slate-800 w-full"
               type={showPassword ? "text" : "password"}
               {...register("password", {
                 required: {
@@ -178,8 +231,45 @@ export function RegistroForm() {
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
+
+          {/* Barra de fortaleza de contraseña */}
+          {passwordValue && (
+            <div className="mb-3">
+              <div className="flex justify-between text-xs mb-1">
+                <span>Fortaleza:</span>
+                <span
+                  className={
+                    calculatePasswordStrength.strength >= 80
+                      ? "text-green-600 font-medium"
+                      : calculatePasswordStrength.strength >= 60
+                      ? "text-yellow-600 font-medium"
+                      : calculatePasswordStrength.strength >= 40
+                      ? "text-orange-500 font-medium"
+                      : "text-red-600 font-medium"
+                  }
+                >
+                  {calculatePasswordStrength.label}
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                <div
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    calculatePasswordStrength.strength >= 80
+                      ? "bg-green-500"
+                      : calculatePasswordStrength.strength >= 60
+                      ? "bg-yellow-500"
+                      : calculatePasswordStrength.strength >= 40
+                      ? "bg-orange-500"
+                      : "bg-red-500"
+                  }`}
+                  style={{ width: `${calculatePasswordStrength.strength}%` }}
+                />
+              </div>
+            </div>
+          )}
+
           {errors.password && (
-            <p className="text-red-600 -mt-5 mb-3 text-xs">
+            <p className="text-red-600 -mt-1 mb-3 text-xs">
               {errors.password.message}
             </p>
           )}
@@ -216,7 +306,7 @@ export function RegistroForm() {
             </p>
           )}
 
-          {/* Indicador de fortaleza de contraseña */}
+          {/* Indicador de requisitos de contraseña */}
           <div className="mb-5">
             <p className="text-sm font-medium mb-1">
               Requisitos de contraseña:
@@ -224,36 +314,42 @@ export function RegistroForm() {
             <ul className="text-xs text-gray-600 list-disc pl-5">
               <li
                 className={
-                  watch("password")?.length >= 8 ? "text-green-600" : ""
+                  passwordValue?.length >= 8 ? "text-green-600 font-bold" : ""
                 }
               >
                 Mínimo 8 caracteres
               </li>
               <li
                 className={
-                  /[A-Z]/.test(watch("password") || "") ? "text-green-600" : ""
+                  /[A-Z]/.test(passwordValue || "")
+                    ? "text-green-600 font-bold"
+                    : ""
                 }
               >
                 Al menos una letra mayúscula
               </li>
               <li
                 className={
-                  /[a-z]/.test(watch("password") || "") ? "text-green-600" : ""
+                  /[a-z]/.test(passwordValue || "")
+                    ? "text-green-600 font-bold"
+                    : ""
                 }
               >
                 Al menos una letra minúscula
               </li>
               <li
                 className={
-                  /[0-9]/.test(watch("password") || "") ? "text-green-600" : ""
+                  /[0-9]/.test(passwordValue || "")
+                    ? "text-green-600 font-bold"
+                    : ""
                 }
               >
                 Al menos un número
               </li>
               <li
                 className={
-                  /[!@#$%^&*]/.test(watch("password") || "")
-                    ? "text-green-600"
+                  /[!@#$%^&*]/.test(passwordValue || "")
+                    ? "text-green-600 font-bold"
                     : ""
                 }
               >

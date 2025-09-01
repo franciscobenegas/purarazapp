@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 
 export function Sidebar() {
   const { user } = useSession();
-  //if (loading) return <div>Cargando...</div>;
 
   return (
     <div

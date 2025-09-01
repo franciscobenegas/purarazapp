@@ -18,9 +18,6 @@ interface MortandadProps {
 
 export function InfoViewMortandad(props: MortandadProps) {
   const { mortandad } = props;
-
-  console.log(mortandad);
-
   return (
     <div className="grid grid-cols-1 ">
       <div className="rounded-lg bg-background shadow-md hover:shadow-lg p-4">
