@@ -140,7 +140,7 @@ export function FormViewMortandadId({ mortandad }: FormMortandadProps) {
                 className="flex items-center gap-2"
               >
                 <FileText className="h-4 w-4" />
-                Vista de Mortandad
+                Vistas Mortandad
               </TabsTrigger>
               <TabsTrigger
                 value="auditoria"
@@ -354,17 +354,23 @@ export function FormViewMortandadId({ mortandad }: FormMortandadProps) {
           </DialogHeader>
           <DialogFooter className="gap-2 sm:space-x-0">
             <DialogClose>
-              <Button variant="outline" onClick={() => setopenModal(false)}>
+              <Button
+                className="mr-5"
+                variant="outline"
+                onClick={() => setopenModal(false)}
+                size="lg"
+              >
                 Cancelar
               </Button>
+              <Button
+                variant="destructive"
+                onClick={handleDeleteConfirm}
+                disabled={loading}
+                size="lg"
+              >
+                Eliminar
+              </Button>
             </DialogClose>
-            <Button
-              variant="destructive"
-              onClick={handleDeleteConfirm}
-              disabled={loading}
-            >
-              Eliminar
-            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

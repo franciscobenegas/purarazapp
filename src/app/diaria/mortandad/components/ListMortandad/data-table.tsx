@@ -49,6 +49,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -726,20 +727,25 @@ export function DataTableMortandad({ data }: DataTableProps) {
               )}
             </DialogDescription>
 
-            <DialogFooter className="mt-4">
-              <Button
-                variant="outline"
-                onClick={() => setDeletingMortandad(null)}
-              >
-                Cancelar
-              </Button>
-              <Button
-                variant="destructive"
-                onClick={handleDeleteConfirm}
-                disabled={loading}
-              >
-                {loading ? "Eliminando..." : "Confirmar"}
-              </Button>
+            <DialogFooter className="gap-2 sm:space-x-0">
+              <DialogClose>
+                <Button
+                  size="lg"
+                  className="mr-5"
+                  variant="outline"
+                  onClick={() => setDeletingMortandad(null)}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  size="lg"
+                  variant="destructive"
+                  onClick={handleDeleteConfirm}
+                  disabled={loading}
+                >
+                  {loading ? "Eliminando..." : "Confirmar"}
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
