@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
+import { auditUpdate } from "@/utils/auditoria";
 
 export async function PUT(
   req: Request,
@@ -17,15 +18,20 @@ export async function PUT(
       });
     }
 
-    const categoriaUpdate = await prisma.categoria.update({
-      where: {
-        id: categoriaId,
-      },
-      data: {
-        ...values,
-        usuario,
-      },
-    });
+    const categoriaUpdate = await auditUpdate(
+      "Categoria",
+      usuario,
+      categoriaId,
+      () => prisma.categoria.findUnique({ where: { id: categoriaId } }),
+      () =>
+        prisma.categoria.update({
+          where: { id: categoriaId },
+          data: {
+            ...values,
+            usuario,
+          },
+        })
+    );
 
     return NextResponse.json(categoriaUpdate);
   } catch (error) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
+import { auditCreate } from "@/utils/auditoria";
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,12 +9,15 @@ export async function POST(req: NextRequest) {
 
     const data = await req.json();
 
-    const addCategoria = await prisma.categoria.create({
-      data: {
-        establesimiento,
-        usuario,
-        ...data,
-      },
+    // Creamos la categoria + auditoría en un solo paso
+    const addCategoria = await auditCreate("Categoria", usuario, async () => {
+      return prisma.categoria.create({
+        data: {
+          establesimiento, // asumiendo que así se llama tu campo en el schema
+          usuario,
+          ...data,
+        },
+      });
     });
 
     return NextResponse.json(addCategoria);
