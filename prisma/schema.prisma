@@ -31,6 +31,17 @@ enum Edad {
   Joven
 }
 
+enum Pelaje {
+  Negro
+  Colorado
+  Blanco
+  Bayo
+  Barcino
+  Overo
+  Hosco
+  Pampa
+}
+
 
 model Usuario{
   id String    @id @default(uuid())
@@ -75,7 +86,8 @@ model Propietario{
   estanciaId String
   estancia Estancia? @relation(fields: [estanciaId], references: [id], onDelete: Cascade )
   establesimiento String
-  mortandades Mortandad[] // <-- Esta es la relación inversa
+  mortandades Mortandad[]
+  nacimiento Nacimiento[]
 
   @@index([estanciaId])
   @@index([establesimiento])
@@ -165,7 +177,8 @@ model Potrero{
   usuario String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime   @updatedAt
-  mortandades Mortandad[] // <-- Esta es la relación inversa
+  mortandades Mortandad[] 
+  nacimiento Nacimiento[]
 
   @@index([establesimiento])
 }
@@ -213,6 +226,27 @@ model Auditoria {
   createdAt   DateTime @default(now())
 }
 
+model Nacimiento{
+  id              String           @id @default(uuid())
+  fecha           DateTime
+  numeroVaca      String?
+  numeroTernero   String?
+  propietarioId   String
+  propietario     Propietario      @relation(fields: [propietarioId], references: [id])
+  potreroId       String
+  potrero         Potrero          @relation(fields: [potreroId], references: [id])
+  sexo            Sexo
+  peso            Int?
+  pelaje          Pelaje
+  usuario         String
+  establesimiento String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  
+  @@index([propietarioId])
+  @@index([potreroId])
+
+}
 
 
 
