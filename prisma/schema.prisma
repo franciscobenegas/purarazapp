@@ -44,31 +44,31 @@ enum Pelaje {
 
 
 model Usuario{
-  id String    @id @default(uuid())
-  email String @unique
-  username String @unique
-  password String
+  id              String    @id @default(uuid())
+  email           String @unique
+  username        String @unique
+  password        String
   establesimiento String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  rol Rol @default(ADMIN)
-  activo Boolean @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  rol             Rol @default(ADMIN)
+  activo          Boolean @default(true)
   
   @@index([establesimiento])
 }
 
 model Estancia{
-  id String    @id @default(uuid())
-  nombre  String
-  departamento String
-  distrito String
-  localidad String
-  ruc String
-  telefono String
-  usuario String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime   @updatedAt
-  propietario Propietario[]
+  id               String    @id @default(uuid())
+  nombre           String
+  departamento     String
+  distrito         String
+  localidad        String
+  ruc              String
+  telefono         String
+  usuario          String
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime   @updatedAt
+  propietario      Propietario[]
   establesimiento String
 
    @@index([establesimiento])
@@ -76,18 +76,18 @@ model Estancia{
 }
 
 model Propietario{
-  id String    @id @default(uuid())
-  nombre String
-  email String
-  telefono String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime   @updatedAt
-  usuario String
-  estanciaId String
-  estancia Estancia? @relation(fields: [estanciaId], references: [id], onDelete: Cascade )
+  id              String    @id @default(uuid())
+  nombre          String
+  email           String
+  telefono        String
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  usuario         String
+  estanciaId      String
+  estancia        Estancia? @relation(fields: [estanciaId], references: [id], onDelete: Cascade )
   establesimiento String
-  mortandades Mortandad[]
-  nacimiento Nacimiento[]
+  mortandades     Mortandad[]
+  nacimiento      Nacimiento[]
 
   @@index([estanciaId])
   @@index([establesimiento])
@@ -95,90 +95,90 @@ model Propietario{
 
 
 model Categoria{
-  id String    @id @default(uuid())
-   nombre String
-   sexo Sexo
-   edad Edad
-   promedioKilos Int
-   precioVentaCabeza Int
-   precioVentaKilo Int
-   precioCostoCabeza Int
-   precioCostoKilo Int
-   usuario String
-   establesimiento String
-   createdAt   DateTime    @default(now())
-   updatedAt   DateTime   @updatedAt
-   mortandades Mortandad[] // <-- Esta es la relación inversa
-   cantidad Int?
+   id                 String    @id @default(uuid())
+   nombre             String
+   sexo               Sexo
+   edad               Edad
+   promedioKilos      Int
+   precioVentaCabeza  Int
+   precioVentaKilo    Int
+   precioCostoCabeza  Int
+   precioCostoKilo    Int
+   usuario            String
+   establesimiento    String
+   createdAt          DateTime    @default(now())
+   updatedAt          DateTime   @updatedAt
+   mortandades        Mortandad[] // <-- Esta es la relación inversa
+   cantidad           Int?
 
    @@index([establesimiento])
 }
 
 model TipoRaza{
-  id String    @id @default(uuid())
-  nombre String
+  id              String    @id @default(uuid())
+  nombre          String
   establesimiento String
-  usuario String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime   @updatedAt
+  usuario         String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime   @updatedAt
 
   @@index([establesimiento])
 }
 
 model CausaMortandad{
-  id String    @id @default(uuid())
-  nombre String
+  id              String    @id @default(uuid())
+  nombre          String
   establesimiento String
-  usuario String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime   @updatedAt
-  mortandades Mortandad[] // <-- Esta es la relación inversa
+  usuario         String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime   @updatedAt
+  mortandades     Mortandad[] // <-- Esta es la relación inversa
 
   @@index([establesimiento])
 }
 
 model MotivoPesaje{
-  id String    @id @default(uuid())
-  nombre String
+  id               String    @id @default(uuid())
+  nombre          String
   establesimiento String
-  usuario String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime   @updatedAt
+  usuario         String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime   @updatedAt
 
   @@index([establesimiento])
 }
 
 model MotivoEntrada{
-  id String    @id @default(uuid())
-  nombre String
+  id              String    @id @default(uuid())
+  nombre          String
   establesimiento String
-  usuario String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime   @updatedAt
+  usuario         String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime   @updatedAt
 
   @@index([establesimiento])
 }
 
 model MotivoSalida{
-  id String    @id @default(uuid())
-  nombre String
+  id              String    @id @default(uuid())
+  nombre          String
   establesimiento String
-  usuario String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime   @updatedAt
+  usuario         String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime   @updatedAt
 
   @@index([establesimiento])
 }
 
 model Potrero{
-  id String    @id @default(uuid())
-  nombre String
+  id              String    @id @default(uuid())
+  nombre          String
   establesimiento String
-  usuario String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime   @updatedAt
-  mortandades Mortandad[] 
-  nacimiento Nacimiento[]
+  usuario         String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime   @updatedAt
+  mortandades     Mortandad[] 
+  nacimiento      Nacimiento[]
 
   @@index([establesimiento])
 }

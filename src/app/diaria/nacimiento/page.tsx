@@ -2,6 +2,7 @@ import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
 import React from "react";
 import { HeaderNacimineto } from "./components/HeaderNacimineto";
+import { ListNacimiento } from "./components/ListNacimiento";
 
 export default async function NacimientoPage() {
   const { establesimiento } = getUserFromToken();
@@ -30,6 +31,8 @@ export default async function NacimientoPage() {
         listPotrero={listPotrero}
         listPropietarios={listPropietario}
       />
+
+      <ListNacimiento/>
     </div>
   );
 }

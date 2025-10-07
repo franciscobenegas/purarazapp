@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+
 import {
   ColumnDef,
   SortingState,
@@ -36,7 +36,7 @@ import {
   Trash,
   Trash2,
 } from "lucide-react";
-import { Mortandad, Prisma } from "@prisma/client";
+import { Nacimiento, Prisma } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -70,37 +70,33 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 
-type MortandadWithRelations = Prisma.MortandadGetPayload<{
+type NacimientoWithRelations =  Prisma.NacimientoGetPayload<{
   include: {
     propietario: true;
-    categoria: true;
-    causa: true;
     potrero: true;
   };
 }>;
 
 interface DataTableProps {
-  data: MortandadWithRelations[];
+  data: NacimientoWithRelations[];
 }
 
 type DateRangeFilter = { from?: string; to?: string };
 
-export function DataTableMortandad({ data }: DataTableProps) {
+export function DataTableNacimiento({ data }: DataTableProps) {
   const router = useRouter();
 
   // Estados para mantener los filtros seleccionados
-  const [selectedCategoria, setSelectedCategoria] = useState("all");
-  const [selectedCausa, setSelectedCausa] = useState("all");
+
   const [selectedPropietario, setSelectedPropietario] = useState("all");
   const [selectedPotrero, setSelectedPotrero] = useState("all");
-
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const [isMonted, setIsMonted] = useState(false);
-  const [deletingMortandad, setDeletingMortandad] = useState<
-    Mortandad | Mortandad[] | null
+  const [deletingNacimiento, setDeletingNacimiento] = useState<
+    Nacimiento | Nacimiento[] | null
   >(null);
   const [loading, setLoading] = useState(false);
   const [rowSelection, setRowSelection] = useState({});
@@ -117,8 +113,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
   };
 
   const clearFilters = () => {
-    setSelectedCategoria("all");
-    setSelectedCausa("all");
+
     setSelectedPropietario("all");
     setSelectedPotrero("all");
 
@@ -129,23 +124,22 @@ export function DataTableMortandad({ data }: DataTableProps) {
   };
 
   const hasActiveFilters =
-    selectedCategoria !== "all" ||
-    selectedCausa !== "all" ||
+
     selectedPropietario !== "all" ||
     selectedPotrero !== "all";
 
   const handleDeleteConfirm = async () => {
 
-    if (deletingMortandad) {
+    if (deletingNacimiento) {
       setLoading(true);
       try {
-        const ids = Array.isArray(deletingMortandad)
-          ? deletingMortandad.map((item) => item.id)
-          : [deletingMortandad?.id];
+        const ids = Array.isArray(deletingNacimiento)
+          ? deletingNacimiento.map((item) => item.id)
+          : [deletingNacimiento?.id];
 
         await Promise.all(
           ids.map((id) =>
-            fetch(`/api/mortandad/${id}`, {
+            fetch(`/api/nacimiento/${id}`, {
               method: "DELETE",
               headers: {
                 "Content-Type": "application/json",
@@ -157,7 +151,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
         toast.warning("Exito!!! 😃 ", {
           description: "Los datos fueron eliminados...",
         });
-        setDeletingMortandad(null);
+        setDeletingNacimiento(null);
         router.refresh();
       } catch (error) {
         console.error(error);
@@ -171,7 +165,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
     }
   };
 
-  const columns: ColumnDef<MortandadWithRelations>[] = [
+  const columns: ColumnDef<NacimientoWithRelations>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -203,22 +197,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
       enableHiding: false,
       size: 50,
     },
-    {
-      accessorKey: "foto1",
-      header: "Foto",
-      cell: ({ cell }) => {
-        const url = cell.getValue() as string;
-        return url ? (
-          <Image
-            src={url}
-            alt="Foto 1"
-            width={64}
-            height={64}
-            className="object-cover rounded"
-          />
-        ) : null;
-      },
-    },
+   
     {
       accessorKey: "fecha",
       header: "Fecha",
@@ -237,6 +216,19 @@ export function DataTableMortandad({ data }: DataTableProps) {
         return true;
       },
     },
+
+     {
+      accessorKey: "numeroTernero",
+      header: "# Ternero",
+      cell: ({ cell }) => cell.getValue(),
+    }, 
+    
+         {
+      accessorKey: "numeroVaca",
+      header: "# Madre",
+      cell: ({ cell }) => cell.getValue() ,
+    }, 
+
     {
       accessorKey: "propietario",
       header: "Propietario",
@@ -247,30 +239,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
         return value?.toLowerCase().includes(filterValue.toLowerCase());
       },
     },
-    {
-      accessorKey: "numeroAnimal",
-      header: "# Carabana",
-    },
-    {
-      accessorKey: "categoria",
-      header: "Categoría",
-      accessorFn: (row) => row.categoria?.nombre ?? "",
-      filterFn: (row, columnId, filterValue) => {
-        if (!filterValue) return true;
-        const value = row.getValue<string>(columnId);
-        return value?.toLowerCase().includes(filterValue.toLowerCase());
-      },
-    },
-    {
-      accessorKey: "causa",
-      header: "Causa Mortandad",
-      accessorFn: (row) => row.causa?.nombre ?? "",
-      filterFn: (row, columnId, filterValue) => {
-        if (!filterValue) return true;
-        const value = row.getValue<string>(columnId);
-        return value?.toLowerCase().includes(filterValue.toLowerCase());
-      },
-    },
+    
     {
       accessorKey: "potrero",
       header: "Potrero",
@@ -317,13 +286,13 @@ export function DataTableMortandad({ data }: DataTableProps) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Acciones</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Link href={`/diaria/mortandad/edit/${row.original.id}`}>
+              <Link href={`/diaria/nacimiento/edit/${row.original.id}`}>
                 <DropdownMenuItem>
                   <SquarePen className="mr-2 h-4 w-4" />
                   Editar
                 </DropdownMenuItem>
               </Link>
-              <Link href={`/diaria/mortandad/view/${row.original.id}`}>
+              <Link href={`/diaria/nacimiento/view/${row.original.id}`}>
                 <DropdownMenuItem>
                   <FileSearch className="mr-2 h-4 w-4" />
                   Detalle
@@ -331,7 +300,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
               </Link>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => setDeletingMortandad(row.original)}
+                onClick={() => setDeletingNacimiento(row.original)}
                 className="text-red-600"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
@@ -447,67 +416,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="p-2 w-60">
-                <div className="mb-2">
-                  <label className="block text-sm font-medium mb-1">
-                    Categoría
-                  </label>
-                  <Select
-                    value={selectedCategoria}
-                    onValueChange={(value) =>
-                      handleFilterChange(
-                        "categoria",
-                        value,
-                        setSelectedCategoria
-                      )
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Todos" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Todos</SelectItem>
-                      <Separator />
-                      {[
-                        ...new Set(
-                          data.map((d) => d.categoria?.nombre).filter(Boolean)
-                        ),
-                      ].map((categoria) => (
-                        <SelectItem key={categoria} value={categoria}>
-                          {categoria}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="mb-2">
-                  <label className="block text-sm font-medium mb-1">
-                    Causa Mortandad
-                  </label>
-                  <Select
-                    value={selectedCausa}
-                    onValueChange={(value) =>
-                      handleFilterChange("causa", value, setSelectedCausa)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Todos" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Todos</SelectItem>
-                      <Separator />
-                      {[
-                        ...new Set(
-                          data.map((d) => d.causa?.nombre).filter(Boolean)
-                        ),
-                      ].map((causa) => (
-                        <SelectItem key={causa} value={causa}>
-                          {causa}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
 
                 <div className="mb-2">
                   <label className="block text-sm font-medium mb-1">
@@ -632,7 +540,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
           <div className="mb-4">
             <Button
               variant="destructive"
-              onClick={() => setDeletingMortandad(selectedRows)}
+              onClick={() => setDeletingNacimiento(selectedRows)}
               size="sm"
               className="w-full md:w-auto"
             >
@@ -696,9 +604,9 @@ export function DataTableMortandad({ data }: DataTableProps) {
 
         {/* Dialog para Eliminar */}
         <Dialog
-          open={!!deletingMortandad}
+          open={!!deletingNacimiento}
           onOpenChange={(open) => {
-            if (!open) setDeletingMortandad(null);
+            if (!open) setDeletingNacimiento(null);
           }}
         >
           <DialogContent>
@@ -709,17 +617,17 @@ export function DataTableMortandad({ data }: DataTableProps) {
             </DialogHeader>
 
             <DialogDescription>
-              {Array.isArray(deletingMortandad) ? (
+              {Array.isArray(deletingNacimiento) ? (
                 <p className="mt-2">
                   ¿Estás seguro de que deseas eliminar los{" "}
-                  <span className="font-bold">{deletingMortandad.length}</span>{" "}
+                  <span className="font-bold">{deletingNacimiento.length}</span>{" "}
                   registros seleccionados? Esta acción no se puede deshacer.
                 </p>
               ) : (
                 <p className="mt-2">
                   ¿Estás seguro de que deseas eliminar el registro de
                   <span className="font-bold italic">
-                    {" " + deletingMortandad?.numeroAnimal + " "}
+                    {" " + deletingNacimiento?.numeroTernero + " "}
                   </span>
                   ? Esta acción no se puede deshacer.
                 </p>
@@ -732,7 +640,7 @@ export function DataTableMortandad({ data }: DataTableProps) {
                   size="lg"
                   className="mr-5"
                   variant="outline"
-                  onClick={() => setDeletingMortandad(null)}
+                  onClick={() => setDeletingNacimiento(null)}
                 >
                   Cancelar
                 </Button>
