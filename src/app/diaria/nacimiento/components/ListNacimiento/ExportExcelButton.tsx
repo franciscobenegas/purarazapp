@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"; // Asegúrate de tener el botó
 import { useState } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { Nacimiento, Prisma } from "@prisma/client";
+import { Nacimiento } from "@prisma/client";
 import { Download } from "lucide-react";
 import {
   Tooltip,
