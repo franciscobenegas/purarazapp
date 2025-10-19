@@ -36,7 +36,13 @@ export async function PUT(
   { params }: { params: { mortandadId: string } }
 ) {
   try {
-    const { usuario, establesimiento } = getUserFromToken();
+   const user = getUserFromToken();
+
+    if (!user) {
+      return new NextResponse("Usuario no autenticado", { status: 401 });
+    }
+
+    const  { usuario, establesimiento } = user || {};
     const { mortandadId } = params;
 
     const formData = await req.formData();
@@ -160,7 +166,9 @@ export async function DELETE(
   { params }: { params: { mortandadId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    const user = getUserFromToken();
+    const { usuario } = user || {};
+
     const { mortandadId } = params;
 
     if (!usuario) {

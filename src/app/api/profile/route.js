@@ -7,7 +7,6 @@ export async function GET() {
   const token = cookieStore.get("tokenPuraRaza");
 
   if (!token) {
-    //return res.status(401).json({ error: "Not logged in" });
     return new Response(JSON.stringify({ message: "No esta Logeado" }), {
     status: 401,
     headers: { "Content-Type": "application/json" },

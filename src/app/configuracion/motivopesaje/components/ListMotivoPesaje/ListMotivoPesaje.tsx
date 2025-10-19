@@ -4,11 +4,11 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import { DataTableMotivoPesaje } from "./data-table";
 
 export async function ListMotivoPesaje() {
-  const { establesimiento } = getUserFromToken();
+  const user = getUserFromToken();
 
   const motivoPesaje = await prisma.motivoPesaje.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",

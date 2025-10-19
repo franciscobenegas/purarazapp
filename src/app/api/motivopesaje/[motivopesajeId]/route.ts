@@ -7,7 +7,8 @@ export async function PUT(
   { params }: { params: { motivopesajeId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    const user = getUserFromToken();
+    const { usuario } = user || {};
     const { motivopesajeId } = params;
     const values = await req.json();
 
@@ -39,7 +40,8 @@ export async function DELETE(
   { params }: { params: { motivopesajeId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    const user = getUserFromToken();
+    const { usuario } = user || {};
     const { motivopesajeId } = params;
 
     if (!usuario) {

@@ -10,9 +10,9 @@ export default async function TipoRazasPageId({
 }: {
   params: { tiporazasId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
+  const user = getUserFromToken();
+  if (!user) {
+    return redirect("/auth/login");
   }
 
   const tipoRazas = await prisma.tipoRaza.findUnique({

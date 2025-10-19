@@ -4,7 +4,13 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 
 export async function POST(req: NextRequest) {
   try {
-    const { usuario, establesimiento } = getUserFromToken();
+    const user = getUserFromToken();
+
+    if (!user) {
+      return new NextResponse("Usuario no autenticado", { status: 401 });
+    }
+
+    const  { usuario, establesimiento } = user || {};
 
     const data = await req.json();
 
@@ -25,7 +31,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
-    const { establesimiento } = getUserFromToken();
+    const user = getUserFromToken();
+    const  { establesimiento } = user || {};
 
     const ListadoTipoRazas = await prisma.tipoRaza.findMany({
       where: {

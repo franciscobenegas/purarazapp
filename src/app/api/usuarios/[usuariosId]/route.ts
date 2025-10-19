@@ -8,7 +8,8 @@ export async function PUT(
   { params }: { params: { usuariosId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    const user = getUserFromToken();
+    const { usuario } = user || {};
     const { usuariosId } = params;
     const values = await req.json();
 
@@ -47,7 +48,8 @@ export async function DELETE(
   { params }: { params: { usuariosId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    const user = getUserFromToken();
+    const { usuario } = user || {};
     const { usuariosId } = params;
 
     if (!usuario) {

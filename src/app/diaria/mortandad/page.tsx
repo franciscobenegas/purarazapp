@@ -3,13 +3,19 @@ import { HeaderMortandad } from "./components/HeaderMortandad";
 import { ListMortandad } from "./components/ListMortandad";
 import { getUserFromToken } from "@/utils/getUserFromToken";
 import prisma from "@/libs/prisma";
+import { redirect } from "next/navigation";
 
 export default async function MortandadPage() {
-  const { establesimiento } = getUserFromToken();
+  //const {  establesimiento } = getUserFromToken();
+  const user = getUserFromToken();
+
+  if (!user) {
+    redirect("/auth/login");
+  }
 
   const listPropietario = await prisma.propietario.findMany({
     where: {
-      establesimiento,
+      establesimiento: user.establesimiento,
     },
     orderBy: {
       createdAt: "desc",
@@ -18,7 +24,7 @@ export default async function MortandadPage() {
 
   const listCategoria = await prisma.categoria.findMany({
     where: {
-      establesimiento,
+      establesimiento: user.establesimiento,
     },
     orderBy: {
       createdAt: "desc",
@@ -27,7 +33,7 @@ export default async function MortandadPage() {
 
   const listCausaMortandad = await prisma.causaMortandad.findMany({
     where: {
-      establesimiento,
+      establesimiento: user.establesimiento,
     },
     orderBy: {
       createdAt: "desc",
@@ -36,7 +42,7 @@ export default async function MortandadPage() {
 
   const listPotrero = await prisma.potrero.findMany({
     where: {
-      establesimiento,
+      establesimiento: user.establesimiento,
     },
     orderBy: {
       createdAt: "desc",

@@ -5,11 +5,11 @@ import { DataTablePotrero } from "./data-table";
 // import { DataTableMotivoSalida } from "./data-table";
 
 export async function ListPotrero() {
-  const { establesimiento } = getUserFromToken();
+  const user = getUserFromToken();
 
   const potrero = await prisma.potrero.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",

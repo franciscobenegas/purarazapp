@@ -5,7 +5,13 @@ import { auditCreate } from "@/utils/auditoria";
 
 export async function POST(req: NextRequest) {
   try {
-    const { usuario, establesimiento } = getUserFromToken();
+    const user = getUserFromToken();
+
+    if (!user) {
+      return new NextResponse("Usuario no autenticado", { status: 401 });
+    }
+
+    const  { usuario, establesimiento } = user || {};
 
     const data = await req.json();
 
@@ -25,6 +31,18 @@ export async function POST(req: NextRequest) {
         },
       });
     });
+
+    // // Incrementamos la cantidad en Categoria
+    // await prisma.categoria.update({
+    //   where: { id: data.categoriaId },
+    //   data: {
+    //     cantidad: {
+    //       increment:1
+    //     },
+    //   },
+    // });
+
+
 
     return NextResponse.json(addNacimiento);
   } catch (error) {

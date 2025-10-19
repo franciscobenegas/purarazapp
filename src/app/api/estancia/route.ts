@@ -4,7 +4,14 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 
 export async function POST(req: NextRequest) {
   try {
-    const { usuario, establesimiento } = getUserFromToken();
+    const user = getUserFromToken();
+
+      // ✅ Validación crítica: si no hay usuario, error 401
+    if (!user || !user.usuario || !user.establesimiento) {
+      return new NextResponse("No autorizado", { status: 401 });
+    }
+
+    const { usuario, establesimiento } = user; // Ahora TypeScript sabe que son string
 
     const data = await req.json();
 
@@ -25,7 +32,9 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
-    const { establesimiento } = getUserFromToken();
+    const user = getUserFromToken();
+    const { establesimiento } = user || {};
+
 
     const ListadoEstancia = await prisma.estancia.findMany({
       where: {

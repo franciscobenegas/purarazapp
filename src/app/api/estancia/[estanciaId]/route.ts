@@ -7,7 +7,9 @@ export async function PUT(
   { params }: { params: { estanciaId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    const user = getUserFromToken();
+    const { usuario } = user || {};
+
     const { estanciaId } = params;
     const values = await req.json();
 
@@ -39,7 +41,9 @@ export async function DELETE(
   { params }: { params: { estanciaId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    
+    const user = getUserFromToken();
+    const { usuario } = user || {};
     const { estanciaId } = params;
 
     if (!usuario) {

@@ -10,9 +10,9 @@ export default async function MotivoSalidaPageId({
 }: {
   params: { motivosalidaId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
+  const user = getUserFromToken();
+  if (!user) {
+    return redirect("/auth/login");
   }
 
   const motivoSalida = await prisma.motivoSalida.findUnique({

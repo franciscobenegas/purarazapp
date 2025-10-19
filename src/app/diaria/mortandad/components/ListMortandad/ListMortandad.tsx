@@ -4,11 +4,11 @@ import React from "react";
 import { DataTableMortandad } from "./data-table";
 
 export async function ListMortandad() {
-  const { establesimiento } = getUserFromToken();
+  const user = getUserFromToken();
 
   const listadoMortandad = await prisma.mortandad.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",

@@ -10,9 +10,9 @@ export default async function ViewMortandadPageId({
 }: {
   params: { mortandadId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
+  const user = getUserFromToken();
+  if (!user) {
+    return redirect("/auth/login");
   }
 
   const mortandad = await prisma.mortandad.findUnique({

@@ -10,10 +10,12 @@ export default async function CausaMortandadPageId({
 }: {
   params: { causamortandadId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
-  }
+ const user = getUserFromToken();
+
+ // 🚫 Si no hay usuario autenticado, redirigir al login
+ if (!user) {
+   redirect("/auth/login");
+ }
 
   const causaMortandad = await prisma.causaMortandad.findUnique({
     where: { id: params.causamortandadId },

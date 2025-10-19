@@ -69,6 +69,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
+import { motion } from "framer-motion";
 
 type MortandadWithRelations = Prisma.MortandadGetPayload<{
   include: {
@@ -135,7 +136,6 @@ export function DataTableMortandad({ data }: DataTableProps) {
     selectedPotrero !== "all";
 
   const handleDeleteConfirm = async () => {
-
     if (deletingMortandad) {
       setLoading(true);
       try {
@@ -624,23 +624,29 @@ export function DataTableMortandad({ data }: DataTableProps) {
             <div className="w-full md:w-auto ">
               <ExportExcelButton data={data} />
             </div>
+
+            {/* Botón de eliminar seleccionados */}
+            {selectedRows.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="w-full md:w-auto"
+              >
+                <Button
+                  variant="destructive"
+                  onClick={() => setDeletingMortandad(selectedRows)}
+                  size="sm"
+                  className="w-full md:w-auto"
+                >
+                  <Trash className="h-4 w-4 mr-2" />
+                  Eliminar Seleccionados ({selectedRows.length})
+                </Button>
+              </motion.div>
+            )}
           </div>
         </div>
-
-        {/* Botón de eliminar seleccionados */}
-        {selectedRows.length > 0 && (
-          <div className="mb-4">
-            <Button
-              variant="destructive"
-              onClick={() => setDeletingMortandad(selectedRows)}
-              size="sm"
-              className="w-full md:w-auto"
-            >
-              <Trash className="h-4 w-4 mr-2" />
-              Eliminar seleccionados ({selectedRows.length})
-            </Button>
-          </div>
-        )}
       </div>
 
       {/* Tabla */}

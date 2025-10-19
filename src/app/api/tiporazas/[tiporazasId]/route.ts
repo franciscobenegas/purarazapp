@@ -7,7 +7,8 @@ export async function PUT(
   { params }: { params: { tiporazasId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    const user = getUserFromToken();
+    const  { usuario } = user || {};
     const { tiporazasId } = params;
     const values = await req.json();
 
@@ -39,7 +40,8 @@ export async function DELETE(
   { params }: { params: { tiporazasId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    const user = getUserFromToken();
+    const  { usuario } = user || {};
     const { tiporazasId } = params;
 
     if (!usuario) {

@@ -4,11 +4,11 @@ import React from "react";
 import { DataTableMotivoSalida } from "./data-table";
 
 export async function ListMotivoSalida() {
-  const { establesimiento } = getUserFromToken();
+  const user = getUserFromToken();
 
   const motivoSalida = await prisma.motivoSalida.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",

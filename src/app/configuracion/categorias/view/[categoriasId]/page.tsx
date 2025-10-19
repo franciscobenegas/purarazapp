@@ -10,9 +10,11 @@ export default async function ViewCategoriaPageId({
 }: {
   params: { categoriasId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
+  const user = getUserFromToken();
+
+  // 🚫 Si no hay usuario autenticado, redirigir al login
+  if (!user) {
+    redirect("/auth/login");
   }
 
   const categoria = await prisma.categoria.findUnique({

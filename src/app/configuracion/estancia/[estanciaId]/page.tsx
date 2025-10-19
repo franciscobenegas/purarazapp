@@ -10,10 +10,12 @@ export default async function EstanciaPageId({
 }: {
   params: { estanciaId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
-  }
+   const user = getUserFromToken();
+
+   // 🚫 Si no hay usuario autenticado, redirigir al login
+   if (!user) {
+     redirect("/auth/login");
+   }
 
   const estancia = await prisma.estancia.findUnique({
     where: { id: params.estanciaId },

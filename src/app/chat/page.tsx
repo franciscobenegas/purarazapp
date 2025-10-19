@@ -2,7 +2,8 @@ import ChatBox from "./components/ChatBox";
 import { getUserFromToken } from "@/utils/getUserFromToken";
 
 export default function ChatPage() {
-  const { usuario } = getUserFromToken();
+  const user = getUserFromToken();
+  const { usuario } = user || {};
   // if (!usuario) {
   //   return redirect("/");
   // }

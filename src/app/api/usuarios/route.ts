@@ -5,7 +5,12 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   try {
-    const { establesimiento } = getUserFromToken();
+    const user = getUserFromToken();
+    
+    if (!user) {
+      return new NextResponse("Usuario no autenticado", { status: 401 });
+    }
+    const { establesimiento } = user || {};
 
     const data = await req.json();
 

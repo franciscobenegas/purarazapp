@@ -11,9 +11,9 @@ export default async function UsuariosIdPage({
 }: {
   params: { usuariosId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
+  const user = getUserFromToken();
+  if (!user) {
+    return redirect("/auth/login");
   }
 
   const usuarios = await prisma.usuario.findUnique({

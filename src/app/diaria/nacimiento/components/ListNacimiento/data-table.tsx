@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { motion } from "framer-motion";
 import {
   ColumnDef,
   SortingState,
@@ -70,7 +70,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 
-type NacimientoWithRelations =  Prisma.NacimientoGetPayload<{
+type NacimientoWithRelations = Prisma.NacimientoGetPayload<{
   include: {
     propietario: true;
     potrero: true;
@@ -113,7 +113,6 @@ export function DataTableNacimiento({ data }: DataTableProps) {
   };
 
   const clearFilters = () => {
-
     setSelectedPropietario("all");
     setSelectedPotrero("all");
 
@@ -124,12 +123,9 @@ export function DataTableNacimiento({ data }: DataTableProps) {
   };
 
   const hasActiveFilters =
-
-    selectedPropietario !== "all" ||
-    selectedPotrero !== "all";
+    selectedPropietario !== "all" || selectedPotrero !== "all";
 
   const handleDeleteConfirm = async () => {
-
     if (deletingNacimiento) {
       setLoading(true);
       try {
@@ -197,7 +193,7 @@ export function DataTableNacimiento({ data }: DataTableProps) {
       enableHiding: false,
       size: 50,
     },
-   
+
     {
       accessorKey: "fecha",
       header: "Fecha",
@@ -217,17 +213,17 @@ export function DataTableNacimiento({ data }: DataTableProps) {
       },
     },
 
-     {
+    {
       accessorKey: "numeroTernero",
       header: "# Ternero",
       cell: ({ cell }) => cell.getValue(),
-    }, 
-    
-         {
+    },
+
+    {
       accessorKey: "numeroVaca",
       header: "# Madre",
-      cell: ({ cell }) => cell.getValue() ,
-    }, 
+      cell: ({ cell }) => cell.getValue(),
+    },
 
     {
       accessorKey: "propietario",
@@ -239,7 +235,7 @@ export function DataTableNacimiento({ data }: DataTableProps) {
         return value?.toLowerCase().includes(filterValue.toLowerCase());
       },
     },
-    
+
     {
       accessorKey: "potrero",
       header: "Potrero",
@@ -416,7 +412,6 @@ export function DataTableNacimiento({ data }: DataTableProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="p-2 w-60">
-
                 <div className="mb-2">
                   <label className="block text-sm font-medium mb-1">
                     Propietario
@@ -532,23 +527,29 @@ export function DataTableNacimiento({ data }: DataTableProps) {
             <div className="w-full md:w-auto ">
               <ExportExcelButton data={data} />
             </div>
+
+            {/* Botón de eliminar seleccionados */}
+            {selectedRows.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="w-full md:w-auto"
+              >
+                <Button
+                  variant="destructive"
+                  onClick={() => setDeletingNacimiento(selectedRows)}
+                  size="sm"
+                  className="w-full md:w-auto"
+                >
+                  <Trash className="h-4 w-4 mr-2" />
+                  Eliminar Seleccionados ({selectedRows.length})
+                </Button>
+              </motion.div>
+            )}
           </div>
         </div>
-
-        {/* Botón de eliminar seleccionados */}
-        {selectedRows.length > 0 && (
-          <div className="mb-4">
-            <Button
-              variant="destructive"
-              onClick={() => setDeletingNacimiento(selectedRows)}
-              size="sm"
-              className="w-full md:w-auto"
-            >
-              <Trash className="h-4 w-4 mr-2" />
-              Eliminar seleccionados ({selectedRows.length})
-            </Button>
-          </div>
-        )}
       </div>
 
       {/* Tabla */}

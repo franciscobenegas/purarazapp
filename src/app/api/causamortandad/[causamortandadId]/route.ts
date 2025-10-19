@@ -7,7 +7,9 @@ export async function PUT(
   { params }: { params: { causamortandadId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    const user = getUserFromToken();
+    const { usuario } = user || {};
+
     const { causamortandadId } = params;
     const values = await req.json();
 
@@ -39,7 +41,9 @@ export async function DELETE(
   { params }: { params: { causamortandadId: string } }
 ) {
   try {
-    const { usuario } = getUserFromToken();
+    
+    const user = getUserFromToken();
+    const { usuario } = user || {};
     const { causamortandadId } = params;
 
     if (!usuario) {

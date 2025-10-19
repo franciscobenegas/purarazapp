@@ -5,11 +5,11 @@ import { DataTableNacimiento } from "./data-table";
 
 export async function ListNacimiento() {
   
-  const { establesimiento } = getUserFromToken();
+  const user = getUserFromToken();
 
   const listadoNacimiento = await prisma.nacimiento.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",
@@ -18,7 +18,6 @@ export async function ListNacimiento() {
       propietario: true,
       potrero: true,
     },
-    
   });
 
   console.log('Listado Nacimiento',listadoNacimiento);

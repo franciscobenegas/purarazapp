@@ -37,7 +37,7 @@ export function HeaderNacimineto(props: PropsData) {
             <Plus /> Nacimiento
           </Button>
         </DialogTrigger>
-        <DialogContent className="w-auto h-full p-1 rounded-lg">
+        <DialogContent className="w-auto rounded-lg">
           <FormNacimiento
             setOpenModal={setOpenModal}
             listPropietario={listPropietarios}

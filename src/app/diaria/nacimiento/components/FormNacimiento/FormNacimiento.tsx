@@ -347,7 +347,7 @@ export function FormNacimiento(props: FormProps) {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Seleccionar edad" />
+                            <SelectValue placeholder="Seleccionar pelaje" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>

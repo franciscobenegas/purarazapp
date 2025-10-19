@@ -10,9 +10,9 @@ export default async function MotivoPesajePage({
 }: {
   params: { motivopesajeId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
+  const user = getUserFromToken();
+  if (!user) {
+    return redirect("/auth/login");
   }
 
   const motivoPesaje = await prisma.motivoPesaje.findUnique({

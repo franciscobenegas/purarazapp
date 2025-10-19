@@ -3,9 +3,17 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import React from "react";
 import { DataTableCausaMortandad } from "./data-table";
 import { runAllSeeds } from "@/lib/seed";
+import { redirect } from "next/navigation";
 
 export async function ListCausaMortandad() {
-  const { establesimiento, usuario } = getUserFromToken();
+  const user = getUserFromToken();
+
+  // 🚫 Si no hay usuario autenticado, redirigir al login
+  if (!user) {
+    return redirect("/auth/login");
+  }
+
+  const { establesimiento, usuario } = user;
 
   // Ejecutar seeds centralizados
   await runAllSeeds(establesimiento, usuario);

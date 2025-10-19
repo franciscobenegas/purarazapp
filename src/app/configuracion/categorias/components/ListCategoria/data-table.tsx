@@ -67,6 +67,7 @@ import {
 import { formatoPrecio } from "@/utils/formatoPrecio";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { motion } from "framer-motion";
 
 interface DataTableProps {
   data: Categoria[];
@@ -496,19 +497,26 @@ export function DataTableCategoria({ data }: DataTableProps) {
             <div className="p-2">
               <ExportExcelButton data={data} />
             </div>
-            <div className="flex-row md:flex items-center mt-4">
-              {selectedRows.length > 0 && (
+            {/* Botón de eliminar seleccionados */}
+            {selectedRows.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="w-full md:w-auto"
+              >
                 <Button
                   variant="destructive"
                   onClick={() => setDeletingCategoria(selectedRows)}
-                  className="mb-4"
                   size="sm"
+                  className="w-full md:w-auto"
                 >
                   <Trash className="h-4 w-4 mr-2" />
-                  Eliminar seleccionados ({selectedRows.length})
+                  Eliminar Seleccionados ({selectedRows.length})
                 </Button>
-              )}
-            </div>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>

@@ -33,7 +33,7 @@ function MessageDisplay() {
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       >
-        <div className="text-[35px] font-semibold text-primary m-[1%]">
+        <div className="text-[35px] font-semibold text-black m-[1%]">
           Pagina no encontrada
         </div>
         <div className="text-[80px] font-bold text-black m-[1%]">404</div>

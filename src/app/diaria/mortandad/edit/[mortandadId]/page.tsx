@@ -12,9 +12,9 @@ export default async function EditMortandadIdPage({
 }: {
   params: { mortandadId: string };
 }) {
-  const { usuario, establesimiento } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
+  const user = getUserFromToken();
+  if (!user) {
+    return redirect("/auth/login");
   }
 
   const mortandad = await prisma.mortandad.findUnique({
@@ -33,7 +33,7 @@ export default async function EditMortandadIdPage({
 
   const listPropietario = await prisma.propietario.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",
@@ -42,7 +42,7 @@ export default async function EditMortandadIdPage({
 
   const listCategoria = await prisma.categoria.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",
@@ -51,7 +51,7 @@ export default async function EditMortandadIdPage({
 
   const listCausaMortandad = await prisma.causaMortandad.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",
@@ -60,7 +60,7 @@ export default async function EditMortandadIdPage({
 
   const listPotrero = await prisma.potrero.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",

@@ -28,7 +28,13 @@ interface MortandadFormData {
 
 export async function POST(req: NextRequest) {
   try {
-    const { usuario, establesimiento } = getUserFromToken();
+    const user = getUserFromToken();
+
+    if (!user) {
+      return new NextResponse("Usuario no autenticado", { status: 401 });
+    }
+
+    const  { usuario, establesimiento } = user || {};
 
     const formData = await req.formData();
 

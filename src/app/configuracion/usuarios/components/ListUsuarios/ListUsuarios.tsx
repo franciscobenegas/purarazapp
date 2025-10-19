@@ -4,11 +4,11 @@ import React from "react";
 import { DataTableUsuarios } from "./data-table";
 
 export async function ListUsuarios() {
-  const { establesimiento } = getUserFromToken();
+  const user = getUserFromToken();
 
   const usuarios = await prisma.usuario.findMany({
     where: {
-      establesimiento,
+      establesimiento: user?.establesimiento,
     },
     orderBy: {
       createdAt: "desc",

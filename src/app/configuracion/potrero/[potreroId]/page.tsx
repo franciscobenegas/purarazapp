@@ -10,9 +10,9 @@ export default async function PotreroPageId({
 }: {
   params: { potreroId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
+  const user = getUserFromToken();
+  if (!user) {
+    return redirect("/auth/login");
   }
 
   const potrero = await prisma.potrero.findUnique({

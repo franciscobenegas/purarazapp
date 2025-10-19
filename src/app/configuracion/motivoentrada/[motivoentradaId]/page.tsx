@@ -10,9 +10,10 @@ export default async function MotivoEntradaIdPage({
 }: {
   params: { motivoentradaId: string };
 }) {
-  const { usuario } = getUserFromToken();
-  if (!usuario) {
-    return redirect("/");
+  const user = getUserFromToken();
+
+  if (!user) {
+    return redirect("/auth/login");
   }
 
   const motivoEntrada = await prisma.motivoEntrada.findUnique({
