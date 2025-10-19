@@ -6,6 +6,8 @@ import { SalesDistributors } from "../components/SalesDistributors";
 import { TotalSuscripciones } from "../components/TotalSuscripciones";
 import { ListaIntegrados } from "../components/ListaIntegrados";
 import { Separator } from "@/components/ui/separator";
+import { redirect } from "next/navigation";
+import { useSession } from "@/hooks/useSession";
 
 const dataCardSummary = [
   {
@@ -43,6 +45,13 @@ const obtenerFecha = () => {
 };
 
 const DashboardPage = () => {
+  const { user } = useSession();
+  console.log("user", user);
+
+  if (user?.message === "No esta Logeado") {
+    redirect("/auth/login");
+  }
+
   return (
     <div>
       <div>
