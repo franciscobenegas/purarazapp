@@ -57,7 +57,6 @@ export function AuditTab({ recordId }: AuditTabProps) {
         const response = await fetch(`/api/audit/record/${recordId}`);
         if (response.ok) {
           const data = await response.json();
-          console.log("data Auditoria", data);
           setAuditRecords(data);
         } else {
           toast.error("Error al cargar el historial de auditoría");

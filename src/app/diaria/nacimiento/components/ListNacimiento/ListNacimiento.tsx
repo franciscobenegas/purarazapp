@@ -4,7 +4,6 @@ import React from "react";
 import { DataTableNacimiento } from "./data-table";
 
 export async function ListNacimiento() {
-  
   const user = getUserFromToken();
 
   const listadoNacimiento = await prisma.nacimiento.findMany({
@@ -20,7 +19,5 @@ export async function ListNacimiento() {
     },
   });
 
-  console.log('Listado Nacimiento',listadoNacimiento);
-  
-  return <DataTableNacimiento data={listadoNacimiento}/>;
+  return <DataTableNacimiento data={listadoNacimiento} />;
 }

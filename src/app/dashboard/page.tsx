@@ -46,7 +46,6 @@ const obtenerFecha = () => {
 
 const DashboardPage = () => {
   const { user } = useSession();
-  console.log("user", user);
 
   if (user?.message === "No esta Logeado") {
     redirect("/auth/login");

@@ -185,7 +185,6 @@ export function FormEditMortandadId({
       setLoading(true);
 
       const formData = new FormData();
-      console.log("formData ", formData);
 
       for (const [key, value] of Object.entries(values)) {
         if (value instanceof File) {
@@ -326,8 +325,6 @@ export function FormEditMortandadId({
           //const file = new File([blob], "/images/photocapture.jpg", {
           type: "image/jpeg",
         });
-
-        console.log("FILE:", file);
 
         const url = URL.createObjectURL(blob);
         setPreview((p) => ({ ...p, [currentFotoKey]: url }));

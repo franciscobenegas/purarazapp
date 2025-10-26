@@ -47,7 +47,6 @@ export function LoginForm({
         },
         body: JSON.stringify(credenciales),
       });
-      console.log("resp = ", resp);
 
       // Si la respuesta no es válida, muestra una notificación de error
       if (!resp.ok) {
