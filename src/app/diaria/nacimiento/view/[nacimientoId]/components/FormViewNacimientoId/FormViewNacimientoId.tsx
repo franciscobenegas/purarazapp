@@ -3,11 +3,30 @@ import { AuditTab } from "@/app/components/AuditTab";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Prisma } from "@prisma/client";
-import {  Calendar, Edit, FileText, MapPin, MilkIcon, Shield, Tag, Trash2, TreePine, User } from "lucide-react";
+import {
+  Calendar,
+  Edit,
+  FileText,
+  MapPin,
+  MilkIcon,
+  Shield,
+  Tag,
+  Trash2,
+  TreePine,
+  User,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
@@ -24,7 +43,6 @@ interface NacimientoProps {
 }
 
 export function FormViewNacimientoId({ nacimiento }: NacimientoProps) {
-
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [openModal, setopenModal] = useState(false);
@@ -149,6 +167,24 @@ export function FormViewNacimientoId({ nacimiento }: NacimientoProps) {
                     </span>{" "}
                     #{nacimiento.numeroVaca}
                   </p>
+
+                  {/* ✅ Nuevo campo: Peso del Ternero */}
+                  <p>
+                    <span className="text-xs text-muted-foreground">
+                      Peso del Ternero (Kg.):
+                    </span>{" "}
+                    {nacimiento.peso
+                      ? `${nacimiento.peso} Kg`
+                      : "No registrado"}
+                  </p>
+
+                  {/* ✅ Nuevo campo: Pelaje */}
+                  <div>
+                    <span className="text-xs text-muted-foreground mr-2">
+                      Pelaje:
+                    </span>
+                    <Badge className="text-xs">{nacimiento.pelaje}</Badge>
+                  </div>
                 </div>
               </div>
 

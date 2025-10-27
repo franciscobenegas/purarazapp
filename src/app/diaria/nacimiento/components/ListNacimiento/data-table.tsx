@@ -69,6 +69,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 
 type NacimientoWithRelations = Prisma.NacimientoGetPayload<{
   include: {
@@ -223,6 +224,28 @@ export function DataTableNacimiento({ data }: DataTableProps) {
       accessorKey: "numeroVaca",
       header: "# Madre",
       cell: ({ cell }) => cell.getValue(),
+    },
+
+    {
+      accessorKey: "sexo",
+      header: "Sexo",
+      cell: ({ cell }) => {
+        const sexo = cell.getValue() as string;
+        const isMacho = sexo === "Macho";
+
+        return (
+          <Badge
+            variant="secondary"
+            className={
+              isMacho
+                ? "bg-blue-100 text-blue-800 border-0"
+                : "bg-pink-100 text-pink-800 border-0"
+            }
+          >
+            {sexo}
+          </Badge>
+        );
+      },
     },
 
     {

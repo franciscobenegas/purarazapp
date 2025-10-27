@@ -4,8 +4,6 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { HeaderEditMortandadId } from "./components/HeaderEditMortandadId";
 import { InfoEditMortandadId } from "./components/InfoEditMortandadId";
-// import { HeaderViewMortandadId } from "./components/HeaderViewMortandadId";
-// import { InfoViewMortandad } from "./components/InfoViewMortandad";
 
 export default async function EditMortandadIdPage({
   params,
