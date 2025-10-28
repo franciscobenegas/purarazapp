@@ -9,11 +9,10 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
- relationMode = "prisma"
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
-
 
 enum Rol {
   PEON
@@ -42,169 +41,168 @@ enum Pelaje {
   Pampa
 }
 
-
-model Usuario{
-  id              String    @id @default(uuid())
-  email           String @unique
-  username        String @unique
+model Usuario {
+  id              String   @id @default(uuid())
+  email           String   @unique
+  username        String   @unique
   password        String
   establesimiento String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  rol             Rol @default(ADMIN)
-  activo          Boolean @default(true)
-  
+  rol             Rol      @default(ADMIN)
+  activo          Boolean  @default(true)
+
   @@index([establesimiento])
 }
 
-model Estancia{
-  id               String    @id @default(uuid())
-  nombre           String
-  departamento     String
-  distrito         String
-  localidad        String
-  ruc              String
-  telefono         String
-  usuario          String
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime   @updatedAt
-  propietario      Propietario[]
+model Estancia {
+  id              String        @id @default(uuid())
+  nombre          String
+  departamento    String
+  distrito        String
+  localidad       String
+  ruc             String
+  telefono        String
+  usuario         String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  propietario     Propietario[]
   establesimiento String
 
-   @@index([establesimiento])
-   @@index([departamento])
+  @@index([establesimiento])
+  @@index([departamento])
 }
 
-model Propietario{
-  id              String    @id @default(uuid())
+model Propietario {
+  id              String       @id @default(uuid())
   nombre          String
   email           String
   telefono        String
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
   usuario         String
   estanciaId      String
-  estancia        Estancia? @relation(fields: [estanciaId], references: [id], onDelete: Cascade )
+  estancia        Estancia?    @relation(fields: [estanciaId], references: [id], onDelete: Cascade)
   establesimiento String
   mortandades     Mortandad[]
   nacimiento      Nacimiento[]
+  entradas        Entrada[]
 
   @@index([estanciaId])
   @@index([establesimiento])
 }
 
-
-model Categoria{
-   id                 String    @id @default(uuid())
-   nombre             String
-   sexo               Sexo
-   edad               Edad
-   promedioKilos      Int
-   precioVentaCabeza  Int
-   precioVentaKilo    Int
-   precioCostoCabeza  Int
-   precioCostoKilo    Int
-   usuario            String
-   establesimiento    String
-   createdAt          DateTime    @default(now())
-   updatedAt          DateTime   @updatedAt
-   mortandades        Mortandad[] // <-- Esta es la relación inversa
-   cantidad           Int?
-
-   @@index([establesimiento])
-}
-
-model TipoRaza{
-  id              String    @id @default(uuid())
-  nombre          String
-  establesimiento String
-  usuario         String
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime   @updatedAt
+model Categoria {
+  id                String        @id @default(uuid())
+  nombre            String
+  sexo              Sexo
+  edad              Edad
+  promedioKilos     Int
+  precioVentaCabeza Int
+  precioVentaKilo   Int
+  precioCostoCabeza Int
+  precioCostoKilo   Int
+  usuario           String
+  establesimiento   String
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  mortandades       Mortandad[] // <-- Esta es la relación inversa
+  cantidad          Int?
+  EntradaItem       EntradaItem[]
 
   @@index([establesimiento])
 }
 
-model CausaMortandad{
-  id              String    @id @default(uuid())
+model TipoRaza {
+  id              String   @id @default(uuid())
+  nombre          String
+  establesimiento String
+  usuario         String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([establesimiento])
+}
+
+model CausaMortandad {
+  id              String      @id @default(uuid())
   nombre          String
   establesimiento String
   usuario         String
   createdAt       DateTime    @default(now())
-  updatedAt       DateTime   @updatedAt
+  updatedAt       DateTime    @updatedAt
   mortandades     Mortandad[] // <-- Esta es la relación inversa
 
   @@index([establesimiento])
 }
 
-model MotivoPesaje{
-  id               String    @id @default(uuid())
+model MotivoPesaje {
+  id              String   @id @default(uuid())
   nombre          String
   establesimiento String
   usuario         String
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime   @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@index([establesimiento])
 }
 
-model MotivoEntrada{
+model MotivoEntrada {
   id              String    @id @default(uuid())
   nombre          String
   establesimiento String
   usuario         String
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime   @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  entradas        Entrada[]
 
   @@index([establesimiento])
 }
 
-model MotivoSalida{
-  id              String    @id @default(uuid())
+model MotivoSalida {
+  id              String   @id @default(uuid())
   nombre          String
   establesimiento String
   usuario         String
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime   @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@index([establesimiento])
 }
 
-model Potrero{
-  id              String    @id @default(uuid())
+model Potrero {
+  id              String       @id @default(uuid())
   nombre          String
   establesimiento String
   usuario         String
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime   @updatedAt
-  mortandades     Mortandad[] 
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  mortandades     Mortandad[]
   nacimiento      Nacimiento[]
 
   @@index([establesimiento])
 }
 
-
-
 model Mortandad {
-  id              String           @id @default(uuid())
+  id              String         @id @default(uuid())
   fecha           DateTime
   propietarioId   String
-  propietario     Propietario      @relation(fields: [propietarioId], references: [id])
-  numeroAnimal    String           // Caravana
+  propietario     Propietario    @relation(fields: [propietarioId], references: [id])
+  numeroAnimal    String // Caravana
   categoriaId     String
-  categoria       Categoria        @relation(fields: [categoriaId], references: [id])
+  categoria       Categoria      @relation(fields: [categoriaId], references: [id])
   causaId         String
-  causa           CausaMortandad   @relation(fields: [causaId], references: [id])
+  causa           CausaMortandad @relation(fields: [causaId], references: [id])
   potreroId       String
-  potrero         Potrero          @relation(fields: [potreroId], references: [id])
+  potrero         Potrero        @relation(fields: [potreroId], references: [id])
   ubicacionGps    String
-  foto1           String?          // URL o ruta de imagen
+  foto1           String? // URL o ruta de imagen
   foto2           String?
   foto3           String?
   usuario         String
   establesimiento String
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 
   @@index([establesimiento])
   @@index([fecha])
@@ -214,39 +212,71 @@ model Mortandad {
   @@index([potreroId])
 }
 
-
 model Auditoria {
-  id          String   @id @default(uuid())
-  tabla       String
-  registroId  String
-  accion      String   // CREATE, UPDATE, DELETE
-  oldValues   Json?
-  newValues   Json?
-  usuarioId   String
-  createdAt   DateTime @default(now())
+  id         String   @id @default(uuid())
+  tabla      String
+  registroId String
+  accion     String // CREATE, UPDATE, DELETE
+  oldValues  Json?
+  newValues  Json?
+  usuarioId  String
+  createdAt  DateTime @default(now())
 }
 
-model Nacimiento{
-  id              String           @id @default(uuid())
+model Nacimiento {
+  id              String      @id @default(uuid())
   fecha           DateTime
   numeroVaca      String?
   numeroTernero   String?
   propietarioId   String
-  propietario     Propietario      @relation(fields: [propietarioId], references: [id])
+  propietario     Propietario @relation(fields: [propietarioId], references: [id])
   potreroId       String
-  potrero         Potrero          @relation(fields: [potreroId], references: [id])
+  potrero         Potrero     @relation(fields: [potreroId], references: [id])
   sexo            Sexo
   peso            Int?
   pelaje          Pelaje
   usuario         String
   establesimiento String
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
   @@index([propietarioId])
   @@index([potreroId])
-
 }
 
+model Entrada {
+  id                   String        @id @default(uuid())
+  fecha                DateTime
+  propietarioId        String
+  propietario          Propietario   @relation(fields: [propietarioId], references: [id])
+  motivo               MotivoEntrada @relation(fields: [motivoId], references: [id])
+  motivoId             String
+  NombreEstanciaOrigen String?
+  usuario              String
+  establesimiento      String
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  // Relación con los items de entrada
+  items       EntradaItem[]
 
 
+  @@index([propietarioId])
+  @@index([establesimiento])
+  @@index([motivoId])
+}
+
+model EntradaItem {
+  id          String    @id @default(uuid())
+  entradaId   String
+  entrada     Entrada   @relation(fields: [entradaId], references: [id], onDelete: Cascade)
+  categoriaId String
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  cantidad    Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([entradaId, categoriaId])
+  @@index([entradaId])
+  @@index([categoriaId])
+}
