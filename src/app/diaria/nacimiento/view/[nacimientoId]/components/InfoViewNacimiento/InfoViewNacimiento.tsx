@@ -1,8 +1,7 @@
-import { Separator } from '@/components/ui/separator';
-import { Prisma } from '@prisma/client';
-import React from 'react'
-import { FormViewNacimientoId } from '../FormViewNacimientoId';
-
+import { Separator } from "@/components/ui/separator";
+import { Prisma } from "@prisma/client";
+import React from "react";
+import { FormViewNacimientoId } from "../FormViewNacimientoId";
 
 type NacimientoWithRelations = Prisma.NacimientoGetPayload<{
   include: {
@@ -15,11 +14,8 @@ interface NacimientoProps {
   nacimiento: NacimientoWithRelations;
 }
 
-
-export  function InfoViewNacimiento(props: NacimientoProps) {
-    const { nacimiento } = props;
-    console.log('nacimiento', nacimiento);
-    
+export function InfoViewNacimiento(props: NacimientoProps) {
+  const { nacimiento } = props;
 
   return (
     <div className="grid grid-cols-1 ">

@@ -39,8 +39,18 @@ export default function Navbar() {
     router.push("/auth/login");
   };
 
+  // Si está cargando, no mostrar nada o mostrar un loader
+  if (loading) {
+    return null; // o puedes retornar un <LoadingSpinner /> si prefieres
+  }
+
+  // Si no está logeado, no mostrar el navbar
+  if (user.message === "No esta Logeado" || user.usuario === "") {
+    return null;
+  }
+
   return (
-    <nav className={user.email !== "" ? "block" : "hidden"}>
+    <nav>
       <div className="flex items-center px-2 gap-x-4 md:px-6 justify-between w-full bg-background border-b h-20 ">
         <div className="block xl:hidden">
           <Sheet>
@@ -99,7 +109,6 @@ export default function Navbar() {
                 <DropdownMenuGroup>
                   <div className={user.email ? "hidden" : "block"}>
                     <DropdownMenuItem>
-                      {/* <div onClick={() => signIn()}>Iniciar</div> */}
                       <div>Iniciar</div>
                     </DropdownMenuItem>
                   </div>
