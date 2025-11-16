@@ -12,8 +12,10 @@ export function formatDate(date: Date | string | number) {
 
 export function formatDateSingle(date: Date | string) {
   if (!date) return "";
-  const fecha = new Date(date);
-  const day = fecha.getDate().toString().padStart(2, "0");
+  const d = new Date(date);
+  // Ajustar para evitar el desfase UTC → Local
+  const localDate = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
+  const day = localDate.getDate().toString().padStart(2, "0");
   const monthNames = [
     "Ene",
     "Feb",
@@ -28,7 +30,7 @@ export function formatDateSingle(date: Date | string) {
     "Nov",
     "Dic",
   ];
-  const month = monthNames[fecha.getMonth()];
-  const year = fecha.getFullYear();
+  const month = monthNames[localDate.getMonth()];
+  const year = localDate.getFullYear();
   return `${day}-${month}-${year}`;
 }

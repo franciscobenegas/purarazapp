@@ -87,16 +87,6 @@ export async function PUT(
         });
       });
 
-      // Creamos los ítems sin auditoría
-      await tx.entradaItem.createMany({
-        data: validated.items.map((item) => ({
-          entradaId,
-          categoriaId: item.categoriaId,
-          cantidad: item.cantidad,
-        })),
-      });
-
-      // 3. Crear los nuevos ítems
       await tx.entradaItem.createMany({
         data: validated.items.map((item) => ({
           entradaId,
