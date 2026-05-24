@@ -1,4 +1,4 @@
-import { BookOpenCheck, UserRound, Waypoints, Calendar } from "lucide-react";
+import { BookOpenCheck, Waypoints, Calendar, ThumbsDown } from "lucide-react";
 import { CardSummary } from "../components/CardSummary";
 import { Separator } from "@/components/ui/separator";
 import { redirect } from "next/navigation";
@@ -41,7 +41,7 @@ async function DashboardPage() {
 
   const dataCardSummary = [
     {
-      icon: UserRound,
+      icon: ThumbsDown,
       total: stats.estadisticas.totalMortandad.toString(),
       average: 15,
       title: "Total Mortandad " + stats.year,
