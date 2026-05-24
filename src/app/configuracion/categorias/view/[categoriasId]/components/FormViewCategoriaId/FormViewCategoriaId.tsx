@@ -117,6 +117,12 @@ export function FormViewCategoriaId({ categoria }: FormProps) {
     router.push(`/configuracion/categorias/edit/${categoria.id}`);
   };
 
+
+  const formatNumber = (value?: number) => {
+    if (value === undefined || value === null) return "";
+    return new Intl.NumberFormat("es-PY").format(value);
+  };
+
   return (
     <div className="mx-auto py-4 px-4 max-w-4xl">
       <Card>
@@ -263,12 +269,17 @@ export function FormViewCategoriaId({ categoria }: FormProps) {
                         <FormControl>
                           <Input
                             type="number"
-                            value={field.value?.toString() ?? ""}
+                            //value={field.value?.toString() ?? ""}
+                            value={formatNumber(
+                              typeof field.value === "number"
+                                ? field.value
+                                : undefined,
+                            )}
                             onChange={(e) =>
                               field.onChange(
                                 e.target.value
                                   ? Number(e.target.value)
-                                  : undefined
+                                  : undefined,
                               )
                             }
                             disabled
@@ -298,6 +309,11 @@ export function FormViewCategoriaId({ categoria }: FormProps) {
                                 <Input
                                   type="number"
                                   value={field.value?.toString()}
+                                  // value={formatNumber(
+                                  //   typeof field.value === "number"
+                                  //     ? field.value
+                                  //     : undefined,
+                                  // )}
                                   onChange={(e) =>
                                     field.onChange(Number(e.target.value))
                                   }
@@ -385,7 +401,7 @@ export function FormViewCategoriaId({ categoria }: FormProps) {
                       className="flex-1"
                       onClick={() =>
                         router.push(
-                          `/configuracion/categorias/edit/${categoria.id}`
+                          `/configuracion/categorias/edit/${categoria.id}`,
                         )
                       }
                     >

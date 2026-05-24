@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse("La fecha es obligatoria", { status: 400 });
     }
 
-    // Creamos la categoria + auditoría en un solo paso
+    // Creamos la entrada + auditoría en un solo paso
     const addNacimiento = await auditCreate("Entrada", usuario, async () => {
       return prisma.entrada.create({
         data: {
@@ -55,15 +55,17 @@ export async function POST(req: NextRequest) {
       });
     });
 
-    // // Incrementamos la cantidad en Categoria
-    // await prisma.categoria.update({
-    //   where: { id: data.categoriaId },
-    //   data: {
-    //     cantidad: {
-    //       increment:1
-    //     },
-    //   },
-    // });
+    // Incrementamos las cantidades en las Categorias correspondientes
+    for (const item of validated.items) {
+      await prisma.categoria.update({
+        where: { id: item.categoriaId },
+        data: {
+          cantidad: {
+            increment: item.cantidad,
+          },
+        },
+      });
+    }
 
     return NextResponse.json(addNacimiento);
   } catch (error) {

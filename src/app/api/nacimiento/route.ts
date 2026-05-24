@@ -20,11 +20,11 @@ export async function POST(req: NextRequest) {
       return new NextResponse("La fecha es obligatoria", { status: 400 });
     }
 
-    // Creamos la categoria + auditoría en un solo paso
+    // Creamos el Nacimiento + auditoría en un solo paso
     const addNacimiento = await auditCreate("Nacimiento", usuario, async () => {
       return prisma.nacimiento.create({
         data: {
-          establesimiento, // asumiendo que así se llama tu campo en el schema
+          establesimiento,
           usuario,
           ...data,
           fecha: new Date(data.fecha),
@@ -32,17 +32,26 @@ export async function POST(req: NextRequest) {
       });
     });
 
-    // // Incrementamos la cantidad en Categoria
-    // await prisma.categoria.update({
-    //   where: { id: data.categoriaId },
-    //   data: {
-    //     cantidad: {
-    //       increment:1
-    //     },
-    //   },
-    // });
+    // Incrementamos la cantidad en Categoria correspondiente
+    // Buscamos la categoría por sexo (RecienNacido) y establesimiento
+    const categoria = await prisma.categoria.findFirst({
+      where: {
+        sexo: data.sexo,
+        edad: "RecienNacido", // Un nacimiento siempre es recién nacido
+        establesimiento: establesimiento,
+      },
+    });
 
-
+    if (categoria) {
+      await prisma.categoria.update({
+        where: { id: categoria.id },
+        data: {
+          cantidad: {
+            increment: 1,
+          },
+        },
+      });
+    }
 
     return NextResponse.json(addNacimiento);
   } catch (error) {
