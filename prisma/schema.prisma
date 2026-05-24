@@ -87,6 +87,9 @@ model Propietario {
   mortandades     Mortandad[]
   nacimiento      Nacimiento[]
   entradas        Entrada[]
+  salidas         Salida[]
+  pesajes         Pesaje[]
+
 
   @@index([estanciaId])
   @@index([establesimiento])
@@ -109,6 +112,8 @@ model Categoria {
   mortandades       Mortandad[] // <-- Esta es la relación inversa
   cantidad          Int?
   EntradaItem       EntradaItem[]
+  SalidaItem        SalidaItem[]
+  pesajes           Pesaje[]
 
   @@index([establesimiento])
 }
@@ -144,6 +149,9 @@ model MotivoPesaje {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
+// Relación inversa
+  pesajes         Pesaje[]
+
   @@index([establesimiento])
 }
 
@@ -166,6 +174,7 @@ model MotivoSalida {
   usuario         String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  salida          Salida[]
 
   @@index([establesimiento])
 }
@@ -179,6 +188,7 @@ model Potrero {
   updatedAt       DateTime     @updatedAt
   mortandades     Mortandad[]
   nacimiento      Nacimiento[]
+  pesajes         Pesaje[]
 
   @@index([establesimiento])
 }
@@ -279,4 +289,77 @@ model EntradaItem {
   @@unique([entradaId, categoriaId])
   @@index([entradaId])
   @@index([categoriaId])
+}
+
+model Salida {
+  id                   String        @id @default(uuid())
+  fecha                DateTime
+  propietarioId        String
+  propietario          Propietario   @relation(fields: [propietarioId], references: [id])
+  motivo               MotivoSalida @relation(fields: [motivoId], references: [id])
+  motivoId             String
+  NombreEstanciaSalida String?
+  usuario              String
+  establesimiento      String
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  // Relación con los items de salida
+  items       SalidaItem[]
+
+
+  @@index([propietarioId])
+  @@index([establesimiento])
+  @@index([motivoId])
+}
+
+model SalidaItem {
+  id          String    @id @default(uuid())
+  salidaId   String
+  salida     Salida   @relation(fields: [salidaId], references: [id], onDelete: Cascade)
+  categoriaId String
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  cantidad    Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([salidaId, categoriaId])
+  @@index([salidaId])
+  @@index([categoriaId])
+}
+
+
+
+model Pesaje {
+  id              String         @id @default(uuid())
+  fecha           DateTime
+  // Caravana del animal
+  numeroAnimal    String
+  // Peso en kilos
+  peso            Float
+  // Relación con propietario
+  propietarioId   String
+  propietario     Propietario    @relation(fields: [propietarioId], references: [id])
+  // Relación con categoría
+  categoriaId     String?
+  categoria       Categoria?     @relation(fields: [categoriaId], references: [id])
+  // Relación con motivo
+  motivoId        String
+  motivo          MotivoPesaje   @relation(fields: [motivoId], references: [id])
+  // Opcional: potrero donde se pesó
+  potreroId       String?
+  potrero         Potrero?       @relation(fields: [potreroId], references: [id])
+  observacion     String?
+  usuario         String
+  establesimiento String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([numeroAnimal])
+  @@index([fecha])
+  @@index([propietarioId])
+  @@index([motivoId])
+  @@index([categoriaId])
+  @@index([potreroId])
+  @@index([establesimiento])
 }

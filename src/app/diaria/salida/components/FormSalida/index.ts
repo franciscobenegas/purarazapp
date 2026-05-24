@@ -1,0 +1,1 @@
+export { FormSalida } from "./FormSalida";

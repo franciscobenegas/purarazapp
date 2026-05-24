@@ -1,65 +1,79 @@
-"use client";
 import { BookOpenCheck, UserRound, Waypoints, Calendar } from "lucide-react";
 import { CardSummary } from "../components/CardSummary";
-import { UltimosClientes } from "../components/UltimosClientes";
-import { SalesDistributors } from "../components/SalesDistributors";
-import { TotalSuscripciones } from "../components/TotalSuscripciones";
-import { ListaIntegrados } from "../components/ListaIntegrados";
 import { Separator } from "@/components/ui/separator";
 import { redirect } from "next/navigation";
-import { useSession } from "@/hooks/useSession";
+import { cookies } from "next/headers";
+import { DashboardCharts } from "../components/DashboardCharts";
+import { CategoriaStats } from "../components/CategoriaStats";
 
-const dataCardSummary = [
-  {
-    icon: UserRound,
-    total: "150",
-    average: 15,
-    title: "Mortandad Ternero 2025",
-    tooltipText: "ver mas datos de compañias creadas",
-  },
-  {
-    icon: Waypoints,
-    total: "5.5%",
-    average: 30,
-    title: "Mortandad Adultos 2025",
-    tooltipText: "ver mas datos de total de visitas",
-  },
-  {
-    icon: BookOpenCheck,
-    total: "250",
-    average: 30,
-    title: "Mortandad General 2025",
-    tooltipText: "ver mas datos de Total de Ventas",
-  },
-];
+import { getDashboardStats } from "@/lib/dashboard";
+import { getUserFromToken } from "@/utils/getUserFromToken";
 
 const obtenerFecha = () => {
   const fecha = new Date();
+
   const opciones: Intl.DateTimeFormatOptions = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   };
+
   return fecha.toLocaleDateString("es-ES", opciones);
 };
 
-const DashboardPage = () => {
-  const { user } = useSession();
+async function DashboardPage() {
+  const cookieStore = await cookies();
 
-  if (user?.message === "No esta Logeado") {
+  const token = cookieStore.get("tokenPuraRaza")?.value;
+
+  if (!token) {
     redirect("/auth/login");
   }
+
+  const user = getUserFromToken();
+
+  if (!user) {
+    redirect("/auth/login");
+  }
+
+  const stats = await getDashboardStats(user.establesimiento);
+
+  const dataCardSummary = [
+    {
+      icon: UserRound,
+      total: stats.estadisticas.totalMortandad.toString(),
+      average: 15,
+      title: "Total Mortandad " + stats.year,
+      tooltipText: "Mortandad registrada en el año",
+    },
+    {
+      icon: Waypoints,
+      total: stats.estadisticas.tasaMortandad,
+      average: 30,
+      title: "Tasa de Mortandad %",
+      tooltipText: "Porcentaje de mortandad del total de animales",
+    },
+    {
+      icon: BookOpenCheck,
+      total: stats.estadisticas.totalAnimales.toString(),
+      average: 30,
+      title: "Total de Animales",
+      tooltipText: "Cantidad total de animales en el sistema",
+    },
+  ];
 
   return (
     <div>
       <div>
-        <h1 className="text-primary text-3xl font-bold ">Dashboard</h1>
+        <h1 className="text-primary text-3xl font-bold">Dashboard</h1>
+
         <div className="flex items-center gap-2 text-muted-foreground mt-1">
           <Calendar className="h-4 w-4" />
           <p>{obtenerFecha()}</p>
         </div>
       </div>
+
       <Separator className="mb-5 mt-5" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-x-20">
@@ -74,16 +88,16 @@ const DashboardPage = () => {
           />
         ))}
       </div>
-      <div className="grid grid-cols-1 xl:grid-cols-2 md:gap-x-10 mt-12 ">
-        <UltimosClientes />
-        <SalesDistributors />
+
+      <div className="mt-12">
+        <DashboardCharts stats={stats} />
       </div>
-      <div className="flex-col xl:flex xl:flex-row gap-y-4 md:gap-y-0 mt-12 md:mt-10 justify-center md:gap-x-10">
-        <TotalSuscripciones />
-        <ListaIntegrados />
+
+      <div className="mt-12">
+        <CategoriaStats categorias={stats.categorias} />
       </div>
     </div>
   );
-};
+}
 
 export default DashboardPage;

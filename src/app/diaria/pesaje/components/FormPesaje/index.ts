@@ -1,0 +1,1 @@
+export { FormPesaje } from "./FormPesaje";

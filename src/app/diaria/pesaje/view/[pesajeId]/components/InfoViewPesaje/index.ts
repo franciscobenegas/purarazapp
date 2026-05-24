@@ -1,0 +1,1 @@
+export { InfoViewPesaje } from "./InfoViewPesaje";

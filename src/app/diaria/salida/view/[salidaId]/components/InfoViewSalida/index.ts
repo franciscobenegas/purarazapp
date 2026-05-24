@@ -1,0 +1,1 @@
+export { InfoViewSalida } from "./InfoViewSalida";

@@ -1,0 +1,1 @@
+export { HeaderViewPesajeId } from "./HeaderViewPesajeId";
