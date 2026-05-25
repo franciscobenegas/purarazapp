@@ -26,21 +26,17 @@ import {
 
 import {
   ArrowUpDown,
-  ChevronDown,
   FileSearch,
   ListFilterPlus,
   Logs,
   MoreHorizontal,
-  Settings2,
   SquarePen,
-  Trash,
   Trash2,
 } from "lucide-react";
 import { Salida, Prisma } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -66,9 +62,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+//import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-
 
 type SalidaWithRelations = Prisma.SalidaGetPayload<{
   include: {
@@ -90,9 +85,9 @@ export function DataTableSalida({ data }: DataTableProps) {
   const [selectedMotivo, setSelectedMotivo] = useState("all");
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
-  const [isMonted, setIsMonted] = useState(false);
+  //const [isMonted, setIsMonted] = useState(false);
   const [deletingSalida, setDeletingSalida] = useState<
     Salida | Salida[] | null
   >(null);
@@ -102,7 +97,7 @@ export function DataTableSalida({ data }: DataTableProps) {
   const handleFilterChange = (
     columnId: string,
     value: string,
-    setFn: (v: string) => void
+    setFn: (v: string) => void,
   ) => {
     setFn(value);
     table
@@ -136,8 +131,8 @@ export function DataTableSalida({ data }: DataTableProps) {
               headers: {
                 "Content-Type": "application/json",
               },
-            })
-          )
+            }),
+          ),
         );
 
         toast.warning("Exito!!! 😃 ", {
@@ -342,9 +337,8 @@ export function DataTableSalida({ data }: DataTableProps) {
             <Input
               placeholder="Buscar por propietario..."
               value={
-                (table
-                  .getColumn("propietario")
-                  ?.getFilterValue() as string) || ""
+                (table.getColumn("propietario")?.getFilterValue() as string) ||
+                ""
               }
               onChange={(event) =>
                 table
@@ -358,11 +352,7 @@ export function DataTableSalida({ data }: DataTableProps) {
           <Select
             value={selectedPropietario}
             onValueChange={(value) =>
-              handleFilterChange(
-                "propietario",
-                value,
-                setSelectedPropietario
-              )
+              handleFilterChange("propietario", value, setSelectedPropietario)
             }
           >
             <SelectTrigger className="w-[180px]">
@@ -424,7 +414,7 @@ export function DataTableSalida({ data }: DataTableProps) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -443,7 +433,7 @@ export function DataTableSalida({ data }: DataTableProps) {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -489,7 +479,10 @@ export function DataTableSalida({ data }: DataTableProps) {
       </div>
 
       {/* Dialog de confirmación de eliminación */}
-      <Dialog open={!!deletingSalida} onOpenChange={() => setDeletingSalida(null)}>
+      <Dialog
+        open={!!deletingSalida}
+        onOpenChange={() => setDeletingSalida(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Confirmar eliminación</DialogTitle>
