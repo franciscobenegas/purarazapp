@@ -19,6 +19,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 export function NavMain({
   items,
+  onItemClick,
 }: {
   items: {
     title: string;
@@ -30,6 +31,7 @@ export function NavMain({
       url: string;
     }[];
   }[];
+  onItemClick?: () => void;
 }) {
   const pathname = usePathname();
   return (
@@ -63,10 +65,10 @@ export function NavMain({
                         className={cn(
                           "flex gap-x-2  mt-2 light:text-slate-700 dark:text-white text-sm items-center hover:bg-slate-300/20 p-2 rounded-lg cursor-pointer hover:text-blue-500",
                           pathname === subItem.url &&
-                            "bg-slate-400/20 text-blue-500"
+                            "bg-slate-400/20 text-blue-500",
                         )}
                       >
-                        <Link href={subItem.url}>
+                        <Link href={subItem.url} onClick={onItemClick}>
                           <span>{subItem.title} </span>
                         </Link>
                       </SidebarMenuSubButton>

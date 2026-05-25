@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import ThemeDataProvider from "../context/theme-data-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Analytics } from "@vercel/analytics/next";
+import SidebarContent from "@/components/SidebarContent";
 
 const noto = Noto_Sans_Display({ subsets: ["latin"] });
 
@@ -31,14 +32,14 @@ export default async function RootLayout({
             <SidebarProvider>
               <div className="flex w-full h-full">
                 <Sidebar />
-                <div className="w-full xl:ml-72">
+                <SidebarContent>
                   <Navbar />
                   <div className="p-3 bg-[#fafbfc] dark:bg-secondary">
                     {children}
                     <Toaster richColors />
                     <Analytics />
                   </div>
-                </div>
+                </SidebarContent>
               </div>
             </SidebarProvider>
           </ThemeDataProvider>

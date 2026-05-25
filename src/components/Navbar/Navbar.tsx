@@ -1,7 +1,6 @@
 "use client";
-import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Power, Search } from "lucide-react";
+import { Menu, Power, ChevronLeft, ChevronRight } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,16 +12,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { SidebarRoutes } from "../SidebarRoutes";
 import { ToggleTheme } from "../ToggleTheme";
 import { ThemeColorToggle } from "@/app/components/theme-color-toggle";
 import { useSession } from "@/hooks/useSession";
+import { useSidebar } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const router = useRouter();
   const { user, loading } = useSession();
+  const { open, toggleSidebar } = useSidebar();
+  const [openPopover, setOpenPopover] = useState(false);
+  const [openSheet, setOpenSheet] = useState(false);
 
   useEffect(() => {
     if (!loading && user.usuario === "") {
@@ -52,19 +60,52 @@ export default function Navbar() {
   return (
     <nav>
       <div className="flex items-center px-2 gap-x-4 md:px-6 justify-between w-full bg-background border-b h-20 ">
-        <div className="block xl:hidden">
-          <Sheet>
-            <SheetTrigger className="flex items-center">
-              <Menu />
-            </SheetTrigger>
-            <SheetContent side="left">
-              <SidebarRoutes />
-            </SheetContent>
-          </Sheet>
-        </div>
-        <div className="relative w-[300px]">
-          <Input placeholder="Buscar..." className="rounded-lg" />
-          <Search strokeWidth={1} className="absolute top-2 right-2" />
+        <div className="flex items-center gap-x-2">
+          <div className="block xl:hidden">
+            <Sheet open={openSheet} onOpenChange={setOpenSheet}>
+              <SheetTrigger className="flex items-center">
+                <Menu />
+              </SheetTrigger>
+              <SheetContent side="left">
+                <SidebarRoutes onItemClick={() => setOpenSheet(false)} />
+              </SheetContent>
+            </Sheet>
+          </div>
+          <div className="hidden xl:block">
+            {open ? (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleSidebar}
+                title="Ocultar menú"
+              >
+                <ChevronLeft size={20} />
+              </Button>
+            ) : (
+              <div className="flex items-center gap-x-2">
+                <Popover open={openPopover} onOpenChange={setOpenPopover}>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="icon" title="Mostrar menú">
+                      <Menu size={20} />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent side="right" align="start" className="w-80 p-0">
+                    <div className="max-h-[600px] overflow-y-auto">
+                      <SidebarRoutes onItemClick={() => setOpenPopover(false)} />
+                    </div>
+                  </PopoverContent>
+                </Popover>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleSidebar}
+                  title="Expandir menú"
+                >
+                  <ChevronRight size={20} />
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex gap-x-2 items-center">
           <div className="flex mr-2">

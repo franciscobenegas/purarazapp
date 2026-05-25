@@ -7,19 +7,19 @@ import { Button } from "../ui/button";
 import { CreditCard } from "lucide-react";
 import { NavMain } from "./components/nav-main";
 
-export function SidebarRoutes() {
+export function SidebarRoutes({ onItemClick }: { onItemClick?: () => void }) {
   return (
     <div className="flex flex-col justify-between h-full overflow-auto">
       <div>
         <div className="p-2 md:p-6">
           <p className=" text-primary mb-2 font-bold">GENERAL</p>
-          <NavMain items={data.navMain} />
+          <NavMain items={data.navMain} onItemClick={onItemClick} />
         </div>
         <Separator />
         <div className="p-2 md:p-6">
           <p className=" mb-2 font-bold text-primary">CONFIGURACIONES</p>
           {dataToolsSidear.map((item) => (
-            <SidebarItem key={item.label} item={item} />
+            <SidebarItem key={item.label} item={item} onItemClick={onItemClick} />
           ))}
         </div>
         <Separator />
@@ -27,7 +27,7 @@ export function SidebarRoutes() {
         <div className="p-2 md:p-6">
           <p className=" text-primary mb-2 font-bold">SOPORTES</p>
           {dataSupportSidear.map((item) => (
-            <SidebarItem key={item.label} item={item} />
+            <SidebarItem key={item.label} item={item} onItemClick={onItemClick} />
           ))}
         </div>
       </div>
