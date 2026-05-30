@@ -43,6 +43,19 @@ export async function POST(req: NextRequest) {
     });
 
     if (categoria) {
+      // Registramos el movimiento
+      await prisma.movimiento.create({
+        data: {
+          fecha: new Date(data.fecha),
+          tipo: "NACIMIENTO",
+          categoriaId: categoria.id,
+          cantidad: 1,
+          nacimientoId: addNacimiento.id,
+          usuario,
+          establesimiento,
+        },
+      });
+
       await prisma.categoria.update({
         where: { id: categoria.id },
         data: {

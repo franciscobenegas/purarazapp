@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Usuario no autenticado", { status: 401 });
     }
 
-    const  { usuario, establesimiento } = user || {};
+    const { usuario, establesimiento } = user || {};
 
     const formData = await req.formData();
 
@@ -56,18 +56,18 @@ export async function POST(req: NextRequest) {
               { folder: `mortandad/${establesimiento}`, public_id: uuidv4() },
               (
                 error: UploadApiErrorResponse | undefined,
-                result: UploadApiResponse | undefined
+                result: UploadApiResponse | undefined,
               ) => {
                 if (error) return reject(error);
                 if (!result)
                   return reject(
-                    new Error("No se recibió respuesta de Cloudinary")
+                    new Error("No se recibió respuesta de Cloudinary"),
                   );
                 resolve(result);
-              }
+              },
             )
             .end(buffer);
-        }
+        },
       );
 
       return uploadResult.secure_url;
@@ -111,6 +111,18 @@ export async function POST(req: NextRequest) {
           foto3: foto3Url,
         },
       });
+    });
+
+    // Registramos el movimiento
+    await prisma.movimiento.create({
+      data: {
+        fecha: new Date(data.fecha),
+        tipo: "MORTANDAD",
+        categoriaId: data.categoriaId,
+        mortandadId: addMortandad.id,
+        usuario,
+        establesimiento,
+      },
     });
 
     // Decrementamos la cantidad en Categoria

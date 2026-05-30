@@ -55,6 +55,21 @@ export async function POST(req: NextRequest) {
       });
     });
 
+    // Registramos los movimientos para cada item
+    for (const item of validated.items) {
+      await prisma.movimiento.create({
+        data: {
+          fecha: new Date(validated.fecha),
+          tipo: "ENTRADA",
+          categoriaId: item.categoriaId,
+          cantidad: item.cantidad,
+          entradaId: addNacimiento.id,
+          usuario,
+          establesimiento,
+        },
+      });
+    }
+
     // Incrementamos las cantidades en las Categorias correspondientes
     for (const item of validated.items) {
       await prisma.categoria.update({

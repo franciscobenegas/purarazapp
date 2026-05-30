@@ -22,7 +22,7 @@ const UpdateSalidaSchema = z.object({
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { salidaId: string } }
+  { params }: { params: { salidaId: string } },
 ) {
   try {
     const salidaId = params.salidaId;
@@ -30,7 +30,7 @@ export async function PUT(
     const user = getUserFromToken();
     const { usuario, establesimiento } = user || {};
 
-    if (!usuario) {
+    if (!usuario || !establesimiento) {
       return new Response("No tiene autorización para ejecutar este servicio", {
         status: 401,
       });
@@ -39,12 +39,12 @@ export async function PUT(
     // Validar que el ID sea un UUID (opcional pero recomendado)
     if (
       !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
-        salidaId
+        salidaId,
       )
     ) {
       return NextResponse.json(
         { error: "ID de salida inválido" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -57,7 +57,7 @@ export async function PUT(
     if (!salidaExistente) {
       return NextResponse.json(
         { error: "Salida no encontrada" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -72,15 +72,14 @@ export async function PUT(
       });
 
       if (!categoria) {
-        return new NextResponse(
-          `Categoría ${item.categoriaId} no encontrada`,
-          { status: 404 }
-        );
+        return new NextResponse(`Categoría ${item.categoriaId} no encontrada`, {
+          status: 404,
+        });
       }
 
       // Obtener la cantidad anterior para esta categoría en la salida
       const oldItem = salidaExistente.items.find(
-        (i) => i.categoriaId === item.categoriaId
+        (i) => i.categoriaId === item.categoriaId,
       );
       const oldCantidad = oldItem?.cantidad || 0;
       const diferencia = item.cantidad - oldCantidad;
@@ -89,7 +88,7 @@ export async function PUT(
       if (diferencia > 0 && (categoria.cantidad || 0) < diferencia) {
         return new NextResponse(
           `Cantidad insuficiente en categoría ${categoria.nombre}. Disponible: ${categoria.cantidad}`,
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -129,6 +128,11 @@ export async function PUT(
         });
       });
 
+      // 3.5 Eliminar movimientos antiguos
+      await tx.movimiento.deleteMany({
+        where: { salidaId },
+      });
+
       // 4. Crear nuevos ítems
       await tx.salidaItem.createMany({
         data: validated.items.map((item) => ({
@@ -137,6 +141,21 @@ export async function PUT(
           cantidad: item.cantidad,
         })),
       });
+
+      // 4.5 Crear nuevos movimientos
+      for (const item of validated.items) {
+        await tx.movimiento.create({
+          data: {
+            fecha: new Date(validated.fecha),
+            tipo: "SALIDA",
+            categoriaId: item.categoriaId,
+            cantidad: item.cantidad,
+            salidaId,
+            usuario,
+            establesimiento,
+          },
+        });
+      }
 
       // 5. Decrementar nuevamente las cantidades
       for (const item of validated.items) {
@@ -164,7 +183,7 @@ export async function PUT(
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: "Datos inválidos", details: error.errors },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -174,20 +193,20 @@ export async function PUT(
     ) {
       return NextResponse.json(
         { error: "Salida no encontrada" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     return NextResponse.json(
       { error: "Error interno del servidor" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { salidaId: string } }
+  { params }: { params: { salidaId: string } },
 ) {
   try {
     const user = getUserFromToken();
@@ -206,7 +225,7 @@ export async function DELETE(
     if (!uuidRegex.test(salidaId)) {
       return NextResponse.json(
         { error: "ID de salida inválido" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -219,7 +238,7 @@ export async function DELETE(
     if (!salidaExistente) {
       return NextResponse.json(
         { error: "Salida no encontrada" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -237,7 +256,12 @@ export async function DELETE(
         });
       }
 
-      // 2. Eliminar la salida (los ítems se eliminan en cascada)
+      // 2. Eliminar los movimientos asociados
+      await tx.movimiento.deleteMany({
+        where: { salidaId },
+      });
+
+      // 3. Eliminar la salida (los ítems se eliminan en cascada)
       await tx.salida.delete({
         where: { id: salidaId },
       });
@@ -245,7 +269,7 @@ export async function DELETE(
 
     return NextResponse.json(
       { message: "Salida eliminada correctamente" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error al eliminar salida:", error);
@@ -256,13 +280,13 @@ export async function DELETE(
     ) {
       return NextResponse.json(
         { error: "Salida no encontrada" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     return NextResponse.json(
       { error: "Error interno del servidor" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -30,7 +30,7 @@ export async function PUT(
     const user = getUserFromToken();
     const { usuario, establesimiento } = user || {};
 
-    if (!usuario) {
+    if (!usuario || !establesimiento) {
       return new Response("No tiene autorización para ejecutar este servicio", {
         status: 401,
       });
@@ -51,6 +51,7 @@ export async function PUT(
     // Verificar que la entrada exista
     const entradaExistente = await prisma.entrada.findUnique({
       where: { id: entradaId },
+      include: { items: true },
     });
 
     if (!entradaExistente) {
@@ -64,14 +65,33 @@ export async function PUT(
     const body = await request.json();
     const validated = UpdateEntradaSchema.parse(body);
 
-    // Iniciar transacción: borrar ítems antiguos y crear nuevos
+    // Obtener items antiguos para comparar cantidades
+    const oldItems = entradaExistente.items || [];
+
+    // Iniciar transacción: revertir ítems antiguos, crear nuevos, actualizar cantidades
     await prisma.$transaction(async (tx) => {
-      // 1. Eliminar todos los ítems antiguos
+      // 1. Revertir los cambios previos (decrementar cantidades que se incrementaron)
+      for (const oldItem of oldItems) {
+        await tx.categoria.update({
+          where: { id: oldItem.categoriaId },
+          data: {
+            cantidad: {
+              decrement: oldItem.cantidad,
+            },
+          },
+        });
+      }
+
+      // 2. Eliminar todos los ítems antiguos y sus movimientos
       await tx.entradaItem.deleteMany({
         where: { entradaId },
       });
 
-      // Creamos Entrada con auditoría
+      await tx.movimiento.deleteMany({
+        where: { entradaId },
+      });
+
+      // 3. Actualizar Entrada con auditoría
       await auditCreate("Entrada", usuario, async () => {
         return tx.entrada.update({
           where: { id: entradaId },
@@ -87,6 +107,7 @@ export async function PUT(
         });
       });
 
+      // 4. Crear nuevos ítems
       await tx.entradaItem.createMany({
         data: validated.items.map((item) => ({
           entradaId,
@@ -94,6 +115,33 @@ export async function PUT(
           cantidad: item.cantidad,
         })),
       });
+
+      // 5. Crear nuevos movimientos
+      for (const item of validated.items) {
+        await tx.movimiento.create({
+          data: {
+            fecha: new Date(validated.fecha),
+            tipo: "ENTRADA",
+            categoriaId: item.categoriaId,
+            cantidad: item.cantidad,
+            entradaId,
+            usuario,
+            establesimiento,
+          },
+        });
+      }
+
+      // 6. Incrementar nuevamente las cantidades
+      for (const item of validated.items) {
+        await tx.categoria.update({
+          where: { id: item.categoriaId },
+          data: {
+            cantidad: {
+              increment: item.cantidad,
+            },
+          },
+        });
+      }
     });
 
     // Responder con la entrada actualizada (opcional: incluir ítems)
@@ -151,7 +199,7 @@ export async function DELETE(
     if (!uuidRegex.test(entradaId)) {
       return NextResponse.json(
         { error: "ID de entrada inválido" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -163,11 +211,21 @@ export async function DELETE(
     if (!entradaExistente) {
       return NextResponse.json(
         { error: "Entrada no encontrada" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     // ⚠️ En producción: verifica permisos (ej. que el usuario tenga acceso al establesimiento)
+
+    // Obtener los items de entrada para revertir los cambios en categorías
+    const entradaItems = await prisma.entradaItem.findMany({
+      where: { entradaId },
+    });
+
+    // Eliminar movimientos asociados
+    await prisma.movimiento.deleteMany({
+      where: { entradaId },
+    });
 
     // Prisma eliminará automáticamente los `EntradaItem` relacionados
     // gracias a `onDelete: Cascade` en la relación (aunque en tu modelo actual NO lo tienes explícito).
@@ -179,9 +237,21 @@ export async function DELETE(
       where: { id: entradaId },
     });
 
+    // Revertir cambios en categorías (decrementar cantidades)
+    for (const item of entradaItems) {
+      await prisma.categoria.update({
+        where: { id: item.categoriaId },
+        data: {
+          cantidad: {
+            decrement: item.cantidad,
+          },
+        },
+      });
+    }
+
     return NextResponse.json(
       { message: "Entrada eliminada correctamente" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error al eliminar entrada:", error);

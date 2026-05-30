@@ -42,16 +42,15 @@ export async function POST(req: NextRequest) {
       });
 
       if (!categoria) {
-        return new NextResponse(
-          `Categoría ${item.categoriaId} no encontrada`,
-          { status: 404 }
-        );
+        return new NextResponse(`Categoría ${item.categoriaId} no encontrada`, {
+          status: 404,
+        });
       }
 
       if ((categoria.cantidad || 0) < item.cantidad) {
         return new NextResponse(
           `Cantidad insuficiente en categoría ${categoria.nombre}. Disponible: ${categoria.cantidad}`,
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -75,6 +74,21 @@ export async function POST(req: NextRequest) {
         },
       });
     });
+
+    // Registramos los movimientos para cada item
+    for (const item of validated.items) {
+      await prisma.movimiento.create({
+        data: {
+          fecha: new Date(validated.fecha),
+          tipo: "SALIDA",
+          categoriaId: item.categoriaId,
+          cantidad: item.cantidad,
+          salidaId: addSalida.id,
+          usuario,
+          establesimiento,
+        },
+      });
+    }
 
     // Decrementamos las cantidades en las Categorias correspondientes
     for (const item of validated.items) {

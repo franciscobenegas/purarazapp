@@ -114,6 +114,7 @@ model Categoria {
   EntradaItem       EntradaItem[]
   SalidaItem        SalidaItem[]
   pesajes           Pesaje[]
+  movimientos       Movimiento[]
 
   @@index([establesimiento])
 }
@@ -213,6 +214,8 @@ model Mortandad {
   establesimiento String
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
+  // Relación con movimientos
+  movimientos     Movimiento[]
 
   @@index([establesimiento])
   @@index([fecha])
@@ -249,6 +252,8 @@ model Nacimiento {
   establesimiento String
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  // Relación con movimientos
+  movimientos     Movimiento[]
 
   @@index([propietarioId])
   @@index([potreroId])
@@ -269,6 +274,8 @@ model Entrada {
 
   // Relación con los items de entrada
   items       EntradaItem[]
+  // Relación con movimientos
+  movimientos Movimiento[]
 
 
   @@index([propietarioId])
@@ -306,6 +313,8 @@ model Salida {
 
   // Relación con los items de salida
   items       SalidaItem[]
+  // Relación con movimientos
+  movimientos Movimiento[]
 
 
   @@index([propietarioId])
@@ -362,4 +371,34 @@ model Pesaje {
   @@index([categoriaId])
   @@index([potreroId])
   @@index([establesimiento])
+}
+
+model Movimiento {
+  id              String      @id @default(uuid())
+  fecha           DateTime
+  tipo            String      // ENTRADA, SALIDA, NACIMIENTO, MORTANDAD
+  categoriaId     String
+  categoria       Categoria   @relation(fields: [categoriaId], references: [id])
+  cantidad        Int?        // Para entrada y salida
+  entradaId       String?     // Referencia a Entrada si aplica
+  entrada         Entrada?    @relation(fields: [entradaId], references: [id], onDelete: SetNull)
+  salidaId        String?     // Referencia a Salida si aplica
+  salida          Salida?     @relation(fields: [salidaId], references: [id], onDelete: SetNull)
+  nacimientoId    String?     // Referencia a Nacimiento si aplica
+  nacimiento      Nacimiento? @relation(fields: [nacimientoId], references: [id], onDelete: SetNull)
+  mortandadId     String?     // Referencia a Mortandad si aplica
+  mortandad       Mortandad?  @relation(fields: [mortandadId], references: [id], onDelete: SetNull)
+  usuario         String
+  establesimiento String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([categoriaId])
+  @@index([entradaId])
+  @@index([salidaId])
+  @@index([nacimientoId])
+  @@index([mortandadId])
+  @@index([establesimiento])
+  @@index([fecha])
+  @@index([tipo])
 }

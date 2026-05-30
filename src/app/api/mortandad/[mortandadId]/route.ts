@@ -45,6 +45,15 @@ export async function PUT(
     const  { usuario, establesimiento } = user || {};
     const { mortandadId } = params;
 
+    // Obtener mortandad antigua para comparar
+    const mortandadAntigua = await prisma.mortandad.findUnique({
+      where: { id: mortandadId },
+    });
+
+    if (!mortandadAntigua) {
+      return new NextResponse("Mortandad no encontrada", { status: 404 });
+    }
+
     const formData = await req.formData();
 
     // Convertimos a objeto tipado
@@ -95,12 +104,6 @@ export async function PUT(
       return new NextResponse("Categoría no encontrada", { status: 404 });
     }
 
-    if ((categoria.cantidad ?? 0) <= 0) {
-      return new NextResponse("No hay animales suficientes en esta categoría", {
-        status: 400,
-      });
-    }
-
     // Mapeamos valores a actualizar con tipo seguro de Prisma
     const updateData: Prisma.MortandadUpdateInput = {
       fecha: data.fecha ? new Date(data.fecha) : undefined,
@@ -137,22 +140,65 @@ export async function PUT(
       updateData.foto3 = null;
     }
 
-    const mortandadUpdate = await auditUpdate(
-      "Mortandad",
-      usuario,
-      mortandadId,
-      () => prisma.mortandad.findUnique({ where: { id: mortandadId } }),
-      () =>
-        prisma.mortandad.update({
-          where: { id: mortandadId },
-          data: updateData,
-        })
-    );
+    // Usar transacción para actualizar mortandad y ajustar cantidades
+    await prisma.$transaction(async (tx) => {
+      // Si cambió la categoría, ajustar cantidades
+      if (mortandadAntigua.categoriaId !== data.categoriaId) {
+        // Devolver 1 animal a la categoría anterior
+        await tx.categoria.update({
+          where: { id: mortandadAntigua.categoriaId },
+          data: {
+            cantidad: {
+              increment: 1,
+            },
+          },
+        });
 
-    // const mortandadUpdate = await prisma.mortandad.update({
-    //   where: { id: mortandadId },
-    //   data: updateData,
-    // });
+        // Descontar 1 animal de la nueva categoría
+        const nuevaCategoria = await tx.categoria.findUnique({
+          where: { id: data.categoriaId },
+        });
+
+        if (!nuevaCategoria || (nuevaCategoria.cantidad ?? 0) <= 0) {
+          throw new Error("No hay animales suficientes en la nueva categoría");
+        }
+
+        await tx.categoria.update({
+          where: { id: data.categoriaId },
+          data: {
+            cantidad: {
+              decrement: 1,
+            },
+          },
+        });
+
+        // Actualizar el movimiento con la nueva categoría
+        await tx.movimiento.updateMany({
+          where: { mortandadId },
+          data: {
+            categoriaId: data.categoriaId,
+            fecha: data.fecha ? new Date(data.fecha) : undefined,
+          },
+        });
+      }
+
+      // Actualizar mortandad
+      await auditUpdate(
+        "Mortandad",
+        usuario,
+        mortandadId,
+        () => tx.mortandad.findUnique({ where: { id: mortandadId } }),
+        () =>
+          tx.mortandad.update({
+            where: { id: mortandadId },
+            data: updateData,
+          })
+      );
+    });
+
+    const mortandadUpdate = await prisma.mortandad.findUnique({
+      where: { id: mortandadId },
+    });
 
     return NextResponse.json(mortandadUpdate);
   } catch (error) {
@@ -191,15 +237,13 @@ export async function DELETE(
       usuario,
       mortandadId,
       () => prisma.mortandad.findUnique({ where: { id: mortandadId } }),
-      () => prisma.mortandad.delete({ where: { id: mortandadId } })
+      () => prisma.mortandad.delete({ where: { id: mortandadId } }),
     );
 
-    // // Elimina el tipo de raza y en cascada los propietarios
-    // const deletedMortandad = await prisma.mortandad.delete({
-    //   where: {
-    //     id: mortandadId,
-    //   },
-    // });
+    // Eliminamos el movimiento asociado
+    await prisma.movimiento.deleteMany({
+      where: { mortandadId },
+    });
 
     // Decrementamos la cantidad en Categoria
     await prisma.categoria.update({
