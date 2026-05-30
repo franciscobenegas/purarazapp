@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import {
   ColumnDef,
   SortingState,
@@ -28,15 +28,12 @@ import {
   ChevronDown,
   ListFilterPlus,
   Settings2,
-  MoreHorizontal,
 } from "lucide-react";
 import { Prisma } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";

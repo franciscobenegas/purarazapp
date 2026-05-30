@@ -1,15 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
+//import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import React from "react";
-import { Categoria } from "@prisma/client";
 
-interface PropsData {
-  listCategoria: Categoria[];
-}
-
-export function HeaderMovimientos(props: PropsData) {
-  const { listCategoria } = props;
+export function HeaderMovimientos() {
 
   return (
     <div className="flex justify-between items-center mx-2">
