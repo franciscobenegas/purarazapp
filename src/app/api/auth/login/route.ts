@@ -1,8 +1,8 @@
-import { NextResponse, NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import prisma from "@/libs/prisma";
 import { comparePassword } from "@/utils/hash";
+import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   if (!user) {
     return NextResponse.json(
       { error: "Usuario no encontrado" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   if (!user.activo) {
     return NextResponse.json(
       { error: "Usuario inactivo. Comuníquese con el administrador." },
-      { status: 403 }
+      { status: 403 },
     );
   }
 
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   if (!isValid) {
     return NextResponse.json(
       { error: "Contraseña incorrecta" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       establesimiento: user.establesimiento,
       rol: user.rol,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
   );
 
   const cookieStore = await cookies();
@@ -60,5 +60,15 @@ export async function POST(request: NextRequest) {
   // cookieStore.set("set-Cookies", serializado);
   cookieStore.set("tokenPuraRaza", myToken);
 
-  return NextResponse.json("Login Correcto");
+  return NextResponse.json({
+    success: true,
+    token: myToken,
+    user: {
+      email: user.email,
+      usuario: user.username,
+      establesimiento: user.establesimiento,
+      rol: user.rol,
+    },
+    message: "Login Correcto",
+  });
 }

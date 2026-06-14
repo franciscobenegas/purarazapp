@@ -41,8 +41,6 @@ const getColorByEdad = (edad: string) => {
 export function CategoriaStats({ categorias }: CategoriaStatsProps) {
   const totalAnimales = categorias.reduce((sum, cat) => sum + cat.cantidad, 0);
 
-  const categoriasConDatos = categorias.filter((cat) => cat.cantidad > 0);
-
   return (
     <div className="space-y-6">
       <Card>
@@ -54,7 +52,7 @@ export function CategoriaStats({ categorias }: CategoriaStatsProps) {
         </CardHeader>
         <CardContent className="space-y-6">
           <ResponsiveContainer width="100%" height={350}>
-            <BarChart data={categoriasConDatos}>
+            <BarChart data={categorias}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="nombre"
@@ -89,13 +87,15 @@ export function CategoriaStats({ categorias }: CategoriaStatsProps) {
                 </tr>
               </thead>
               <tbody>
-                {categoriasConDatos.map((cat) => (
+                {categorias.map((cat) => (
                   <tr key={cat.id} className="border-b hover:bg-muted/50">
                     <td className="py-3 px-2 font-medium">{cat.nombre}</td>
                     <td className="py-3 px-2">
                       <Badge variant="secondary">{cat.cantidad}</Badge>
                     </td>
-                    <td className="py-3 px-2 text-muted-foreground">{cat.sexo}</td>
+                    <td className="py-3 px-2 text-muted-foreground">
+                      {cat.sexo}
+                    </td>
                     <td className="py-3 px-2">
                       <Badge
                         style={{
