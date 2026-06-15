@@ -60,8 +60,9 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const { password: _password, ...user } = newUser;
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...user } = newUser;
+   
     await runAllSeeds(newUser.establesimiento, newUser.username);
 
     return NextResponse.json(user);
