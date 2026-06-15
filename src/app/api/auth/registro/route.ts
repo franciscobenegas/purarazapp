@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const { password, ...user } = newUser;
+    const { password: _password, ...user } = newUser;
 
     await runAllSeeds(newUser.establesimiento, newUser.username);
 
