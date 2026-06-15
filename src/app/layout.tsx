@@ -9,6 +9,7 @@ import ThemeDataProvider from "../context/theme-data-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Analytics } from "@vercel/analytics/next";
 import SidebarContent from "@/components/SidebarContent";
+import { SetupGuard } from "@/components/SetupGuard/SetupGuard";
 
 const noto = Noto_Sans_Display({ subsets: ["latin"] });
 
@@ -35,7 +36,9 @@ export default async function RootLayout({
                 <SidebarContent>
                   <Navbar />
                   <div className="p-3 bg-[#fafbfc] dark:bg-secondary">
-                    {children}
+                    <SetupGuard>
+                      {children}
+                    </SetupGuard>
                     <Toaster richColors />
                     <Analytics />
                   </div>
