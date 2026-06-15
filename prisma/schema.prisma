@@ -373,6 +373,17 @@ model Pesaje {
   @@index([establesimiento])
 }
 
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  email     String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
 model Movimiento {
   id              String      @id @default(uuid())
   fecha           DateTime
