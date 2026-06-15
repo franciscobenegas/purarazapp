@@ -4,8 +4,13 @@ import { Resend } from "resend";
 import crypto from "crypto";
 
 export async function POST(req: NextRequest) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
+    if (!process.env.RESEND_API_KEY) {
+      console.error("[FORGOT_PASSWORD] RESEND_API_KEY no está configurada");
+      return NextResponse.json({ message: "Error de configuración del servidor" }, { status: 500 });
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const { email } = await req.json();
 
     if (!email) {
