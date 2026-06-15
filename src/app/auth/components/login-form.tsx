@@ -77,7 +77,7 @@ export function LoginForm({
         }
       } else {
         // Si es exitosa, redirige al usuario a la página principal
-        window.location.href = "/";
+        window.location.href = "/dashboard";
       }
     } catch (error) {
       // Captura cualquier error de red o del servidor
