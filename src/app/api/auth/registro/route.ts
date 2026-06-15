@@ -1,6 +1,7 @@
 import prisma from "@/libs/prisma";
 import { NextResponse, NextRequest } from "next/server";
 import bcrypt from "bcryptjs";
+import { runAllSeeds } from "@/lib/seed";
 
 export async function POST(request: NextRequest) {
   try {
@@ -60,6 +61,8 @@ export async function POST(request: NextRequest) {
     });
 
     const { password, ...user } = newUser;
+
+    await runAllSeeds(newUser.establesimiento, newUser.username);
 
     return NextResponse.json(user);
     console.log(password);
