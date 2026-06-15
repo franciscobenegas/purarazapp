@@ -31,7 +31,8 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/dashboard/:path*", // protege todo lo que empiece con /dashboard
-    "/diaria/:path*",    // protege todo lo que empiece con /diaria
+    "/dashboard/:path*",
+    "/diaria/:path*",
+    "/configuracion/:path*",
   ],
 };

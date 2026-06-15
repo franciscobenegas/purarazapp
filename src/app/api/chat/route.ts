@@ -1,7 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getUserFromToken } from "@/utils/getUserFromToken";
 
 export async function POST(req: NextRequest) {
   try {
+    const user = getUserFromToken();
+    if (!user) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
+
+    if (!process.env.OPENROUTER_API_KEY) {
+      return NextResponse.json({ error: "Servicio no configurado" }, { status: 503 });
+    }
+
     const { message } = await req.json();
 
     if (!message) {
@@ -15,20 +25,17 @@ export async function POST(req: NextRequest) {
         headers: {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "http://localhost:3000", // o tu dominio en producción
-          "X-Title": "MiChatApp", // nombre de tu app
+          "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+          "X-Title": "PuraRazApp",
         },
         body: JSON.stringify({
-          model: "openai/gpt-4o", // o llama3, mistral, gpt-4o, etc. -- meta-llama/llama-3-70b-instruct
+          model: "openai/gpt-4o",
           messages: [{ role: "user", content: message }],
         }),
       }
     );
 
     const data = await response.json();
-
-    console.log("data", data);
-
     const reply = data.choices?.[0]?.message?.content ?? "Sin respuesta.";
 
     return NextResponse.json({ reply });

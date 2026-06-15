@@ -412,13 +412,21 @@ export function SetupGuard({ children }: { children: React.ReactNode }) {
     router.refresh();
   };
 
-  const isOpen = state !== "done";
+  const setupNeeded = state === "estancia" || state === "propietario";
 
   return (
     <>
       {children}
 
-      <DialogPrimitive.Root open={isOpen}>
+      {/* Spinner mientras se verifica — no muestra el formulario */}
+      {state === "checking" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+          <LoaderCircle className="h-10 w-10 animate-spin text-primary" />
+        </div>
+      )}
+
+      {/* Dialog solo se abre cuando confirmamos que se necesita setup */}
+      <DialogPrimitive.Root open={setupNeeded}>
         <DialogPrimitive.Portal>
           {/* Overlay */}
           <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/70 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
@@ -466,13 +474,6 @@ export function SetupGuard({ children }: { children: React.ReactNode }) {
                 Paso 2: Propietario
               </div>
             </div>
-
-            {/* Contenido según estado */}
-            {state === "checking" && (
-              <div className="flex items-center justify-center py-16">
-                <LoaderCircle className="h-8 w-8 animate-spin text-primary" />
-              </div>
-            )}
 
             {state === "estancia" && (
               <EstanciaForm onSuccess={handleEstanciaSuccess} />

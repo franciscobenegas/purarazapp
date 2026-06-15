@@ -65,7 +65,6 @@ export async function POST(request: NextRequest) {
     await runAllSeeds(newUser.establesimiento, newUser.username);
 
     return NextResponse.json(user);
-    console.log(password);
   } catch (error) {
     return NextResponse.json(
       {
