@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
   Form,
   FormControl,
@@ -144,23 +145,23 @@ function EstanciaForm({ onSuccess }: { onSuccess: (id: string) => void }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Departamento</FormLabel>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione" />
                     </SelectTrigger>
-                    <SelectContent>
-                      {departamentos.map((d) => (
-                        <SelectItem
-                          key={d.codigo_dpto}
-                          value={String(d.descripcion_dpto)}
-                        >
-                          {d.descripcion_dpto}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
+                  </FormControl>
+                  <SelectContent>
+                    {departamentos.map((d) => (
+                      <SelectItem
+                        key={d.codigo_dpto}
+                        value={String(d.descripcion_dpto)}
+                      >
+                        {d.descripcion_dpto}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -172,27 +173,27 @@ function EstanciaForm({ onSuccess }: { onSuccess: (id: string) => void }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Distrito</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    disabled={!distritosFiltrados.length}
-                  >
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={!distritosFiltrados.length}
+                >
+                  <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione" />
                     </SelectTrigger>
-                    <SelectContent position="item-aligned">
-                      {distritosFiltrados.map((d) => (
-                        <SelectItem
-                          key={d.Codigo_concatenado}
-                          value={String(d.Descripcion_de_Distrito)}
-                        >
-                          {d.Descripcion_de_Distrito}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
+                  </FormControl>
+                  <SelectContent>
+                    {distritosFiltrados.map((d) => (
+                      <SelectItem
+                        key={d.Codigo_concatenado}
+                        value={String(d.Descripcion_de_Distrito)}
+                      >
+                        {d.Descripcion_de_Distrito}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -204,27 +205,27 @@ function EstanciaForm({ onSuccess }: { onSuccess: (id: string) => void }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Localidad</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    disabled={!localidadesFiltradas.length}
-                  >
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={!localidadesFiltradas.length}
+                >
+                  <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione" />
                     </SelectTrigger>
-                    <SelectContent position="item-aligned">
-                      {localidadesFiltradas.map((l) => (
-                        <SelectItem
-                          key={l.Codigo_concatenado}
-                          value={l.Descripcion_de_Barrio_Localidad}
-                        >
-                          {l.Descripcion_de_Barrio_Localidad}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
+                  </FormControl>
+                  <SelectContent>
+                    {localidadesFiltradas.map((l) => (
+                      <SelectItem
+                        key={l.Codigo_concatenado}
+                        value={l.Descripcion_de_Barrio_Localidad}
+                      >
+                        {l.Descripcion_de_Barrio_Localidad}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -259,11 +260,7 @@ function EstanciaForm({ onSuccess }: { onSuccess: (id: string) => void }) {
           />
         </div>
 
-        <Button
-          type="submit"
-          disabled={loading}
-          className="w-full mt-2"
-        >
+        <Button type="submit" disabled={loading} className="w-full mt-2">
           {loading ? (
             <>
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
@@ -282,10 +279,7 @@ function EstanciaForm({ onSuccess }: { onSuccess: (id: string) => void }) {
 
 const propietarioSchema = z.object({
   nombre: z.string().min(4, "Mínimo 4 caracteres"),
-  email: z
-    .string()
-    .min(1, "Requerido")
-    .email("Correo electrónico inválido"),
+  email: z.string().min(1, "Requerido").email("Correo electrónico inválido"),
   telefono: z.string().min(1, "Requerido"),
 });
 
@@ -399,7 +393,6 @@ export function SetupGuard({ children }: { children: React.ReactNode }) {
         if (!data.needsSetup) {
           setState("done");
         } else if (data.estanciaId) {
-          // Estancia ya existe pero falta propietario
           setEstanciaId(data.estanciaId);
           setState("propietario");
         } else {
@@ -419,24 +412,31 @@ export function SetupGuard({ children }: { children: React.ReactNode }) {
     router.refresh();
   };
 
+  const isOpen = state !== "done";
+
   return (
     <>
       {children}
 
-      {state !== "done" && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm">
-          <div className="bg-background rounded-2xl shadow-2xl w-full max-w-2xl mx-4 p-8 max-h-[90vh] overflow-y-auto border">
+      <DialogPrimitive.Root open={isOpen}>
+        <DialogPrimitive.Portal>
+          {/* Overlay */}
+          <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/70 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
 
-            {/* Encabezado */}
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold text-primary">
-                Configuración inicial requerida
-              </h1>
-              <p className="text-muted-foreground text-sm mt-1">
-                Para usar la aplicación debés registrar tu estancia y
-                propietario. Este paso es obligatorio.
-              </p>
-            </div>
+          {/* Contenido del modal */}
+          <DialogPrimitive.Content
+            onPointerDownOutside={(e) => e.preventDefault()}
+            onEscapeKeyDown={(e) => e.preventDefault()}
+            className="fixed left-[50%] top-[50%] z-50 w-full max-w-2xl translate-x-[-50%] translate-y-[-50%] rounded-2xl border bg-background p-8 shadow-2xl max-h-[90vh] overflow-y-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]"
+          >
+            {/* Título accesible (requerido por Radix) */}
+            <DialogPrimitive.Title className="text-2xl font-bold text-primary">
+              Configuración inicial requerida
+            </DialogPrimitive.Title>
+            <DialogPrimitive.Description className="text-muted-foreground text-sm mt-1 mb-6">
+              Para usar la aplicación debés registrar tu estancia y propietario.
+              Este paso es obligatorio.
+            </DialogPrimitive.Description>
 
             {/* Indicador de pasos */}
             <div className="flex items-center gap-3 mb-8">
@@ -484,9 +484,9 @@ export function SetupGuard({ children }: { children: React.ReactNode }) {
                 onSuccess={handlePropietarioSuccess}
               />
             )}
-          </div>
-        </div>
-      )}
+          </DialogPrimitive.Content>
+        </DialogPrimitive.Portal>
+      </DialogPrimitive.Root>
     </>
   );
 }
