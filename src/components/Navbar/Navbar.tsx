@@ -125,10 +125,12 @@ export default function Navbar() {
                 >
                   <Avatar className="h-10 w-10">
                     <AvatarImage
-                      src={"https://github.com/shadcn.png"}
-                      alt="User Image"
+                      src={user.foto ?? ""}
+                      alt={user.usuario ?? ""}
                     />
-                    <AvatarFallback>{user.usuario}</AvatarFallback>
+                    <AvatarFallback>
+                      {user.usuario?.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
@@ -153,7 +155,10 @@ export default function Navbar() {
                       <div>Iniciar</div>
                     </DropdownMenuItem>
                   </div>
-                  <DropdownMenuItem className="cursor-pointer">
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => router.push("/perfil")}
+                  >
                     Configuraciones
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer">

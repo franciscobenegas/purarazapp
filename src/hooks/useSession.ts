@@ -6,6 +6,7 @@ type User = {
   establesimiento?: string;
   rol?: string;
   message?: string;
+  foto?: string | null;
 };
 
 export function useSession() {

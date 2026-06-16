@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import prisma from "@/libs/prisma";
 
 export async function GET() {
   try {
@@ -20,7 +21,19 @@ export async function GET() {
       process.env.JWT_SECRET
     );
 
-    return NextResponse.json({ email, usuario, establesimiento, rol });
+    // Obtener foto y datos adicionales desde la BD
+    const usuarioDB = await prisma.usuario.findUnique({
+      where: { username: usuario },
+      select: { foto: true },
+    });
+
+    return NextResponse.json({
+      email,
+      usuario,
+      establesimiento,
+      rol,
+      foto: usuarioDB?.foto ?? null,
+    });
   } catch {
     return NextResponse.json({ message: "No esta Logeado" }, { status: 401 });
   }

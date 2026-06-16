@@ -51,6 +51,9 @@ model Usuario {
   updatedAt       DateTime @updatedAt
   rol             Rol      @default(ADMIN)
   activo          Boolean  @default(true)
+  foto            String?
+  nombreCompleto  String?
+  telefono        String?
 
   @@index([establesimiento])
 }
