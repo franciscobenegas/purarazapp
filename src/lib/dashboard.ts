@@ -9,6 +9,9 @@ export const defaultStats = {
     totalNacimientos: 0,
     totalEntradasAnimales: 0,
     totalSalidasAnimales: 0,
+    inversionTotal: 0,
+    valorVentaTotal: 0,
+    margenPotencial: 0,
   },
   mortandadPorCategoria: [],
   mortandadPorCausa: [],
@@ -19,6 +22,7 @@ export const defaultStats = {
     cantidad: 0,
   })),
   categorias: [],
+  inversionPorCategoria: [],
 };
 
 export async function getDashboardStats(establesimiento: string) {
@@ -152,6 +156,34 @@ export async function getDashboardStats(establesimiento: string) {
       0
     );
 
+    // Análisis financiero por categoría
+    const inversionPorCategoria = categorias.map((cat) => {
+      const cantidad = cat.cantidad || 0;
+      const precioCosto = cat.precioCostoCabeza || 0;
+      const precioVenta = cat.precioVentaCabeza || 0;
+      const inversion = cantidad * precioCosto;
+      const valorVenta = cantidad * precioVenta;
+      return {
+        nombre: cat.nombre,
+        cantidad,
+        precioCostoCabeza: precioCosto,
+        precioVentaCabeza: precioVenta,
+        inversion,
+        valorVenta,
+        margen: valorVenta - inversion,
+      };
+    });
+
+    const inversionTotal = inversionPorCategoria.reduce(
+      (sum, c) => sum + c.inversion,
+      0
+    );
+    const valorVentaTotal = inversionPorCategoria.reduce(
+      (sum, c) => sum + c.valorVenta,
+      0
+    );
+    const margenPotencial = valorVentaTotal - inversionTotal;
+
     return {
       year,
       estadisticas: {
@@ -161,6 +193,9 @@ export async function getDashboardStats(establesimiento: string) {
         totalNacimientos: nacimientos.length,
         totalEntradasAnimales,
         totalSalidasAnimales,
+        inversionTotal,
+        valorVentaTotal,
+        margenPotencial,
       },
       mortandadPorCategoria: mortandadPorCategoria.filter(
         (m) => m.mortandad > 0
@@ -173,7 +208,12 @@ export async function getDashboardStats(establesimiento: string) {
         cantidad: cat.cantidad || 0,
         sexo: cat.sexo,
         edad: cat.edad,
+        precioCostoCabeza: cat.precioCostoCabeza || 0,
+        precioVentaCabeza: cat.precioVentaCabeza || 0,
+        precioCostoKilo: cat.precioCostoKilo || 0,
+        precioVentaKilo: cat.precioVentaKilo || 0,
       })),
+      inversionPorCategoria,
     };
   } catch (error) {
     console.error("Error getDashboardStats:", error);

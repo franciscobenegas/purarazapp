@@ -1,10 +1,19 @@
-import { BookOpenCheck, Waypoints, Calendar, ThumbsDown } from "lucide-react";
+import {
+  BookOpenCheck,
+  Waypoints,
+  Calendar,
+  ThumbsDown,
+  DollarSign,
+  TrendingUp,
+  Banknote,
+} from "lucide-react";
 import { CardSummary } from "../components/CardSummary";
 import { Separator } from "@/components/ui/separator";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { DashboardCharts } from "../components/DashboardCharts";
 import { CategoriaStats } from "../components/CategoriaStats";
+import { FinancialCharts } from "../components/FinancialCharts";
 
 import { getDashboardStats } from "@/lib/dashboard";
 import { getUserFromToken } from "@/utils/getUserFromToken";
@@ -22,8 +31,14 @@ const obtenerFecha = () => {
   return fecha.toLocaleDateString("es-ES", opciones);
 };
 
+const formatMoneyCard = (value: number) => {
+  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(2)}M`;
+  if (value >= 1_000) return `$${Math.round(value / 1_000)}K`;
+  return `$${value.toLocaleString("es-AR")}`;
+};
+
 async function DashboardPage() {
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
 
   const token = cookieStore.get("tokenPuraRaza")?.value;
 
@@ -38,6 +53,13 @@ async function DashboardPage() {
   }
 
   const stats = await getDashboardStats(user.establesimiento);
+
+  const { inversionTotal, valorVentaTotal, margenPotencial } = stats.estadisticas;
+
+  const margenPct =
+    inversionTotal > 0
+      ? Math.min(95, Math.max(5, Math.round((margenPotencial / inversionTotal) * 100)))
+      : 50;
 
   const dataCardSummary = [
     {
@@ -63,6 +85,33 @@ async function DashboardPage() {
     },
   ];
 
+  const dataCardFinanciero = [
+    {
+      icon: DollarSign,
+      total: formatMoneyCard(inversionTotal),
+      average: 50,
+      title: "Inversión Total",
+      tooltipText:
+        "Capital total invertido en el establecimiento (cantidad × precio costo por cabeza)",
+    },
+    {
+      icon: TrendingUp,
+      total: formatMoneyCard(valorVentaTotal),
+      average: valorVentaTotal > inversionTotal ? 75 : 15,
+      title: "Valor de Venta",
+      tooltipText:
+        "Valor total de venta potencial del stock (cantidad × precio venta por cabeza)",
+    },
+    {
+      icon: Banknote,
+      total: formatMoneyCard(margenPotencial),
+      average: margenPotencial >= 0 ? Math.max(margenPct, 21) : 5,
+      title: "Margen Potencial",
+      tooltipText:
+        "Ganancia potencial total del establecimiento (valor venta − inversión)",
+    },
+  ];
+
   return (
     <div>
       <div>
@@ -76,6 +125,7 @@ async function DashboardPage() {
 
       <Separator className="mb-5 mt-5" />
 
+      {/* Resumen operativo */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-x-20">
         {dataCardSummary.map(({ icon, total, average, title, tooltipText }) => (
           <CardSummary
@@ -93,7 +143,31 @@ async function DashboardPage() {
         <DashboardCharts stats={stats} />
       </div>
 
-      <div className="mt-12">
+      {/* Resumen financiero */}
+      <Separator className="mb-5 mt-12" />
+      <h2 className="text-xl font-bold mb-5">Análisis Financiero</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-x-20">
+        {dataCardFinanciero.map(({ icon, total, average, title, tooltipText }) => (
+          <CardSummary
+            key={title}
+            icon={icon}
+            total={total}
+            average={average}
+            title={title}
+            tooltipText={tooltipText}
+          />
+        ))}
+      </div>
+
+      <div className="mt-8">
+        <FinancialCharts inversionPorCategoria={stats.inversionPorCategoria} />
+      </div>
+
+      <Separator className="mb-5 mt-12" />
+      <h2 className="text-xl font-bold mb-5">Inventario por Categoría</h2>
+
+      <div className="mt-0">
         <CategoriaStats categorias={stats.categorias} />
       </div>
     </div>

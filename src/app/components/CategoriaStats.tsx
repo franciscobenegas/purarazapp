@@ -19,6 +19,8 @@ interface Categoria {
   cantidad: number;
   sexo: string;
   edad: string;
+  precioCostoCabeza?: number;
+  precioVentaCabeza?: number;
 }
 
 interface CategoriaStatsProps {
@@ -38,8 +40,20 @@ const getColorByEdad = (edad: string) => {
   }
 };
 
+const formatMoney = (value: number) =>
+  value > 0 ? `$${value.toLocaleString("es-AR")}` : "-";
+
 export function CategoriaStats({ categorias }: CategoriaStatsProps) {
   const totalAnimales = categorias.reduce((sum, cat) => sum + cat.cantidad, 0);
+
+  const hasPriceData = categorias.some(
+    (cat) => (cat.precioCostoCabeza ?? 0) > 0 || (cat.precioVentaCabeza ?? 0) > 0
+  );
+
+  const totalInversion = categorias.reduce(
+    (sum, cat) => sum + cat.cantidad * (cat.precioCostoCabeza ?? 0),
+    0
+  );
 
   return (
     <div className="space-y-6">
@@ -84,6 +98,13 @@ export function CategoriaStats({ categorias }: CategoriaStatsProps) {
                   <th className="text-left py-2 px-2">Sexo</th>
                   <th className="text-left py-2 px-2">Edad</th>
                   <th className="text-left py-2 px-2">% del Total</th>
+                  {hasPriceData && (
+                    <>
+                      <th className="text-right py-2 px-2 text-amber-600 dark:text-amber-400">Costo/Cab.</th>
+                      <th className="text-right py-2 px-2 text-emerald-600 dark:text-emerald-400">Venta/Cab.</th>
+                      <th className="text-right py-2 px-2 text-blue-600 dark:text-blue-400">Inversión Total</th>
+                    </>
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -115,6 +136,19 @@ export function CategoriaStats({ categorias }: CategoriaStatsProps) {
                         : 0}
                       %
                     </td>
+                    {hasPriceData && (
+                      <>
+                        <td className="py-3 px-2 text-right text-muted-foreground">
+                          {formatMoney(cat.precioCostoCabeza ?? 0)}
+                        </td>
+                        <td className="py-3 px-2 text-right text-muted-foreground">
+                          {formatMoney(cat.precioVentaCabeza ?? 0)}
+                        </td>
+                        <td className="py-3 px-2 text-right font-semibold text-blue-600 dark:text-blue-400">
+                          {formatMoney(cat.cantidad * (cat.precioCostoCabeza ?? 0))}
+                        </td>
+                      </>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -126,6 +160,14 @@ export function CategoriaStats({ categorias }: CategoriaStatsProps) {
                   </td>
                   <td colSpan={2}></td>
                   <td className="py-3 px-2">100%</td>
+                  {hasPriceData && (
+                    <>
+                      <td colSpan={2}></td>
+                      <td className="py-3 px-2 text-right text-blue-600 dark:text-blue-400">
+                        {formatMoney(totalInversion)}
+                      </td>
+                    </>
+                  )}
                 </tr>
               </tfoot>
             </table>
