@@ -3,6 +3,8 @@ import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
 import bcrypt from "bcryptjs";
 
+export const dynamic = 'force-dynamic';
+
 export async function PUT(
   req: Request,
   { params }: { params: { usuariosId: string } }

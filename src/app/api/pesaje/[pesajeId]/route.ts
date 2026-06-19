@@ -4,6 +4,8 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import { auditCreate } from "@/utils/auditoria";
 import z from "zod";
 
+export const dynamic = 'force-dynamic';
+
 const UpdatePesajeSchema = z.object({
   fecha: z.string().refine((v) => !isNaN(Date.parse(v)), {
     message: "Fecha inválida",

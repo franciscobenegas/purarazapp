@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getUserFromToken } from "@/utils/getUserFromToken";
 import { getDashboardStats, defaultStats } from "@/lib/dashboard";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const user = getUserFromToken();

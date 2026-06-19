@@ -4,6 +4,8 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import { auditCreate } from "@/utils/auditoria";
 import { z } from "zod";
 
+export const dynamic = 'force-dynamic';
+
 const EntradaItemSchema = z.object({
   categoriaId: z.string(),
   cantidad: z.number().int().positive(),

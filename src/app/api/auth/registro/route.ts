@@ -3,6 +3,8 @@ import { NextResponse, NextRequest } from "next/server";
 import bcrypt from "bcryptjs";
 import { runAllSeeds } from "@/lib/seed";
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();

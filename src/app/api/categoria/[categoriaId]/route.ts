@@ -3,6 +3,8 @@ import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
 import { auditUpdate } from "@/utils/auditoria";
 
+export const dynamic = 'force-dynamic';
+
 export async function PUT(
   req: Request,
   { params }: { params: { categoriaId: string } }

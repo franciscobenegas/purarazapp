@@ -4,6 +4,8 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import { auditUpdate } from "@/utils/auditoria";
 import { Prisma, Sexo, Pelaje } from "@prisma/client";
 
+export const dynamic = 'force-dynamic';
+
 interface NacimientoFormData {
   fecha: string;
   numeroVaca: string;

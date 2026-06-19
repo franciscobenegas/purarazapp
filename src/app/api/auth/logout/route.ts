@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+export const dynamic = 'force-dynamic';
+
 export function GET() {
   const cookieStore = cookies();
   const token = cookieStore.get("tokenPuraRaza");

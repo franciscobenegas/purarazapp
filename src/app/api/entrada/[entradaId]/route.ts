@@ -4,6 +4,8 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import { auditCreate } from "@/utils/auditoria";
 import z from "zod";
 
+export const dynamic = 'force-dynamic';
+
 // Esquema de validación
 const EntradaItemSchema = z.object({
   categoriaId: z.string().min(1),

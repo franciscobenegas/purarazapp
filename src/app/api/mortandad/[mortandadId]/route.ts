@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import { Prisma } from "@prisma/client";
 import { auditDelete, auditUpdate } from "@/utils/auditoria";
 
+export const dynamic = 'force-dynamic';
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
   api_key: process.env.CLOUDINARY_API_KEY!,

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
 
+export const dynamic = 'force-dynamic';
+
 export async function DELETE(
   req: Request,
   { params }: { params: { propietarioId: string } }
