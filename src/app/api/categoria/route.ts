@@ -5,6 +5,21 @@ import { auditCreate } from "@/utils/auditoria";
 
 export const dynamic = 'force-dynamic';
 
+export async function GET() {
+  try {
+    const user = getUserFromToken();
+    if (!user?.establesimiento) return new NextResponse("No autorizado", { status: 401 });
+    const categorias = await prisma.categoria.findMany({
+      where: { establesimiento: user.establesimiento },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(categorias);
+  } catch (error) {
+    console.log("[CATEGORIA GET]", error);
+    return new NextResponse("Error interno del servidor", { status: 500 });
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     //const { usuario, establesimiento } = getUserFromToken();

@@ -8,6 +8,21 @@ import { auditCreate } from "@/utils/auditoria";
 
 export const dynamic = 'force-dynamic';
 
+export async function GET() {
+  try {
+    const user = getUserFromToken();
+    if (!user?.establesimiento) return new NextResponse("No autorizado", { status: 401 });
+    const mortandades = await prisma.mortandad.findMany({
+      where: { establesimiento: user.establesimiento },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(mortandades);
+  } catch (error) {
+    console.error("[MORTANDAD GET]", error);
+    return new NextResponse("Error interno del servidor", { status: 500 });
+  }
+}
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
   api_key: process.env.CLOUDINARY_API_KEY!,
