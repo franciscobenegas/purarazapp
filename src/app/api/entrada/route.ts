@@ -6,6 +6,22 @@ import { z } from "zod";
 
 export const dynamic = 'force-dynamic';
 
+export async function GET() {
+  try {
+    const user = getUserFromToken();
+    if (!user?.establesimiento) return new NextResponse("No autorizado", { status: 401 });
+    const entradas = await prisma.entrada.findMany({
+      where: { establesimiento: user.establesimiento },
+      include: { items: true },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(entradas);
+  } catch (error) {
+    console.log("[ENTRADA GET]", error);
+    return new NextResponse("Error interno del servidor", { status: 500 });
+  }
+}
+
 const EntradaItemSchema = z.object({
   categoriaId: z.string(),
   cantidad: z.number().int().positive(),

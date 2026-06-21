@@ -6,6 +6,21 @@ import { z } from "zod";
 
 export const dynamic = 'force-dynamic';
 
+export async function GET() {
+  try {
+    const user = getUserFromToken();
+    if (!user?.establesimiento) return new NextResponse("No autorizado", { status: 401 });
+    const pesajes = await prisma.pesaje.findMany({
+      where: { establesimiento: user.establesimiento },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(pesajes);
+  } catch (error) {
+    console.log("[PESAJE GET]", error);
+    return new NextResponse("Error interno del servidor", { status: 500 });
+  }
+}
+
 const PesajeCreateSchema = z.object({
   fecha: z.string(),
   numeroAnimal: z.string().min(1),

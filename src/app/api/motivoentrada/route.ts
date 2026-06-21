@@ -4,6 +4,21 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 
 export const dynamic = 'force-dynamic';
 
+export async function GET() {
+  try {
+    const user = getUserFromToken();
+    if (!user?.establesimiento) return new NextResponse("No autorizado", { status: 401 });
+    const motivos = await prisma.motivoEntrada.findMany({
+      where: { establesimiento: user.establesimiento },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(motivos);
+  } catch (error) {
+    console.log("[MOTIVOENTRADA GET]", error);
+    return new NextResponse("Error interno del servidor", { status: 500 });
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const user = getUserFromToken();
