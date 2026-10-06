@@ -234,30 +234,34 @@ export async function DELETE(
       return new Response("Mortandad Id no encontrada", { status: 404 });
     }
 
-    const deletedMortandad = await auditDelete(
-      "Mortandad",
-      usuario,
-      mortandadId,
-      () => prisma.mortandad.findUnique({ where: { id: mortandadId } }),
-      () => prisma.mortandad.delete({ where: { id: mortandadId } }),
-    );
+    // Eliminación del registro, su movimiento y la reversión de stock de forma
+    // atómica para que no queden desincronizados.
+    await prisma.$transaction(async (tx) => {
+      await auditDelete(
+        "Mortandad",
+        usuario,
+        mortandadId,
+        () => tx.mortandad.findUnique({ where: { id: mortandadId } }),
+        () => tx.mortandad.delete({ where: { id: mortandadId } }),
+      );
 
-    // Eliminamos el movimiento asociado
-    await prisma.movimiento.deleteMany({
-      where: { mortandadId },
-    });
+      // Eliminamos el movimiento asociado
+      await tx.movimiento.deleteMany({
+        where: { mortandadId },
+      });
 
-    // Decrementamos la cantidad en Categoria
-    await prisma.categoria.update({
-      where: { id: mortandadDel.categoriaId },
-      data: {
-        cantidad: {
-          increment: 1,
+      // Revertimos la cantidad en Categoria (la mortandad había descontado 1)
+      await tx.categoria.update({
+        where: { id: mortandadDel.categoriaId },
+        data: {
+          cantidad: {
+            increment: 1,
+          },
         },
-      },
+      });
     });
 
-    return NextResponse.json(deletedMortandad);
+    return NextResponse.json(mortandadDel);
   } catch (error) {
     console.error("[MORTANDAD_DELETE_ERROR]:", error);
     return new NextResponse("Error interno del servidor", { status: 500 });

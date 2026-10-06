@@ -95,65 +95,73 @@ export async function POST(req: NextRequest) {
     const foto2Url = await uploadImage(data.foto2 || null);
     const foto3Url = await uploadImage(data.foto3 || null);
 
-    // ✅ Validamos que la categoría tenga animales
-    const categoria = await prisma.categoria.findUnique({
-      where: { id: data.categoriaId },
-    });
-
-    if (!categoria) {
-      return new NextResponse("Categoría no encontrada", { status: 404 });
-    }
-
-    if ((categoria.cantidad ?? 0) <= 0) {
-      return new NextResponse("No hay animales suficientes en esta categoría", {
-        status: 400,
+    // Creamos Mortandad + Movimiento + ajuste de stock de forma atómica.
+    // La validación de stock va dentro de la transacción para evitar que dos
+    // mortandades simultáneas dejen la cantidad en negativo.
+    const addMortandad = await prisma.$transaction(async (tx) => {
+      const categoria = await tx.categoria.findUnique({
+        where: { id: data.categoriaId },
       });
-    }
 
-    // Creamos la mortandad + auditoría en un solo paso
-    const addMortandad = await auditCreate("Mortandad", usuario, async () => {
-      return prisma.mortandad.create({
+      if (!categoria) {
+        throw new Error("CATEGORIA_NO_ENCONTRADA");
+      }
+
+      if ((categoria.cantidad ?? 0) <= 0) {
+        throw new Error("STOCK_INSUFICIENTE");
+      }
+
+      const mortandad = await auditCreate("Mortandad", usuario, async () => {
+        return tx.mortandad.create({
+          data: {
+            establesimiento,
+            usuario,
+            fecha: new Date(data.fecha),
+            propietarioId: data.propietarioId,
+            numeroAnimal: data.numeroAnimal,
+            categoriaId: data.categoriaId,
+            causaId: data.causaId,
+            potreroId: data.potreroId,
+            ubicacionGps: data.ubicacionGps,
+            foto1: foto1Url,
+            foto2: foto2Url,
+            foto3: foto3Url,
+          },
+        });
+      });
+
+      // Registramos el movimiento (cantidad 1 para que el ledger cuadre)
+      await tx.movimiento.create({
         data: {
-          establesimiento, // asumiendo que así se llama tu campo en el schema
-          usuario,
           fecha: new Date(data.fecha),
-          propietarioId: data.propietarioId,
-          numeroAnimal: data.numeroAnimal,
+          tipo: "MORTANDAD",
           categoriaId: data.categoriaId,
-          causaId: data.causaId,
-          potreroId: data.potreroId,
-          ubicacionGps: data.ubicacionGps,
-          foto1: foto1Url,
-          foto2: foto2Url,
-          foto3: foto3Url,
+          cantidad: 1,
+          mortandadId: mortandad.id,
+          usuario,
+          establesimiento,
         },
       });
-    });
 
-    // Registramos el movimiento
-    await prisma.movimiento.create({
-      data: {
-        fecha: new Date(data.fecha),
-        tipo: "MORTANDAD",
-        categoriaId: data.categoriaId,
-        mortandadId: addMortandad.id,
-        usuario,
-        establesimiento,
-      },
-    });
+      // Decrementamos la cantidad en Categoria
+      await tx.categoria.update({
+        where: { id: data.categoriaId },
+        data: { cantidad: { decrement: 1 } },
+      });
 
-    // Decrementamos la cantidad en Categoria
-    await prisma.categoria.update({
-      where: { id: data.categoriaId },
-      data: {
-        cantidad: {
-          decrement: 1,
-        },
-      },
+      return mortandad;
     });
 
     return NextResponse.json(addMortandad);
   } catch (error) {
+    if (error instanceof Error && error.message === "CATEGORIA_NO_ENCONTRADA") {
+      return new NextResponse("Categoría no encontrada", { status: 404 });
+    }
+    if (error instanceof Error && error.message === "STOCK_INSUFICIENTE") {
+      return new NextResponse("No hay animales suficientes en esta categoría", {
+        status: 400,
+      });
+    }
     console.error("[MORTANDAD]", error);
     return new NextResponse("Error interno del servidor", { status: 500 });
   }

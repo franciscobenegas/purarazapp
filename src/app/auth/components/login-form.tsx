@@ -70,12 +70,14 @@ export function LoginForm({
             transition: Bounce,
           });
         }
+        // Solo reactivar el botón cuando hubo error; en éxito se mantiene
+        // "Procesando" hasta que la navegación a /dashboard recargue la página.
+        setLoading(false);
       } else {
         window.location.href = "/dashboard";
       }
     } catch (error) {
       console.log(error);
-    } finally {
       setLoading(false);
     }
   };

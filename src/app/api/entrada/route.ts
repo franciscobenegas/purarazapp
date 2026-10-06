@@ -53,56 +53,70 @@ export async function POST(req: NextRequest) {
       return new NextResponse("La fecha es obligatoria", { status: 400 });
     }
 
-    // Creamos la entrada + auditoría en un solo paso
-    const addNacimiento = await auditCreate("Entrada", usuario, async () => {
-      return prisma.entrada.create({
-        data: {
-          fecha: new Date(validated.fecha),
-          NombreEstanciaOrigen: validated.NombreEstanciaOrigen,
-          propietarioId: validated.propietarioId,
-          motivoId: validated.motivoId,
-          usuario,
-          establesimiento,
-          items: {
-            create: validated.items.map((item) => ({
-              categoriaId: item.categoriaId,
-              cantidad: item.cantidad,
-            })),
+    // Creamos Entrada + Movimientos + ajuste de stock de forma atómica.
+    const addEntrada = await prisma.$transaction(async (tx) => {
+      // Validamos que todas las categorías existan en el establecimiento
+      // para no dejar una entrada sin su ajuste de stock.
+      for (const item of validated.items) {
+        const categoria = await tx.categoria.findFirst({
+          where: { id: item.categoriaId, establesimiento },
+        });
+        if (!categoria) {
+          throw new Error("CATEGORIA_NO_ENCONTRADA");
+        }
+      }
+
+      const entrada = await auditCreate("Entrada", usuario, async () => {
+        return tx.entrada.create({
+          data: {
+            fecha: new Date(validated.fecha),
+            NombreEstanciaOrigen: validated.NombreEstanciaOrigen,
+            propietarioId: validated.propietarioId,
+            motivoId: validated.motivoId,
+            usuario,
+            establesimiento,
+            items: {
+              create: validated.items.map((item) => ({
+                categoriaId: item.categoriaId,
+                cantidad: item.cantidad,
+              })),
+            },
           },
-        },
+        });
       });
+
+      // Registramos el movimiento e incrementamos el stock de cada ítem
+      for (const item of validated.items) {
+        await tx.movimiento.create({
+          data: {
+            fecha: new Date(validated.fecha),
+            tipo: "ENTRADA",
+            categoriaId: item.categoriaId,
+            cantidad: item.cantidad,
+            entradaId: entrada.id,
+            usuario,
+            establesimiento,
+          },
+        });
+
+        await tx.categoria.update({
+          where: { id: item.categoriaId },
+          data: { cantidad: { increment: item.cantidad } },
+        });
+      }
+
+      return entrada;
     });
 
-    // Registramos los movimientos para cada item
-    for (const item of validated.items) {
-      await prisma.movimiento.create({
-        data: {
-          fecha: new Date(validated.fecha),
-          tipo: "ENTRADA",
-          categoriaId: item.categoriaId,
-          cantidad: item.cantidad,
-          entradaId: addNacimiento.id,
-          usuario,
-          establesimiento,
-        },
-      });
-    }
-
-    // Incrementamos las cantidades en las Categorias correspondientes
-    for (const item of validated.items) {
-      await prisma.categoria.update({
-        where: { id: item.categoriaId },
-        data: {
-          cantidad: {
-            increment: item.cantidad,
-          },
-        },
-      });
-    }
-
-    return NextResponse.json(addNacimiento);
+    return NextResponse.json(addEntrada);
   } catch (error) {
-    console.log("[NACIMIENTO ALTA]", error);
+    if (error instanceof Error && error.message === "CATEGORIA_NO_ENCONTRADA") {
+      return new NextResponse(
+        "Una de las categorías no existe en este establecimiento",
+        { status: 400 },
+      );
+    }
+    console.log("[ENTRADA ALTA]", error);
     return new NextResponse("Error interno del servidor", { status: 500 });
   }
 }

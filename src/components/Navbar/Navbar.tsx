@@ -1,6 +1,12 @@
 "use client";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Power, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Menu,
+  Power,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -121,17 +127,29 @@ export default function Navbar() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="relative h-10 w-10 rounded-full"
+                  className="group flex h-12 items-center gap-2 rounded-full border border-transparent px-1.5 transition-colors hover:border-border hover:bg-accent data-[state=open]:border-border data-[state=open]:bg-accent sm:pr-3"
                 >
-                  <Avatar className="h-10 w-10">
+                  <Avatar className="h-9 w-9 ring-2 ring-primary/20 ring-offset-2 ring-offset-background transition-all group-hover:ring-primary/40">
                     <AvatarImage
                       src={user.foto ?? ""}
                       alt={user.usuario ?? ""}
                     />
-                    <AvatarFallback>
+                    <AvatarFallback className="bg-primary/10 text-sm font-semibold text-primary">
                       {user.usuario?.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
+                  <div className="hidden flex-col items-start leading-tight sm:flex">
+                    <span className="max-w-[9rem] truncate text-sm font-medium">
+                      {user.usuario}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {user.rol}
+                    </span>
+                  </div>
+                  <ChevronDown
+                    size={16}
+                    className="text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180"
+                  />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56" forceMount>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
-import { auditCreate } from "@/utils/auditoria";
+import { auditUpdate } from "@/utils/auditoria";
 import z from "zod";
 
 export const dynamic = 'force-dynamic';
@@ -114,21 +114,26 @@ export async function PUT(
         where: { salidaId },
       });
 
-      // 3. Actualizar Salida con auditoría
-      await auditCreate("Salida", usuario, async () => {
-        return tx.salida.update({
-          where: { id: salidaId },
-          data: {
-            fecha: new Date(validated.fecha),
-            NombreEstanciaSalida: validated.NombreEstanciaSalida,
-            propietarioId: validated.propietarioId,
-            motivoId: validated.motivoId,
-            usuario,
-            establesimiento,
-            updatedAt: new Date(),
-          },
-        });
-      });
+      // 3. Actualizar Salida con auditoría (UPDATE, capturando valores previos)
+      await auditUpdate(
+        "Salida",
+        usuario,
+        salidaId,
+        () => tx.salida.findUnique({ where: { id: salidaId } }),
+        () =>
+          tx.salida.update({
+            where: { id: salidaId },
+            data: {
+              fecha: new Date(validated.fecha),
+              NombreEstanciaSalida: validated.NombreEstanciaSalida,
+              propietarioId: validated.propietarioId,
+              motivoId: validated.motivoId,
+              usuario,
+              establesimiento,
+              updatedAt: new Date(),
+            },
+          }),
+      );
 
       // 3.5 Eliminar movimientos antiguos
       await tx.movimiento.deleteMany({

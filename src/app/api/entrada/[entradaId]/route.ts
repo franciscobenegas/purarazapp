@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { getUserFromToken } from "@/utils/getUserFromToken";
-import { auditCreate } from "@/utils/auditoria";
+import { auditUpdate } from "@/utils/auditoria";
 import z from "zod";
 
 export const dynamic = 'force-dynamic';
@@ -93,21 +93,26 @@ export async function PUT(
         where: { entradaId },
       });
 
-      // 3. Actualizar Entrada con auditoría
-      await auditCreate("Entrada", usuario, async () => {
-        return tx.entrada.update({
-          where: { id: entradaId },
-          data: {
-            fecha: new Date(validated.fecha),
-            NombreEstanciaOrigen: validated.NombreEstanciaOrigen,
-            propietarioId: validated.propietarioId,
-            motivoId: validated.motivoId,
-            usuario,
-            establesimiento,
-            updatedAt: new Date(),
-          },
-        });
-      });
+      // 3. Actualizar Entrada con auditoría (UPDATE, capturando valores previos)
+      await auditUpdate(
+        "Entrada",
+        usuario,
+        entradaId,
+        () => tx.entrada.findUnique({ where: { id: entradaId } }),
+        () =>
+          tx.entrada.update({
+            where: { id: entradaId },
+            data: {
+              fecha: new Date(validated.fecha),
+              NombreEstanciaOrigen: validated.NombreEstanciaOrigen,
+              propietarioId: validated.propietarioId,
+              motivoId: validated.motivoId,
+              usuario,
+              establesimiento,
+              updatedAt: new Date(),
+            },
+          }),
+      );
 
       // 4. Crear nuevos ítems
       await tx.entradaItem.createMany({

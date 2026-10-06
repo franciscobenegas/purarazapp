@@ -53,75 +53,95 @@ export async function POST(req: NextRequest) {
       return new NextResponse("La fecha es obligatoria", { status: 400 });
     }
 
-    // Validar que hay suficiente cantidad en cada categoría
+    // Agrupamos la cantidad total pedida por categoría. Si la misma categoría
+    // aparece en varios ítems, se valida contra la suma (evita sobreventa).
+    const cantidadPorCategoria = new Map<string, number>();
     for (const item of validated.items) {
-      const categoria = await prisma.categoria.findUnique({
-        where: { id: item.categoriaId },
+      cantidadPorCategoria.set(
+        item.categoriaId,
+        (cantidadPorCategoria.get(item.categoriaId) ?? 0) + item.cantidad,
+      );
+    }
+
+    // Creamos Salida + Movimientos + ajuste de stock de forma atómica.
+    const addSalida = await prisma.$transaction(async (tx) => {
+      // Validación de stock dentro de la transacción (evita condición de carrera)
+      for (const [categoriaId, cantidadTotal] of cantidadPorCategoria) {
+        const categoria = await tx.categoria.findFirst({
+          where: { id: categoriaId, establesimiento },
+        });
+
+        if (!categoria) {
+          throw new Error(`CATEGORIA_NO_ENCONTRADA:${categoriaId}`);
+        }
+
+        if ((categoria.cantidad ?? 0) < cantidadTotal) {
+          throw new Error(
+            `STOCK_INSUFICIENTE:${categoria.nombre}:${categoria.cantidad ?? 0}`,
+          );
+        }
+      }
+
+      const salida = await auditCreate("Salida", usuario, async () => {
+        return tx.salida.create({
+          data: {
+            fecha: new Date(validated.fecha),
+            NombreEstanciaSalida: validated.NombreEstanciaSalida,
+            propietarioId: validated.propietarioId,
+            motivoId: validated.motivoId,
+            usuario,
+            establesimiento,
+            items: {
+              create: validated.items.map((item) => ({
+                categoriaId: item.categoriaId,
+                cantidad: item.cantidad,
+              })),
+            },
+          },
+        });
       });
 
-      if (!categoria) {
-        return new NextResponse(`Categoría ${item.categoriaId} no encontrada`, {
-          status: 404,
+      // Registramos el movimiento y decrementamos el stock de cada ítem
+      for (const item of validated.items) {
+        await tx.movimiento.create({
+          data: {
+            fecha: new Date(validated.fecha),
+            tipo: "SALIDA",
+            categoriaId: item.categoriaId,
+            cantidad: item.cantidad,
+            salidaId: salida.id,
+            usuario,
+            establesimiento,
+          },
+        });
+
+        await tx.categoria.update({
+          where: { id: item.categoriaId },
+          data: { cantidad: { decrement: item.cantidad } },
         });
       }
 
-      if ((categoria.cantidad || 0) < item.cantidad) {
-        return new NextResponse(
-          `Cantidad insuficiente en categoría ${categoria.nombre}. Disponible: ${categoria.cantidad}`,
-          { status: 400 },
-        );
-      }
-    }
-
-    // Creamos la salida + auditoría en un solo paso
-    const addSalida = await auditCreate("Salida", usuario, async () => {
-      return prisma.salida.create({
-        data: {
-          fecha: new Date(validated.fecha),
-          NombreEstanciaSalida: validated.NombreEstanciaSalida,
-          propietarioId: validated.propietarioId,
-          motivoId: validated.motivoId,
-          usuario,
-          establesimiento,
-          items: {
-            create: validated.items.map((item) => ({
-              categoriaId: item.categoriaId,
-              cantidad: item.cantidad,
-            })),
-          },
-        },
-      });
+      return salida;
     });
-
-    // Registramos los movimientos para cada item
-    for (const item of validated.items) {
-      await prisma.movimiento.create({
-        data: {
-          fecha: new Date(validated.fecha),
-          tipo: "SALIDA",
-          categoriaId: item.categoriaId,
-          cantidad: item.cantidad,
-          salidaId: addSalida.id,
-          usuario,
-          establesimiento,
-        },
-      });
-    }
-
-    // Decrementamos las cantidades en las Categorias correspondientes
-    for (const item of validated.items) {
-      await prisma.categoria.update({
-        where: { id: item.categoriaId },
-        data: {
-          cantidad: {
-            decrement: item.cantidad,
-          },
-        },
-      });
-    }
 
     return NextResponse.json(addSalida);
   } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message.startsWith("CATEGORIA_NO_ENCONTRADA")
+    ) {
+      return new NextResponse(
+        "Una de las categorías no existe en este establecimiento",
+        { status: 404 },
+      );
+    }
+    if (error instanceof Error && error.message.startsWith("STOCK_INSUFICIENTE")) {
+      const [, nombre, disponible] = error.message.split(":");
+      return new NextResponse(
+        `Cantidad insuficiente en categoría ${nombre}. Disponible: ${disponible}`,
+        { status: 400 },
+      );
+    }
     console.log("[SALIDA ALTA]", error);
     return new NextResponse("Error interno del servidor", { status: 500 });
   }

@@ -37,54 +37,64 @@ export async function POST(req: NextRequest) {
       return new NextResponse("La fecha es obligatoria", { status: 400 });
     }
 
-    // Creamos el Nacimiento + auditoría en un solo paso
-    const addNacimiento = await auditCreate("Nacimiento", usuario, async () => {
-      return prisma.nacimiento.create({
-        data: {
+    // Creamos Nacimiento + Movimiento + ajuste de stock de forma atómica.
+    // Si algo falla (incluida la ausencia de categoría), se revierte todo.
+    const addNacimiento = await prisma.$transaction(async (tx) => {
+      // Un nacimiento siempre pertenece a la categoría RecienNacido del sexo
+      // informado, dentro del mismo establecimiento.
+      const categoria = await tx.categoria.findFirst({
+        where: {
+          sexo: data.sexo,
+          edad: "RecienNacido",
           establesimiento,
-          usuario,
-          ...data,
-          fecha: new Date(data.fecha),
         },
       });
-    });
 
-    // Incrementamos la cantidad en Categoria correspondiente
-    // Buscamos la categoría por sexo (RecienNacido) y establesimiento
-    const categoria = await prisma.categoria.findFirst({
-      where: {
-        sexo: data.sexo,
-        edad: "RecienNacido", // Un nacimiento siempre es recién nacido
-        establesimiento: establesimiento,
-      },
-    });
+      if (!categoria) {
+        throw new Error("CATEGORIA_NO_ENCONTRADA");
+      }
 
-    if (categoria) {
+      const nacimiento = await auditCreate("Nacimiento", usuario, async () => {
+        return tx.nacimiento.create({
+          data: {
+            establesimiento,
+            usuario,
+            ...data,
+            fecha: new Date(data.fecha),
+          },
+        });
+      });
+
       // Registramos el movimiento
-      await prisma.movimiento.create({
+      await tx.movimiento.create({
         data: {
           fecha: new Date(data.fecha),
           tipo: "NACIMIENTO",
           categoriaId: categoria.id,
           cantidad: 1,
-          nacimientoId: addNacimiento.id,
+          nacimientoId: nacimiento.id,
           usuario,
           establesimiento,
         },
       });
 
-      await prisma.categoria.update({
+      // Incrementamos la cantidad en la Categoria correspondiente
+      await tx.categoria.update({
         where: { id: categoria.id },
-        data: {
-          cantidad: {
-            increment: 1,
-          },
-        },
+        data: { cantidad: { increment: 1 } },
       });
-    }
+
+      return nacimiento;
+    });
 
     return NextResponse.json(addNacimiento);
   } catch (error) {
+    if (error instanceof Error && error.message === "CATEGORIA_NO_ENCONTRADA") {
+      return new NextResponse(
+        "No existe una categoría 'Recién Nacido' para ese sexo en este establecimiento. Creála antes de registrar el nacimiento.",
+        { status: 400 },
+      );
+    }
     console.log("[NACIMIENTO ALTA]", error);
     return new NextResponse("Error interno del servidor", { status: 500 });
   }

@@ -90,9 +90,8 @@ export async function PUT(
 
     // Usar transacción para actualizar nacimiento y ajustar categorías
     await prisma.$transaction(async (tx) => {
-      // Si cambió el sexo, ajustar cantidades en categorías RecienNacido
+      // Si cambió el sexo, mover 1 cabeza entre las categorías RecienNacido
       if (nacimientoAnterior.sexo !== parseSexo(data.sexo)) {
-        // Devolver 1 animal a la categoría anterior
         const categoriaAntigua = await tx.categoria.findFirst({
           where: {
             sexo: nacimientoAnterior.sexo,
@@ -101,6 +100,21 @@ export async function PUT(
           },
         });
 
+        const categoriaNueva = await tx.categoria.findFirst({
+          where: {
+            sexo: parseSexo(data.sexo),
+            edad: "RecienNacido",
+            establesimiento: establesimiento,
+          },
+        });
+
+        // Si no existe la categoría destino, abortamos la transacción para no
+        // quitar la cabeza de la categoría anterior y perderla del stock.
+        if (!categoriaNueva) {
+          throw new Error("CATEGORIA_NO_ENCONTRADA");
+        }
+
+        // Quitar 1 de la categoría anterior (el nacimiento había sumado ahí)
         if (categoriaAntigua) {
           await tx.categoria.update({
             where: { id: categoriaAntigua.id },
@@ -112,34 +126,24 @@ export async function PUT(
           });
         }
 
-        // Descontar 1 animal de la nueva categoría
-        const categoriaNueva = await tx.categoria.findFirst({
-          where: {
-            sexo: parseSexo(data.sexo),
-            edad: "RecienNacido",
-            establesimiento: establesimiento,
+        // Sumar 1 a la nueva categoría
+        await tx.categoria.update({
+          where: { id: categoriaNueva.id },
+          data: {
+            cantidad: {
+              increment: 1,
+            },
           },
         });
 
-        if (categoriaNueva) {
-          await tx.categoria.update({
-            where: { id: categoriaNueva.id },
-            data: {
-              cantidad: {
-                increment: 1,
-              },
-            },
-          });
-
-          // Actualizar el movimiento con la nueva categoría
-          await tx.movimiento.updateMany({
-            where: { nacimientoId },
-            data: {
-              categoriaId: categoriaNueva.id,
-              fecha: data.fecha ? new Date(data.fecha) : undefined,
-            },
-          });
-        }
+        // Actualizar el movimiento con la nueva categoría
+        await tx.movimiento.updateMany({
+          where: { nacimientoId },
+          data: {
+            categoriaId: categoriaNueva.id,
+            fecha: data.fecha ? new Date(data.fecha) : undefined,
+          },
+        });
       } else {
         // Si solo cambió la fecha, actualizar el movimiento
         if (data.fecha) {
@@ -172,6 +176,12 @@ export async function PUT(
 
     return NextResponse.json(nacimientoUpdate);
   } catch (error) {
+    if (error instanceof Error && error.message === "CATEGORIA_NO_ENCONTRADA") {
+      return new NextResponse(
+        "No existe una categoría 'Recién Nacido' para el nuevo sexo en este establecimiento.",
+        { status: 400 },
+      );
+    }
     console.log("[Nacimiento PUT]", error);
     return new NextResponse("Error Interno", { status: 500 });
   }
@@ -183,10 +193,10 @@ export async function DELETE(
 ) {
   try {
     const user = getUserFromToken();
-    const { usuario } = user || {};
+    const { usuario, establesimiento } = user || {};
     const { nacimientoId } = params;
 
-    if (!usuario) {
+    if (!usuario || !establesimiento) {
       return new Response("No tiene autorización para ejecutar este servicio", {
         status: 401,
       });
@@ -201,35 +211,35 @@ export async function DELETE(
       return new NextResponse("Nacimiento no encontrado", { status: 404 });
     }
 
-    // Eliminar movimientos asociados
-    await prisma.movimiento.deleteMany({
-      where: { nacimientoId },
-    });
+    // Eliminación del registro, su movimiento y la reversión de stock de forma
+    // atómica para que no queden desincronizados.
+    const deletedNacimiento = await prisma.$transaction(async (tx) => {
+      await tx.movimiento.deleteMany({ where: { nacimientoId } });
 
-    const deletedNacimiento = await prisma.nacimiento.delete({
-      where: {
-        id: nacimientoId,
-      },
-    });
+      const deleted = await tx.nacimiento.delete({
+        where: { id: nacimientoId },
+      });
 
-    // Revertir la cantidad en la categoría RecienNacido
-    const categoria = await prisma.categoria.findFirst({
-      where: {
-        sexo: nacimientoToDelete.sexo,
-        edad: "RecienNacido",
-      },
-    });
-
-    if (categoria) {
-      await prisma.categoria.update({
-        where: { id: categoria.id },
-        data: {
-          cantidad: {
-            decrement: 1,
-          },
+      // Revertir la cantidad en la categoría RecienNacido DEL MISMO
+      // establecimiento (sin este filtro se podía decrementar la categoría
+      // de otro establecimiento).
+      const categoria = await tx.categoria.findFirst({
+        where: {
+          sexo: nacimientoToDelete.sexo,
+          edad: "RecienNacido",
+          establesimiento,
         },
       });
-    }
+
+      if (categoria) {
+        await tx.categoria.update({
+          where: { id: categoria.id },
+          data: { cantidad: { decrement: 1 } },
+        });
+      }
+
+      return deleted;
+    });
 
     return NextResponse.json(deletedNacimiento);
   } catch (error) {
